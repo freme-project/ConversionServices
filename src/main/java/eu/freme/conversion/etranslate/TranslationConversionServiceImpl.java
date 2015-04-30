@@ -2,7 +2,10 @@ package eu.freme.conversion.etranslate;
 
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import eu.freme.conversion.rdf.RDFConstants;
 
@@ -23,5 +26,23 @@ public class TranslationConversionServiceImpl implements
 				model.getProperty(RDFConstants.itsrdfPrefix + "target"),
 				literal);
 		return source;
+	}
+
+	@Override
+	public String extractTextToTranslate(Model model) {
+		Property isString = model.getProperty(RDFConstants.nifPrefix
+				+ "isString");
+		StmtIterator itr = model.listStatements((Resource) null, isString,
+				(String) null);
+		String text = null;
+		while (itr.hasNext()) {
+			Statement st = itr.next();
+			if (st.getObject().isLiteral()) {
+				text = st.getObject().asLiteral().getString();
+				break;
+			}
+		}
+
+		return text;
 	}
 }

@@ -3,11 +3,9 @@ package eu.freme.conversion.rdf;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
 
 import org.junit.Test;
 
-import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
@@ -15,7 +13,6 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
-import eu.freme.conversion.rdf.RDFConversionService.RDFSerialization;
 import static org.junit.Assert.*;
 
 public class JenaRDFConverterTest {
@@ -68,10 +65,12 @@ public class JenaRDFConverterTest {
 		Model model = ModelFactory.createDefaultModel();
 
 		converter.plaintextToRDF(model, "test", "en");
-		String str = converter.serializeRDF(model, RDFSerialization.TURTLE);
+		String str = converter.serializeRDF(model,
+				RDFConstants.RDFSerialization.TURTLE);
 		assertTrue(str.length() > 0);
 
-		str = converter.serializeRDF(model, RDFSerialization.JSON_LD);
+		str = converter.serializeRDF(model,
+				RDFConstants.RDFSerialization.JSON_LD);
 		assertTrue(str.length() > 0);
 	}
 
@@ -101,9 +100,12 @@ public class JenaRDFConverterTest {
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 
 		String rdf = readFile("src/test/resources/rdftest/test.turtle");
-		converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
+		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.TURTLE);
+
+		rdf = readFile("src/test/resources/rdftest/test2.turtle");
+		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.TURTLE);
 
 		rdf = readFile("src/test/resources/rdftest/test.jsonld");
-		converter.unserializeRDF(rdf, RDFSerialization.JSON_LD);
+		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.JSON_LD);
 	}
 }

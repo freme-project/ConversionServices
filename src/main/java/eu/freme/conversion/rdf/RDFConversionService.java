@@ -19,27 +19,25 @@ public interface RDFConversionService {
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language);
 
-	enum RDFSerialization {
-		TURTLE, JSON_LD
-	}
-
 	/**
 	 * Serialize given model as NIF / Turtle
 	 * 
 	 * @param model
 	 * @return
 	 */
-	public String serializeRDF(Model model, RDFSerialization format)
+	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
 			throws Exception;
 
 	/**
 	 * Create model from rdf string in given format
 	 * 
-	 * @param rdf rdf data in given format
-	 * @param format format identifier
+	 * @param rdf
+	 *            rdf data in given format
+	 * @param format
+	 *            format identifier
 	 * @return
 	 * @throws Exception
 	 */
-	public Model unserializeRDF(String rdf, RDFSerialization format)
+	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
 			throws Exception;
 }

@@ -4,7 +4,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -15,13 +14,13 @@ import com.hp.hpl.jena.rdf.model.Resource;
 public class JenaRDFConversionService implements RDFConversionService {
 
 	// map from our rdf types to jena format
-	HashMap<RDFSerialization, String> rdfTypeMapping;
+	HashMap<RDFConstants.RDFSerialization, String> rdfTypeMapping;
 
 	public JenaRDFConversionService() {
-		rdfTypeMapping = new HashMap<RDFConversionService.RDFSerialization, String>();
+		rdfTypeMapping = new HashMap<RDFConstants.RDFSerialization, String>();
 
-		rdfTypeMapping.put(RDFSerialization.TURTLE, "TTL");
-		rdfTypeMapping.put(RDFSerialization.JSON_LD, "JSON-LD");
+		rdfTypeMapping.put(RDFConstants.RDFSerialization.TURTLE, "TTL");
+		rdfTypeMapping.put(RDFConstants.RDFSerialization.JSON_LD, "JSON-LD");
 	}
 
 	public Resource plaintextToRDF(Model model, String plaintext,
@@ -69,7 +68,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	@Override
-	public String serializeRDF(Model model, RDFSerialization format)
+	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
 			throws Exception {
 
 		String jenaIdentifier = rdfTypeMapping.get(format);
@@ -84,7 +83,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	@Override
-	public Model unserializeRDF(String rdf, RDFSerialization format)
+	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
 			throws Exception {
 
 		String jenaIdentifier = rdfTypeMapping.get(format);
