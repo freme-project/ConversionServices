@@ -1,0 +1,33 @@
+{
+    "@id": "http://freme-project.eu/resource/tmp#char=0,11",
+    "@type": [
+        "nif:RFC5147String",
+        "nif:Context",
+        "nif:String"
+    ],
+    "beginIndex": "0",
+    "endIndex": "11",
+    "isString": {
+        "@language": "de",
+        "@value": "hello world"
+    },
+    "target": {
+        "@language": "en",
+        "@value": "Hallo Welt"
+    },
+    "@context": {
+        "target": "http://www.w3.org/2005/11/its/rdf#target",
+        "endIndex": {
+            "@id": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#endIndex",
+            "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+        },
+        "beginIndex": {
+            "@id": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#beginIndex",
+            "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+        },
+        "isString": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#isString",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "itsrdf": "http://www.w3.org/2005/11/its/rdf#",
+        "nif": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#"
+    }
+}

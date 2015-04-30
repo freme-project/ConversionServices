@@ -1,5 +1,10 @@
 package eu.freme.conversion.rdf;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 import org.junit.Test;
 
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -15,9 +20,6 @@ import static org.junit.Assert.*;
 
 public class JenaRDFConverterTest {
 
-	private final String nifPrefix = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#";
-	private final String itsrdfPrefix = "http://www.w3.org/2005/11/its/rdf#";
-	
 	@Test
 	public void testPlaintextToRDF() {
 
@@ -30,15 +32,18 @@ public class JenaRDFConverterTest {
 
 		assertTrue(countStatements(model.listStatements()) == 6);
 
-		Property isString = model.createProperty(nifPrefix + "isString");
+		Property isString = model.createProperty(RDFConstants.nifPrefix
+				+ "isString");
 		assertTrue(countStatements(model.listStatements((Resource) null,
 				isString, (RDFNode) null)) == 1);
 
-		Property beginIndex = model.createProperty(nifPrefix + "beginIndex");
+		Property beginIndex = model.createProperty(RDFConstants.nifPrefix
+				+ "beginIndex");
 		assertTrue(countStatements(model.listStatements((Resource) null,
 				beginIndex, (RDFNode) null)) == 1);
 
-		Property endIndex = model.createProperty(nifPrefix + "endIndex");
+		Property endIndex = model.createProperty(RDFConstants.nifPrefix
+				+ "endIndex");
 		assertTrue(countStatements(model.listStatements((Resource) null,
 				endIndex, (RDFNode) null)) == 1);
 
@@ -58,28 +63,7 @@ public class JenaRDFConverterTest {
 	}
 
 	@Test
-	public void testAddTranslation() {
-		String plaintext = "hallo welt";
-		String sourceLang = "de";
-		String translation = "hello world";
-		String targetLang = "en";
-
-		JenaRDFConversionService converter = new JenaRDFConversionService();
-		Model model = ModelFactory.createDefaultModel();
-
-		Resource resource = converter.plaintextToRDF(model, plaintext,
-				sourceLang);
-		Resource translationResource = converter.addTranslation(translation,
-				resource, targetLang);
-		
-		Property itsrdfTarget = model.getProperty(itsrdfPrefix + "target");
-		Literal lit = translationResource.getProperty(itsrdfTarget).getLiteral();
-		assertTrue( lit.getString().equals( translation ));
-		assertTrue( lit.getLanguage().equals(targetLang));	
-	}
-	
-	@Test
-	public void testSerialization(){
+	public void testSerializeRDF() throws Exception {
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 		Model model = ModelFactory.createDefaultModel();
 
@@ -98,5 +82,28 @@ public class JenaRDFConverterTest {
 			itr.next();
 		}
 		return count;
+	}
+
+	private String readFile(String file) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		StringBuilder bldr = new StringBuilder();
+		String line;
+		while ((line = reader.readLine()) != null) {
+			bldr.append(line);
+			bldr.append("\n");
+		}
+		reader.close();
+		return bldr.toString();
+	}
+
+	@Test
+	public void testUnserializeRDF() throws Exception {
+		JenaRDFConversionService converter = new JenaRDFConversionService();
+
+		String rdf = readFile("src/test/resources/rdftest/test.turtle");
+		converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
+
+		rdf = readFile("src/test/resources/rdftest/test.jsonld");
+		converter.unserializeRDF(rdf, RDFSerialization.JSON_LD);
 	}
 }
