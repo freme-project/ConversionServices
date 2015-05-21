@@ -29,20 +29,18 @@ public class TranslationConversionServiceImpl implements
 	}
 
 	@Override
-	public String extractTextToTranslate(Model model) {
+	public Resource extractTextToTranslate(Model model) {
 		Property isString = model.getProperty(RDFConstants.nifPrefix
 				+ "isString");
 		StmtIterator itr = model.listStatements((Resource) null, isString,
 				(String) null);
-		String text = null;
 		while (itr.hasNext()) {
 			Statement st = itr.next();
 			if (st.getObject().isLiteral()) {
-				text = st.getObject().asLiteral().getString();
-				break;
+				return st.getSubject();
 			}
 		}
-
-		return text;
+		
+		return null;
 	}
 }

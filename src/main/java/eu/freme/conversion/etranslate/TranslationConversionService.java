@@ -23,12 +23,12 @@ public interface TranslationConversionService {
 			String targetLanguage);
 
 	/**
-	 * Returns the first literal in a model that is connected to a resource via
+	 * Returns the first Reosurce in a model that has a property
 	 * nif:isString. Returns null if no such literal exists in the model.
 	 * 
 	 * @param resource
 	 * @param sourceLanguage
 	 * @return
 	 */
-	public String extractTextToTranslate(Model resource);
+	public Resource extractTextToTranslate(Model resource);
 }

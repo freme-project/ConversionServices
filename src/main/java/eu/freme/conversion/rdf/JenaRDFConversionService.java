@@ -1,5 +1,6 @@
 package eu.freme.conversion.rdf;
 
+import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -90,11 +91,9 @@ public class JenaRDFConversionService implements RDFConversionService {
 		if (jenaIdentifier == null) {
 			throw new RuntimeException("unsupported format: " + format);
 		}
-
-		StringReader reader = new StringReader(rdf);
 		Model model = ModelFactory.createDefaultModel();
-		model.read(reader, null, jenaIdentifier);
-		reader.close();
+		model.read(new ByteArrayInputStream(rdf.getBytes()), null, jenaIdentifier);
+		
 		return model;
 	}
 

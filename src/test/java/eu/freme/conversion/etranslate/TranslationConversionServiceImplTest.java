@@ -65,8 +65,11 @@ public class TranslationConversionServiceImplTest {
 				RDFConstants.RDFSerialization.TURTLE);
 
 		TranslationConversionServiceImpl translationConversionService = new TranslationConversionServiceImpl();
-		String plaintext = translationConversionService
+		Resource resource = translationConversionService
 				.extractTextToTranslate(model);
+		Property isString = model.getProperty(RDFConstants.nifPrefix
+				+ "isString");
+		String plaintext = resource.getProperty(isString).getObject().asLiteral().getString();
 		assertTrue(plaintext != null);
 		assertTrue(plaintext.length() > 0);
 
@@ -74,7 +77,8 @@ public class TranslationConversionServiceImplTest {
 		rdf = readFile("src/test/resources/rdftest/test2.turtle");
 		model = converter.unserializeRDF(rdf,
 				RDFConstants.RDFSerialization.TURTLE);
-		plaintext = translationConversionService.extractTextToTranslate(model);
-		assertTrue(plaintext == null);
+		resource = translationConversionService
+				.extractTextToTranslate(model);
+		assertTrue(resource == null);
 	}
 }
