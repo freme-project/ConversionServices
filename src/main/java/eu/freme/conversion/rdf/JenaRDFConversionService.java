@@ -25,13 +25,12 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	public Resource plaintextToRDF(Model model, String plaintext,
-			String language) {
+			String language, String prefix) {
 
 		model.setNsPrefix("nif", RDFConstants.nifPrefix);
 		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
 
-		String uri = "http://freme-project.eu/resource/tmp#char=0,"
-				+ plaintext.length();
+		String uri = prefix;
 		Resource resource = model.createResource(uri);
 
 		Property type = model
@@ -92,7 +91,8 @@ public class JenaRDFConversionService implements RDFConversionService {
 			throw new RuntimeException("unsupported format: " + format);
 		}
 		Model model = ModelFactory.createDefaultModel();
-		model.read(new ByteArrayInputStream(rdf.getBytes()), null, jenaIdentifier);
+		StringReader reader = new StringReader(rdf);
+		model.read(reader, null, jenaIdentifier);
 		
 		return model;
 	}

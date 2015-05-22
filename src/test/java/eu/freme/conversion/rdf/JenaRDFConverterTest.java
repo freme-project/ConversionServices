@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 public class JenaRDFConverterTest {
 
+	String prefix = "http://freme-project.eu/";
 	@Test
 	public void testPlaintextToRDF() {
 
@@ -25,7 +26,7 @@ public class JenaRDFConverterTest {
 		String plaintext = "hello world";
 		String language = "en";
 		Model model = ModelFactory.createDefaultModel();
-		converter.plaintextToRDF(model, plaintext, language);
+		converter.plaintextToRDF(model, plaintext, language, prefix);
 
 		assertTrue(countStatements(model.listStatements()) == 6);
 
@@ -45,7 +46,7 @@ public class JenaRDFConverterTest {
 				endIndex, (RDFNode) null)) == 1);
 
 		model = ModelFactory.createDefaultModel();
-		Resource res = converter.plaintextToRDF(model, plaintext, null);
+		Resource res = converter.plaintextToRDF(model, plaintext, null, prefix);
 
 		assertTrue(countStatements(model.listStatements((Resource) null,
 				isString, (RDFNode) null)) == 1);
@@ -64,7 +65,7 @@ public class JenaRDFConverterTest {
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 		Model model = ModelFactory.createDefaultModel();
 
-		converter.plaintextToRDF(model, "test", "en");
+		converter.plaintextToRDF(model, "test", "en", prefix);
 		String str = converter.serializeRDF(model,
 				RDFConstants.RDFSerialization.TURTLE);
 		assertTrue(str.length() > 0);

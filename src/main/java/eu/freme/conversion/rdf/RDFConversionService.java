@@ -14,10 +14,11 @@ public interface RDFConversionService {
 	 * @param plaintext
 	 * @param language
 	 *            set to null if no language is attached to isString
+	 * @param prefix defines the uri that for the new resource
 	 * @return the newly generated resource
 	 */
 	public Resource plaintextToRDF(Model model, String plaintext,
-			String language);
+			String language, String prefix);
 
 	/**
 	 * Serialize given model as NIF / Turtle

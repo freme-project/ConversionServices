@@ -25,11 +25,12 @@ public class TranslationConversionServiceImplTest {
 		String sourceLang = "de";
 		String translation = "hello world";
 		String targetLang = "en";
+		String prefix = "http://freme-project.eu/";
 
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 		Model model = ModelFactory.createDefaultModel();
 		Resource resource = converter.plaintextToRDF(model, plaintext,
-				sourceLang);
+				sourceLang, prefix);
 
 		TranslationConversionServiceImpl translateConversionService = new TranslationConversionServiceImpl();
 
