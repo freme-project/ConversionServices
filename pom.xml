@@ -79,8 +79,8 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:git:ssh://jnehring@github.com/freme-project/ConversionServices.git</connection>
-		<url>scm:git:ssh://jnehring@github.com/freme-project/ConversionServices.git</url>
-		<developerConnection>scm:git:ssh://jnehring@github.com/freme-project/ConversionServices.git</developerConnection>
+		<connection>scm:git:git://jnehring@github.com/freme-project/ConversionServices.git</connection>
+		<url>scm:git:git://jnehring@github.com/freme-project/ConversionServices.git</url>
+		<developerConnection>scm:git:git://jnehring@github.com/freme-project/ConversionServices.git</developerConnection>
 	</scm>
 </project>
