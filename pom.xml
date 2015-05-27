@@ -79,8 +79,8 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:git:git@github.com/freme-project/ConversionServices.git</connection>
-		<url>scm:git:git@github.com/freme-project/ConversionServices.git</url>
-		<developerConnection>scm:git:git@github.com/freme-project/ConversionServices.git</developerConnection>
+		<connection>scm:git:https://github.com/freme-project/ConversionServices.git</connection>
+		<url>scm:git:https://github.com/freme-project/ConversionServices.git</url>
+		<developerConnection>scm:git:https://github.com/freme-project/ConversionServices.git</developerConnection>
 	</scm>
 </project>
