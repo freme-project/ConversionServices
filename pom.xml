@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.freme</groupId>
 	<artifactId>conversion</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<name>ConversionService</name>
 
 	<dependencies>
@@ -67,7 +67,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+			</repository>
 		<repository>
 			<id>freme-nexus</id>
 			<name>freme-nexus</name>
@@ -79,8 +79,8 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:git:https://github.com/freme-project/ConversionServices.git</connection>
-		<url>scm:git:https://github.com/freme-project/ConversionServices.git</url>
-		<developerConnection>scm:git:https://github.com/freme-project/ConversionServices.git</developerConnection>
+		<connection>scm:git:ssh:jnehring@github.com/freme-project/ConversionServices.git</connection>
+		<url>scm:git:ssh:jnehring@github.com/freme-project/ConversionServices.git</url>
+		<developerConnection>scm:git:ssh:jnehring@github.com/freme-project/ConversionServices.git</developerConnection>
 	</scm>
 </project>
