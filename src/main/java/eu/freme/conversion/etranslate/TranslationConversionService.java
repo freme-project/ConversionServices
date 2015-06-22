@@ -3,6 +3,9 @@ package eu.freme.conversion.etranslate;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 public interface TranslationConversionService {
 
 	/**

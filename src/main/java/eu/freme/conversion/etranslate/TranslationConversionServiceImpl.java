@@ -9,6 +9,9 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import eu.freme.conversion.rdf.RDFConstants;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 public class TranslationConversionServiceImpl implements
 		TranslationConversionService {
 

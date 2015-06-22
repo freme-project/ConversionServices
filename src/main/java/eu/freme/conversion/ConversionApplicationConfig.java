@@ -8,6 +8,9 @@ import eu.freme.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.conversion.rdf.JenaRDFConversionService;
 import eu.freme.conversion.rdf.RDFConversionService;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 @Configuration
 public class ConversionApplicationConfig {
 

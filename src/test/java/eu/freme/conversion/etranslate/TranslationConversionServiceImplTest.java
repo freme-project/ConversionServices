@@ -17,6 +17,9 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import eu.freme.conversion.rdf.JenaRDFConversionService;
 import eu.freme.conversion.rdf.RDFConstants;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 public class TranslationConversionServiceImplTest {
 
 	@Test

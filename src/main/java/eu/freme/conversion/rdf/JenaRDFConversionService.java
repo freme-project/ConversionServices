@@ -1,6 +1,5 @@
 package eu.freme.conversion.rdf;
 
-import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -12,6 +11,9 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 public class JenaRDFConversionService implements RDFConversionService {
 
 	// map from our rdf types to jena format
@@ -19,9 +21,11 @@ public class JenaRDFConversionService implements RDFConversionService {
 
 	public JenaRDFConversionService() {
 		rdfTypeMapping = new HashMap<RDFConstants.RDFSerialization, String>();
-
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.TURTLE, "TTL");
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.JSON_LD, "JSON-LD");
+		rdfTypeMapping.put(RDFConstants.RDFSerialization.N_TRIPLES, "N-TRIPLES");
+		rdfTypeMapping.put(RDFConstants.RDFSerialization.N3, "N3");
+		rdfTypeMapping.put(RDFConstants.RDFSerialization.RDF_XML, "RDF/XML");
 	}
 
 	public Resource plaintextToRDF(Model model, String plaintext,

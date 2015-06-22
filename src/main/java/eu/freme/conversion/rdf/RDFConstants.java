@@ -1,5 +1,8 @@
 package eu.freme.conversion.rdf;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 public class RDFConstants {
 
 	public static final String nifPrefix = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#";
@@ -7,6 +10,6 @@ public class RDFConstants {
 	public static final String xsdPrefix = "http://www.w3.org/2001/XMLSchema#";
 
 	public enum RDFSerialization {
-		TURTLE, JSON_LD, PLAINTEXT
+		TURTLE, JSON_LD, PLAINTEXT, RDF_XML, N3, N_TRIPLES
 	}
 }

@@ -15,6 +15,9 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 public class JenaRDFConverterTest {
 
 	String prefix = "http://freme-project.eu/";
