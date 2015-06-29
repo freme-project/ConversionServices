@@ -10,6 +10,6 @@ public class RDFConstants {
 	public static final String xsdPrefix = "http://www.w3.org/2001/XMLSchema#";
 
 	public enum RDFSerialization {
-		TURTLE, JSON_LD, PLAINTEXT, RDF_XML, N3, N_TRIPLES
+		TURTLE, JSON_LD, PLAINTEXT, RDF_XML, N3, N_TRIPLES, JSON
 	}
 }
