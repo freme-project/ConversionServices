@@ -11,8 +11,8 @@ public class RDFConstants {
 
 	public enum RDFSerialization {
 		TURTLE("text/turtle"),
-		JSON_LD("application/json+ld"),
-		PLAINTEXT("text"),
+		JSON_LD("application/ld+json"),
+		PLAINTEXT("text/plain"),
 		RDF_XML("application/rdf+xml"),
 		N3("text/n3"),
 		N_TRIPLES("application/n-triples"),
