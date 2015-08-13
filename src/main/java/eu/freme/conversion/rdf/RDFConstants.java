@@ -27,5 +27,28 @@ public class RDFConstants {
 		public String contentType() {
 			return contentType;
 		}
+
+		/**
+		 * Given a textual content type, return its RDFSerialization object.
+		 * @param contentType	The content type, in textual format.
+		 * @return				The corresponding RDFSerialization object, or {@code null} if nothing found
+		 */
+		public static RDFSerialization fromValue(final String contentType) {
+			String normalizedContentType = contentType.toLowerCase();
+
+			// chop off everything beginning from ';'. An example is "text/turtle; charset=UTF-8"
+			int indexOfSemicolon = normalizedContentType.indexOf(';');
+			if (indexOfSemicolon >= 0) {
+				normalizedContentType = normalizedContentType.substring(0, indexOfSemicolon);
+			}
+
+			// now find the matching value
+			for (RDFSerialization rdfSerialization : RDFSerialization.values()) {
+				if (rdfSerialization.contentType().equals(normalizedContentType)) {
+					return rdfSerialization;
+				}
+			}
+			return null;
+		}
 	}
 }
