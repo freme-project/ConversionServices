@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.freme</groupId>
 	<artifactId>conversion</artifactId>
-	<version>0.3</version>
+	<version>0.4-SNAPSHOT</version>
 	<name>ConversionService</name>
 
 	<parent>
@@ -100,6 +100,6 @@
 		<connection>scm:git:git@github.com:freme-project/ConversionServices.git</connection>
 		<url>scm:git:git@github.com/freme-project:ConversionServices.git</url>
 		<developerConnection>scm:git:git@github.com:freme-project/ConversionServices.git</developerConnection>
-	  <tag>conversion-0.3</tag>
+	  <tag>HEAD</tag>
   </scm>
 </project>
