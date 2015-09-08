@@ -50,6 +50,9 @@ public class JenaRDFConversionService implements RDFConversionService {
 		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
 
 		String uri = prefix;
+		if( !uri.contains("#char=")){
+			uri += "#char=0," + plaintext.length();
+		}
 		Resource resource = model.createResource(uri);
 
 		Property type = model
