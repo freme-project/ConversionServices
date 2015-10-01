@@ -16,7 +16,6 @@ import eu.freme.common.persistence.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = FREMECommonConfig.class)
-@Ignore
 public class UserRepositoryTest {
 
 	@Autowired
