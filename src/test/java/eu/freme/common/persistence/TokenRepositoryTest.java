@@ -84,7 +84,7 @@ public class TokenRepositoryTest {
 		assertEquals((long) 1, tokenDAO.count());
 		// one user is automatically generated admin user
 		assertEquals((long) 1, userDAO.count());
-		tokenDAO.flushAndClear();
+		//tokenDAO.flushAndClear();
 		User userFromDb = userDAO.getRepository().findOneByName(user.getName());
 		//entityManager.flush();
 		logger.info("delete user, should delete token also");
