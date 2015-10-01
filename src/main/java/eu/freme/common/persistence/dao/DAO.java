@@ -44,6 +44,9 @@ public class DAO<Repository  extends CrudRepository<Entity, Long>, Entity> {
 
     public void delete(Entity entity){
         repository.delete(entity);
+    }
+
+    public void flushAndClear(){
         try {
             entityManager.flush();
             entityManager.clear();
