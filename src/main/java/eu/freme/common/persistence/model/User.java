@@ -15,16 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence;
+package eu.freme.common.persistence.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
@@ -40,14 +36,20 @@ public class User {
 	@Id
 	@Column(name = "name")
 	private String name;
-	
+
 	@JsonIgnore
 	private String password;
 
 	private String role;
-	
-	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Token> tokens;
+
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+	private List<Dataset> datasets;
+
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+	private List<Template> templates;
 
 	protected User() {
 	}
@@ -56,6 +58,9 @@ public class User {
 		this.name = name;
 		this.password = password;
 		this.role = role;
+
+		tokens = new ArrayList<Token>();
+		datasets = new ArrayList<Dataset>();
 	}
 
 	@Override
@@ -86,9 +91,33 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
 	public List<Token> getTokens() {
 		return tokens;
 	}
 
+	public List<Dataset> getDatasets() {
+		return datasets;
+	}
+
+	public void setDatasets(List<Dataset> datasets) {
+		this.datasets = datasets;
+	}
+
+	public List<Template> getTemplates() { return templates; }
+
+	public void setTemplates(List<Template> templates) { this.templates = templates; }
+
+	@Override
+	public boolean equals(Object o){
+		if(!(o instanceof User))
+			return false;
+		User casted = (User) o;
+		return casted.getName().equals(this.getName());
+	}
+
+	@Override
+	public int hashCode(){
+		return this.getName().hashCode();
+	}
 }

@@ -15,15 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence;
+package eu.freme.common.persistence.repository;
 
-
+import eu.freme.common.persistence.model.User;
 import org.springframework.data.repository.CrudRepository;
-
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-public interface TokenRepository extends CrudRepository<Token, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-	public Token findOneByToken(String token);
+    User findOneByName(String name);
+    
 }

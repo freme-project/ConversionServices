@@ -17,6 +17,8 @@
  */
 package eu.freme.common.persistence;
 
+import eu.freme.common.persistence.repository.TokenRepository;
+import eu.freme.common.persistence.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,10 +28,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import eu.freme.common.FREMECommonConfig;
-import eu.freme.common.persistence.Token;
-import eu.freme.common.persistence.TokenRepository;
-import eu.freme.common.persistence.User;
-import eu.freme.common.persistence.UserRepository;
+import eu.freme.common.persistence.model.Token;
+import eu.freme.common.persistence.model.User;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
