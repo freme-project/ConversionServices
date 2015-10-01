@@ -17,12 +17,19 @@
  */
 package eu.freme.common;
 
+import eu.freme.common.persistence.tools.AccessLevelHelper;
+import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;
+import eu.freme.common.security.voter.UserAccessDecisionVoter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import eu.freme.common.conversion.etranslate.TranslationConversionService;
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
 import eu.freme.common.conversion.rdf.RDFConversionService;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AffirmativeBased;
+
+import java.util.ArrayList;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
@@ -39,4 +46,21 @@ public class FREMECommonConfig {
 	public TranslationConversionService getTranslationConversionService() {
 		return new TranslationConversionServiceImpl();
 	}
+
+	@Bean
+	public AffirmativeBased defaultAccessDecisionManager() {
+		@SuppressWarnings("rawtypes")
+		ArrayList<AccessDecisionVoter> list = new ArrayList<AccessDecisionVoter>();
+		//list.add(new TemplateAccessDecisionVoter());
+		list.add(new UserAccessDecisionVoter());
+		list.add(new OwnedResourceAccessDecisionVoter());
+		AffirmativeBased ab = new AffirmativeBased(list);
+		return ab;
+	}
+
+	@Bean
+	public AccessLevelHelper accessLevelHelper() {
+		return new AccessLevelHelper();
+	}
+
 }
