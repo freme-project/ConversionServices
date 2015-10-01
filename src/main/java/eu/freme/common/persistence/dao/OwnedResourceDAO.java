@@ -18,6 +18,7 @@
 package eu.freme.common.persistence.dao;
 
 
+import eu.freme.common.exception.OwnedResourceNotFoundException;
 import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.OwnedResourceRepository;
@@ -65,7 +66,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
     public Entity findOneById(String id){
         Entity result = repository.findOneById(id);
         if(result==null)
-            return null;
+            throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         User authUser = (User) authentication.getPrincipal();
