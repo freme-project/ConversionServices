@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.conversion.rdf;
+package eu.freme.common.conversion.rdf;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,6 +30,8 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
+import eu.freme.common.conversion.rdf.JenaRDFConversionService;
+import eu.freme.common.conversion.rdf.RDFConstants;
 import static org.junit.Assert.*;
 
 /**

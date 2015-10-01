@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.conversion.etranslate;
+package eu.freme.common.conversion.etranslate;
 
 import static org.junit.Assert.*;
 
@@ -31,8 +31,9 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-import eu.freme.conversion.rdf.JenaRDFConversionService;
-import eu.freme.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
+import eu.freme.common.conversion.rdf.JenaRDFConversionService;
+import eu.freme.common.conversion.rdf.RDFConstants;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

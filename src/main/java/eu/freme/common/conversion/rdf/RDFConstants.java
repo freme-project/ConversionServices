@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.conversion.rdf;
+package eu.freme.common.conversion.rdf;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

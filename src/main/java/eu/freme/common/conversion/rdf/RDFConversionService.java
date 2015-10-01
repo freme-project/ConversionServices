@@ -15,10 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.conversion.rdf;
+package eu.freme.common.conversion.rdf;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
+
+import eu.freme.common.conversion.rdf.RDFConstants;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

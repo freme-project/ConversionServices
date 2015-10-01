@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.conversion.etranslate;
+package eu.freme.common.conversion.etranslate;
 
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -24,7 +24,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
-import eu.freme.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.etranslate.TranslationConversionService;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
@@ -32,6 +33,7 @@ import eu.freme.conversion.rdf.RDFConstants;
 public class TranslationConversionServiceImpl implements
 		TranslationConversionService {
 
+	@Override
 	public Resource addTranslation(String translation, Resource source,
 			String targetLanguage) {
 

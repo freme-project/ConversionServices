@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.conversion.rdf;
+package eu.freme.common.conversion.rdf;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -27,6 +27,9 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.rdf.RDFConversionService;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
@@ -45,6 +48,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.RDF_XML, "RDF/XML");
 	}
 
+	@Override
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language, String prefix) {
 
