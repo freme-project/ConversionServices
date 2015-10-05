@@ -84,6 +84,8 @@ public class RDFConstants {
 					return  "application/n-triples";
 				case N3:
 					return  "text/n3";
+				case PLAINTEXT:
+					return  "text/plain";
 			}
 			throw new UnknownFormatConversionException("unkown RDFSerialization: "+ this);
 		}
