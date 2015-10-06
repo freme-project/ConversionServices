@@ -52,10 +52,7 @@ public class OwnedResourceAccessDecisionVoter implements AccessDecisionVoter<Obj
                     Collection<ConfigAttribute> attributes) {
         if (object instanceof OwnedResource) {
             OwnedResource casted= (OwnedResource) object;
-            if (authentication.getPrincipal().equals("anonymousUser")) {
-                return ACCESS_DENIED;
-            }
-
+         
             if(authentication instanceof AnonymousAuthenticationToken) {
                 if (casted.getVisibility().equals(OwnedResource.Visibility.PUBLIC) && accessLevelHelper.hasRead(attributes) && !accessLevelHelper.hasWrite(attributes))
                     return ACCESS_GRANTED;
