@@ -24,7 +24,9 @@ import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.vote.AbstractAccessDecisionManager;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -45,21 +47,16 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
     public abstract String className();
 
     public void delete(Entity entity){
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        User authUser = (User) authentication.getPrincipal();
-        if(!authUser.getRole().equals(User.roleAdmin))
-            decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // DEBUG!!
+        //decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         super.delete(entity);
     }
 
 
     public void save(Entity entity){
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        User authUser = (User) authentication.getPrincipal();
-        if(!authUser.getRole().equals(User.roleAdmin))
-            decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         super.save(entity);
     }
 
@@ -67,11 +64,9 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         Entity result = repository.findOneById(id);
         if(result==null)
             throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        User authUser = (User) authentication.getPrincipal();
-        if(!authUser.getRole().equals(User.roleAdmin))
-            decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // DEBUG!!
+        //decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
         return result;
     }
 
@@ -79,14 +74,18 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         if(repository.count()==0)
             return new ArrayList<>(0);
 
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        User authUser = (User) authentication.getPrincipal();
-
         String entityName = className();
         String entity = entityName.toLowerCase();
-        String queryString = "select "+entity+" from "+entityName +" "+entity+" where "+entity+".owner.name = '"+authUser.getName()+"' or "+entity+".visibility = "+ OwnedResource.Visibility.PUBLIC.ordinal(); //
-
+        String queryString;
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        if(authentication instanceof AnonymousAuthenticationToken) {
+            logger.debug("Find owned resources as ANONYMOUS USER");
+            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal(); //
+        }else {
+            User authUser = (User) authentication.getPrincipal();
+            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal(); //
+        }
         return (List<Entity>)entityManager.createQuery(queryString).getResultList();
     }
 

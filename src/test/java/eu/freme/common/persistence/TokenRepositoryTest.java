@@ -79,7 +79,7 @@ public class TokenRepositoryTest {
 		tokenDAO.delete(token);
 
 		logger.info("token count (after delete): " + tokenDAO.count());
-
+		logger.info("user count: "+userDAO.count());
 
 		assertEquals((long) 1, tokenDAO.count());
 		assertEquals((long) 1, userDAO.count());

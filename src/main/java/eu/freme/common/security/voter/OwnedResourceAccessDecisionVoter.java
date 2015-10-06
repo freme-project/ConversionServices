@@ -22,6 +22,7 @@ import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import java.util.Collection;
@@ -55,11 +56,17 @@ public class OwnedResourceAccessDecisionVoter implements AccessDecisionVoter<Obj
                 return ACCESS_DENIED;
             }
 
+            if(authentication instanceof AnonymousAuthenticationToken) {
+                if (casted.getVisibility().equals(OwnedResource.Visibility.PUBLIC) && accessLevelHelper.hasRead(attributes) && !accessLevelHelper.hasWrite(attributes))
+                    return ACCESS_GRANTED;
+                else
+                    return ACCESS_DENIED;
+            }
             User authenticatedUser = (User) authentication.getPrincipal();
 
             if (authenticatedUser.getRole().equals(User.roleAdmin)) {
                 return ACCESS_GRANTED;
-            } else if (casted.getVisibility().equals(OwnedResource.Visibility.PUBLIC) && accessLevelHelper.hasRead(attributes)) {
+            } else if (casted.getVisibility().equals(OwnedResource.Visibility.PUBLIC) && accessLevelHelper.hasRead(attributes) && !accessLevelHelper.hasWrite(attributes)) {
                 return ACCESS_GRANTED;
             } else if (authenticatedUser.getName().equals(casted.getOwner().getName())) {
                 return ACCESS_GRANTED;
