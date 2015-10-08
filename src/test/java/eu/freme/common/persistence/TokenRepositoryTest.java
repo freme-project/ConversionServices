@@ -56,6 +56,9 @@ public class TokenRepositoryTest {
 	@Transactional
 	public void testTokenRepository(){
 
+		long userCountBefore = userDAO.count();
+		long tokenCountBefore = tokenDAO.count();
+
 		logger.info("create user and token");
 		User user = new User("hallo", "welt", User.roleUser);
 		userDAO.save(user);
@@ -81,10 +84,8 @@ public class TokenRepositoryTest {
 		logger.info("token count (after delete): " + tokenDAO.count());
 		logger.info("user count: "+userDAO.count());
 
-		tokenDAO.flushAndClear();
-		
-		assertEquals((long) 1, tokenDAO.count());
-		assertEquals((long) 1, userDAO.count());
+		assertEquals(tokenCountBefore+1, tokenDAO.count());
+		assertEquals(userCountBefore+1, userDAO.count());
 		//tokenDAO.flushAndClear();
 		User userFromDb = userDAO.getRepository().findOneByName(user.getName());
 		//entityManager.flush();
@@ -93,6 +94,6 @@ public class TokenRepositoryTest {
 		userDAO.delete(userFromDb);
 		logger.info("token count (after user delete): " + tokenDAO.count());
 
-		assertEquals((long) 0, tokenDAO.count());
+		assertEquals(tokenCountBefore, tokenDAO.count());
 	}
 }
