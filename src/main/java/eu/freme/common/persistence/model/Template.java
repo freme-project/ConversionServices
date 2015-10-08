@@ -19,10 +19,12 @@ package eu.freme.common.persistence.model;
 
 
 import com.fasterxml.jackson.databind.JsonSerializable;
+import com.google.common.base.Strings;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
+import eu.freme.common.exception.BadRequestException;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -36,7 +38,17 @@ import java.io.IOException;
 @Table(name = "template")
 public class Template extends OwnedResource implements JsonSerializable {
 
-    public enum Type {SPARQL, LDF}
+    public enum Type {
+        SPARQL, LDF;
+
+        public static Type getByString(String type){
+            if(Strings.isNullOrEmpty(type) || type.toLowerCase().equals("sparql"))
+                return SPARQL;
+            if(type.toLowerCase().equals("ldf"))
+                return LDF;
+            throw new BadRequestException("Wrong value for type = \""+"\". Should be \"sparql\" or \"ldf\"");
+        }
+    }
 
     @Lob
     private String endpoint;
@@ -49,31 +61,33 @@ public class Template extends OwnedResource implements JsonSerializable {
 
     private Type type;
 
-    public Template(User owner, Visibility visibility, String endpoint, String query, String label, String description) {
+    public Template(User owner, Visibility visibility, Type type, String endpoint, String query, String label, String description) {
         super(null, owner, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
         this.description = description;
-        this.type = Type.SPARQL;
+        this.type = type;
     }
-    public Template(Visibility visibility, String endpoint, String query, String label, String description) {
+    public Template(Visibility visibility, Type type, String endpoint, String query, String label, String description) {
         super(null, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
         this.description = description;
-        this.type = Type.SPARQL;
+        this.type = type;
     }
 
-    public Template(User owner, Visibility visibility, Model model){
+    public Template(User owner, Visibility visibility, Type type, Model model){
         super(null, owner, visibility);
         setTemplateWithModel(model);
+        this.type = type;
     }
 
-    public Template(Visibility visibility, Model model){
+    public Template(Visibility visibility, Type type, Model model){
         super(null, visibility);
         setTemplateWithModel(model);
+        this.type = type;
     }
 
     public Template(){super();}

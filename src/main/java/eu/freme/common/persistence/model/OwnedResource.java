@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializable;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import eu.freme.common.exception.BadRequestException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -49,7 +50,7 @@ public class OwnedResource implements JsonSerializable {
             if(value!=null && value.toLowerCase().equals("private"))
                 return PRIVATE;
             if(value!=null && !value.toLowerCase().equals("public"))
-                throw new Exception("Wrong value for visibility level: \""+value+"\". Has to be either \"private\" or \"public\".");
+                throw new BadRequestException("Wrong value for visibility level: \""+value+"\". Has to be either \"private\" or \"public\".");
             return PUBLIC;
         }
     }
