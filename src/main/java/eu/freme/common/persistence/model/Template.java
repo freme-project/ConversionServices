@@ -47,7 +47,7 @@ public class Template extends OwnedResource implements JsonSerializable {
     @Lob
     private String description;
 
-    private Type type = Type.SPARQL;
+    private Type type;
 
     public Template(User owner, Visibility visibility, String endpoint, String query, String label, String description) {
         super(null, owner, visibility);
@@ -55,6 +55,7 @@ public class Template extends OwnedResource implements JsonSerializable {
         this.query = query;
         this.label = label;
         this.description = description;
+        this.type = Type.SPARQL;
     }
     public Template(Visibility visibility, String endpoint, String query, String label, String description) {
         super(null, visibility);
@@ -62,6 +63,7 @@ public class Template extends OwnedResource implements JsonSerializable {
         this.query = query;
         this.label = label;
         this.description = description;
+        this.type = Type.SPARQL;
     }
 
     public Template(User owner, Visibility visibility, Model model){
