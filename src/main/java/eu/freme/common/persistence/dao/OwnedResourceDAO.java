@@ -23,6 +23,7 @@ import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.vote.AbstractAccessDecisionManager;
@@ -70,7 +71,8 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return result;
     }
 
-    public List<Entity> findAllReadAccessible(){
+    @SuppressWarnings("unchecked")
+	public List<Entity> findAllReadAccessible(){
         if(repository.count()==0)
             return new ArrayList<>(0);
 
