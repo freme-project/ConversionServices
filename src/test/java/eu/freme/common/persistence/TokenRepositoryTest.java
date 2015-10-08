@@ -50,7 +50,7 @@ public class TokenRepositoryTest {
 	UserDAO userDAO;
 
 	@Autowired
-	TokenDAO tokenDAO;
+	TokenDAO tokenDAO;	
 
 	@Test
 	@Transactional
@@ -81,6 +81,8 @@ public class TokenRepositoryTest {
 		logger.info("token count (after delete): " + tokenDAO.count());
 		logger.info("user count: "+userDAO.count());
 
+		tokenDAO.flushAndClear();
+		
 		assertEquals((long) 1, tokenDAO.count());
 		assertEquals((long) 1, userDAO.count());
 		//tokenDAO.flushAndClear();
