@@ -47,7 +47,7 @@ public class Template extends OwnedResource implements JsonSerializable {
     @Lob
     private String description;
 
-    private Type type;
+    //private Type type;
 
     public Template(User owner, Visibility visibility, String endpoint, String query, String label, String description) {
         super(null, owner, visibility);
@@ -148,7 +148,7 @@ public class Template extends OwnedResource implements JsonSerializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+/*
     public Type getType() {
         return type;
     }
@@ -156,7 +156,7 @@ public class Template extends OwnedResource implements JsonSerializable {
     public void setType(Type type) {
         this.type = type;
     }
-
+*/
     @Override
     public void serialize(com.fasterxml.jackson.core.JsonGenerator jsonGenerator, com.fasterxml.jackson.databind.SerializerProvider serializerProvider) throws IOException, com.fasterxml.jackson.core.JsonProcessingException {
         jsonGenerator.writeStartObject();
