@@ -36,6 +36,8 @@ import java.io.IOException;
 @Table(name = "template")
 public class Template extends OwnedResource implements JsonSerializable {
 
+    public enum Type {SPARQL, LDF}
+
     @Lob
     private String endpoint;
     @Lob
@@ -44,6 +46,8 @@ public class Template extends OwnedResource implements JsonSerializable {
     private String label;
     @Lob
     private String description;
+
+    private Type type;
 
     public Template(User owner, Visibility visibility, String endpoint, String query, String label, String description) {
         super(null, owner, visibility);
@@ -143,6 +147,14 @@ public class Template extends OwnedResource implements JsonSerializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
