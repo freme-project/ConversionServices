@@ -75,7 +75,7 @@ public class OwnedResource implements JsonSerializable {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
-            throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource.");
+            throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
         this.owner = (User) authentication.getPrincipal();
         this.id = id;
         this.visibility = visibility;
