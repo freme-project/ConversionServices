@@ -80,10 +80,10 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken) {
             logger.debug("Find owned resources as ANONYMOUS USER");
-            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal(); //
+            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order order by id"; //
         }else {
             User authUser = (User) authentication.getPrincipal();
-            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal(); //
+            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order order by id"; //
         }
         return (List<Entity>)entityManager.createQuery(queryString).getResultList();
     }
