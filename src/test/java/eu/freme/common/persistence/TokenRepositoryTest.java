@@ -18,11 +18,8 @@
 package eu.freme.common.persistence;
 
 import eu.freme.common.persistence.dao.TokenDAO;
-import eu.freme.common.persistence.repository.TokenRepository;
-import eu.freme.common.persistence.repository.UserRepository;
 import eu.freme.common.persistence.dao.UserDAO;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +33,6 @@ import eu.freme.common.persistence.model.User;
 import javax.transaction.Transactional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -18,7 +18,6 @@
 package eu.freme.common.persistence.repository;
 
 import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.Template;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

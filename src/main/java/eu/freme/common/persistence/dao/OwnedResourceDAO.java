@@ -25,7 +25,6 @@ import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.vote.AbstractAccessDecisionManager;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -49,8 +48,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
 
     public void delete(Entity entity){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // DEBUG!!
-        //decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
+        decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         super.delete(entity);
     }
 
@@ -66,8 +64,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         if(result==null)
             throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // DEBUG!!
-        //decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
+        decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
         return result;
     }
 

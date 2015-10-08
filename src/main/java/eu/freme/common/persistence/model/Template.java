@@ -76,7 +76,7 @@ public class Template extends OwnedResource implements JsonSerializable {
     public void setTemplateWithModel(Model model){
         model.enterCriticalSection(false);
         try {
-            StmtIterator iter = model.listStatements((Resource) null, RDF.type, model.getResource("http://www.freme-project.eu/ns#Template"));
+            StmtIterator iter = model.listStatements(null, RDF.type, model.getResource("http://www.freme-project.eu/ns#Template"));
 
             // take first instance
             if(iter.hasNext()){

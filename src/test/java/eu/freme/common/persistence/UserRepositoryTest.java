@@ -17,16 +17,15 @@
  */
 package eu.freme.common.persistence;
 
-import java.util.Iterator;
-
-import eu.freme.common.persistence.repository.UserRepository;
-import org.junit.Ignore;
+import eu.freme.common.persistence.dao.UserDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import eu.freme.common.FREMECommonConfig;
 import eu.freme.common.persistence.model.User;
@@ -36,37 +35,33 @@ import eu.freme.common.persistence.model.User;
 public class UserRepositoryTest {
 
 	@Autowired
-	UserRepository userRepository;
-	
-	private int count(Iterable<User> itr){
-		Iterator<User> itr2 = itr.iterator();
-		int counter=0;
-		while(itr2.hasNext()){
-			counter++;
-			itr2.next();
-		}
-		return counter;
-	}
-	
+	UserDAO userDAO;
+
 	@Test
 	public void testUserRepository(){
 
 
-		int preexisting = count(userRepository.findAll());
-		System.out.println("Preexisting"+preexisting);
-		userRepository.save(new User("Juergen", "bla", User.roleUser));
-		userRepository.save(new User("Peter", "bla", User.roleUser));
-		userRepository.save(new User("Madeleine", "bla", User.roleAdmin));
+		long preexisting = userDAO.count();
+		userDAO.save(new User("Juergen", "bla", User.roleUser));
+		userDAO.save(new User("Peter", "bla", User.roleUser));
+		userDAO.save(new User("Madeleine", "bla", User.roleAdmin));
 		
-		User juergen = userRepository.findOneByName("Juergen");
+		User juergen = userDAO.getRepository().findOneByName("Juergen");
 		assertTrue(juergen!=null);
-		
-		int counter = count(userRepository.findAll());
+
 		// admin user is one more
-		assertTrue(counter==(preexisting+3));
-		
-		userRepository.delete(juergen);
-		counter = count(userRepository.findAll());
-		assertTrue(counter==(preexisting+2));
+		assertEquals(preexisting + 3, userDAO.count());
+
+		userDAO.delete(juergen);
+		assertEquals(preexisting + 2, userDAO.count());
+		User peter = userDAO.getRepository().findOneByName("Peter");
+		assertNotNull(peter);
+		User madeleine = userDAO.getRepository().findOneByName("Madeleine");
+		assertNotNull(madeleine);
+
+		userDAO.delete(peter);
+		userDAO.delete(madeleine);
+
+		assertEquals(preexisting,userDAO.count());
 	}
 }
