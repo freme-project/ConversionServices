@@ -40,6 +40,21 @@ public class Dataset extends OwnedResource{
         totalEntities = 0;
     }
 
+    public Dataset(Visibility visibility, String name, String description) {
+        super(-1, visibility);
+        this.name = name;
+        this.description = description;
+        creationTime = System.currentTimeMillis();
+        totalEntities = 0;
+    }
+    public Dataset(User owner, Visibility visibility, String name, String description) {
+        super(-1, owner, visibility);
+        this.name = name;
+        this.description = description;
+        creationTime = System.currentTimeMillis();
+        totalEntities = 0;
+    }
+
     public Dataset(){super();}
 
     private String name;
