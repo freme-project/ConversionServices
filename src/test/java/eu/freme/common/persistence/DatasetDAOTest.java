@@ -41,14 +41,17 @@ public class DatasetDAOTest {
         logger.info("create dataset");
         Dataset dataset = new Dataset(user, OwnedResource.Visibility.PUBLIC, "name", "description");
 
-        // does not work: the current session have to be authenticated for accessibility checks!
+        //// does not work: the current session has to be authenticated for accessibility checks!
         // datasetDAO.save(dataset);
-        // use this instead:
+        //// use this instead (but the id will not be set correctly, so we have to do it manually):
+        dataset.setId(1);
         datasetDAO.getRepository().save(dataset);
+        ////
+
         long id = dataset.getId();
         logger.info("id of saved dataset: "+id);
 
-        assertEquals(countBefore+1,datasetDAO.count());
+        assertEquals(countBefore + 1, datasetDAO.count());
 
         logger.info("fetch and check saved dataset");
         Dataset fetchedDataset = datasetDAO.getRepository().findOneById(id);
@@ -57,6 +60,7 @@ public class DatasetDAOTest {
         assertEquals(0, fetchedDataset.getTotalEntities());
         datasetDAO.getRepository().delete(fetchedDataset);
 
-        assertEquals(countBefore,datasetDAO.count());
+        logger.info("delete dataset");
+        assertEquals(countBefore, datasetDAO.count());
     }
 }
