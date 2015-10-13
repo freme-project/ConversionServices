@@ -17,6 +17,7 @@
  */
 package eu.freme.common.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -26,7 +27,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "pipeline")
 public class Pipeline extends OwnedResource {
+
+	@Column(length = 3000) 	// the default of 255 is too short
 	private String serializedRequests;
+
 	private boolean persist;	// true = persist forever; false = persist for (at least) one week.
 
 	public Pipeline() {}
