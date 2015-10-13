@@ -27,5 +27,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public interface OwnedResourceRepository<T extends OwnedResource> extends CrudRepository<T, Long> {
-    T findOneById(String name);
+    T findOneById(long id);
 }

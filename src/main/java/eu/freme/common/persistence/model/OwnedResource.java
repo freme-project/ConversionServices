@@ -57,7 +57,7 @@ public class OwnedResource implements Serializable {
     }
 
     @Id
-    private String id;
+    private long id;
 
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
     private User owner;
@@ -66,13 +66,13 @@ public class OwnedResource implements Serializable {
 
     public OwnedResource(){}
 
-    public OwnedResource(String id, User owner, Visibility visibility) {
+    public OwnedResource(long id, User owner, Visibility visibility) {
         this.id = id;
         this.owner = owner;
         this.visibility = visibility;
     }
 
-    public OwnedResource(String id, Visibility visibility) throws AccessDeniedException{
+    public OwnedResource(long id, Visibility visibility) throws AccessDeniedException{
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
@@ -99,11 +99,11 @@ public class OwnedResource implements Serializable {
         this.owner = owner;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

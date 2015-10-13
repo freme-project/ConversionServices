@@ -59,7 +59,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         super.save(entity);
     }
 
-    public Entity findOneById(String id){
+    public Entity findOneById(long id){
         Entity result = repository.findOneById(id);
         if(result==null)
             throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
@@ -87,10 +87,10 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken) {
             logger.debug("Find owned resources as ANONYMOUS USER");
-            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by cast(id as integer)"; //
+            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
         }else {
             User authUser = (User) authentication.getPrincipal();
-            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by cast(id as integer)"; //
+            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
         }
         return (List<Entity>)entityManager.createQuery(queryString).getResultList();
     }

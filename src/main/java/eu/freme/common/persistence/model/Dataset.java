@@ -25,10 +25,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dataset")
 public class Dataset extends OwnedResource{
-    public Dataset(String id, Visibility visibility) {
+    public Dataset(long id, Visibility visibility) {
         super(id, visibility);
     }
-    public Dataset(String id, User owner, Visibility visibility) {
+    public Dataset(long id, User owner, Visibility visibility) {
         super(id, owner, visibility);
     }
 

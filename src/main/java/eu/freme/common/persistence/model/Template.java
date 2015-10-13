@@ -64,7 +64,7 @@ public class Template extends OwnedResource {
     private Type type;
 
     public Template(User owner, Visibility visibility, Type type, String endpoint, String query, String label, String description) {
-        super(null, owner, visibility);
+        super(-1, owner, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
@@ -72,7 +72,7 @@ public class Template extends OwnedResource {
         this.type = type;
     }
     public Template(Visibility visibility, Type type, String endpoint, String query, String label, String description) {
-        super(null, visibility);
+        super(-1, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
@@ -81,13 +81,13 @@ public class Template extends OwnedResource {
     }
 
     public Template(User owner, Visibility visibility, Type type, Model model){
-        super(null, owner, visibility);
+        super(-1, owner, visibility);
         setTemplateWithModel(model);
         this.type = type;
     }
 
     public Template(Visibility visibility, Type type, Model model){
-        super(null, visibility);
+        super(-1, visibility);
         setTemplateWithModel(model);
         this.type = type;
     }
@@ -123,7 +123,7 @@ public class Template extends OwnedResource {
         try {
             Resource resource = result.createResource("http://www.freme-project.eu/data/templates/" + this.getId());
             result.add(resource, RDF.type, result.getResource("http://www.freme-project.eu/ns#Template"));
-            result.add(resource, result.getProperty("http://www.freme-project.eu/ns#templateId"), this.getId());
+            result.add(resource, result.getProperty("http://www.freme-project.eu/ns#templateId"), this.getId()+"");
             result.add(resource, result.getProperty("http://www.freme-project.eu/ns#query"), this.getQuery());
             result.add(resource, result.getProperty("http://www.freme-project.eu/ns#endpoint"), this.getEndpoint());
             result.add(resource, RDFS.label, this.getLabel());

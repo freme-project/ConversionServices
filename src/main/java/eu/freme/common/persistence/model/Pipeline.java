@@ -36,13 +36,13 @@ public class Pipeline extends OwnedResource {
 	public Pipeline() {}
 
 	public Pipeline(User owner, Visibility visibility, String serializedRequests, boolean persist) {
-		super(null, owner, visibility);
+		super(-1, owner, visibility);
 		this.serializedRequests = serializedRequests;
 		this.persist = persist;
 	}
 
 	public Pipeline(Visibility visibility, String serializedRequests, boolean persist) {
-		super(null, visibility);
+		super(-1, visibility);
 		this.serializedRequests = serializedRequests;
 		this.persist = persist;
 	}
