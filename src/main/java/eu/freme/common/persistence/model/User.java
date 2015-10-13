@@ -17,12 +17,11 @@
  */
 package eu.freme.common.persistence.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
@@ -42,14 +41,17 @@ public class User {
 
 	private String role;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Token> tokens;
 
-	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Dataset> datasets;
 
-	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Template> templates;
+
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+	private List<Pipeline> pipelines;
 
 	protected User() {
 	}
@@ -59,8 +61,10 @@ public class User {
 		this.password = password;
 		this.role = role;
 
-		tokens = new ArrayList<Token>();
-		datasets = new ArrayList<Dataset>();
+		tokens = new ArrayList<>();
+		datasets = new ArrayList<>();
+		pipelines = new ArrayList<>();
+		templates = new ArrayList<>();
 	}
 
 	@Override
@@ -107,6 +111,14 @@ public class User {
 	public List<Template> getTemplates() { return templates; }
 
 	public void setTemplates(List<Template> templates) { this.templates = templates; }
+
+	public List<Pipeline> getPipelines() {
+		return pipelines;
+	}
+
+	public void setPipelines(List<Pipeline> pipelines) {
+		this.pipelines = pipelines;
+	}
 
 	@Override
 	public boolean equals(Object o){

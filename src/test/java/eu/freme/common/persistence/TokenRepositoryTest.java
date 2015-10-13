@@ -17,18 +17,17 @@
  */
 package eu.freme.common.persistence;
 
+import eu.freme.common.FREMECommonConfig;
 import eu.freme.common.persistence.dao.TokenDAO;
 import eu.freme.common.persistence.dao.UserDAO;
+import eu.freme.common.persistence.model.Token;
+import eu.freme.common.persistence.model.User;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import eu.freme.common.FREMECommonConfig;
-import eu.freme.common.persistence.model.Token;
-import eu.freme.common.persistence.model.User;
 
 import javax.transaction.Transactional;
 
@@ -83,11 +82,12 @@ public class TokenRepositoryTest {
 		assertEquals(tokenCountBefore+1, tokenDAO.count());
 		assertEquals(userCountBefore+1, userDAO.count());
 		//tokenDAO.flushAndClear();
-		User userFromDb = userDAO.getRepository().findOneByName(user.getName());
+		//User userFromDb = userDAO.getRepository().findOneByName(user.getName());
 		//entityManager.flush();
 		logger.info("delete user, should delete token also");
 
-		userDAO.delete(userFromDb);
+		//userDAO.delete(userFromDb);
+		userDAO.delete(user);
 		logger.info("token count (after user delete): " + tokenDAO.count());
 
 		assertEquals(tokenCountBefore, tokenDAO.count());

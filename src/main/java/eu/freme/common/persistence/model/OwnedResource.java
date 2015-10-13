@@ -56,13 +56,13 @@ public class OwnedResource implements JsonSerializable {
     }
 
     @Id
-    public String id;
+    private String id;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
-    public User owner;
+    private User owner;
 
-    public Visibility visibility;
+    private Visibility visibility;
 
     public OwnedResource(){}
 
