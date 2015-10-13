@@ -46,7 +46,7 @@ public class OwnedResource implements JsonSerializable {
     public enum Visibility {
         PRIVATE,
         PUBLIC;
-        public static Visibility getByString(String value) throws Exception {
+        public static Visibility getByString(String value) throws BadRequestException {
             if(value!=null && value.toLowerCase().equals("private"))
                 return PRIVATE;
             if(value!=null && !value.toLowerCase().equals("public"))
