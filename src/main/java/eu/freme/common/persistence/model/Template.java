@@ -18,7 +18,6 @@
 package eu.freme.common.persistence.model;
 
 
-import com.fasterxml.jackson.databind.JsonSerializable;
 import com.google.common.base.Strings;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.vocabulary.DCTerms;
@@ -36,7 +35,7 @@ import java.io.IOException;
  */
 @Entity
 @Table(name = "template")
-public class Template extends OwnedResource implements JsonSerializable {
+public class Template extends OwnedResource {
 
     public enum Type {
         SPARQL, LDF;

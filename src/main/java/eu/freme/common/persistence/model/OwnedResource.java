@@ -46,7 +46,7 @@ public class OwnedResource implements JsonSerializable {
     public enum Visibility {
         PRIVATE,
         PUBLIC;
-        public static Visibility getByString(String value) throws Exception {
+        public static Visibility getByString(String value) throws BadRequestException {
             if(value!=null && value.toLowerCase().equals("private"))
                 return PRIVATE;
             if(value!=null && !value.toLowerCase().equals("public"))
@@ -56,13 +56,13 @@ public class OwnedResource implements JsonSerializable {
     }
 
     @Id
-    public String id;
+    private String id;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
-    public User owner;
+    private User owner;
 
-    public Visibility visibility;
+    private Visibility visibility;
 
     public OwnedResource(){}
 

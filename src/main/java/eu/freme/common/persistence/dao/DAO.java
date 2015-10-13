@@ -31,16 +31,15 @@ import javax.persistence.TransactionRequiredException;
 public class DAO<Repository  extends CrudRepository<Entity, Long>, Entity> {
 
     @PersistenceContext
-    EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Autowired
-    Repository repository;
+    protected Repository repository;
 
-    Logger logger = Logger.getLogger(DAO.class);
+    protected Logger logger = Logger.getLogger(this.getClass());
 
 
     public void delete(Entity entity){
-
         repository.delete(entity);
         flushAndClear();
     }

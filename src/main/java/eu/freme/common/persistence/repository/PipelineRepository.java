@@ -15,20 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence.dao;
+package eu.freme.common.persistence.repository;
 
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.repository.UserRepository;
-import org.springframework.stereotype.Component;
+import eu.freme.common.persistence.model.Pipeline;
 
 /**
- * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
+ * <p>Copyright 2015 MMLab, UGent</p>
+ *
+ * @author Gerald Haesendonck
  */
-@Component
-public class UserDAO extends DAO<UserRepository, User> {
-
-    public void delete(User entity){
-        User user = repository.findOneByName(entity.getName());
-        super.delete(user);
-    }
+public interface PipelineRepository extends OwnedResourceRepository<Pipeline> {
 }
