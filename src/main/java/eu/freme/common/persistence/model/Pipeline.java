@@ -37,6 +37,12 @@ public class Pipeline extends OwnedResource {
 		this.persist = persist;
 	}
 
+	public Pipeline(Visibility visibility, String serializedRequests, boolean persist) {
+		super(null, visibility);
+		this.serializedRequests = serializedRequests;
+		this.persist = persist;
+	}
+
 	public String getSerializedRequests() {
 		return serializedRequests;
 	}
