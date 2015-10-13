@@ -35,13 +35,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @author Jonathan Sauder jsauder@campus.tu-berlin.de
  */
 
 @MappedSuperclass
-public class OwnedResource implements JsonSerializable {
+public class OwnedResource implements Serializable {
 
     public enum Visibility {
         PRIVATE,
@@ -58,7 +59,6 @@ public class OwnedResource implements JsonSerializable {
     @Id
     private String id;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
     private User owner;
 
@@ -111,17 +111,4 @@ public class OwnedResource implements JsonSerializable {
         return "OwnedResource[id="+id+", owner="+owner.toString()+", visibility="+ visibility.toString()+"]";
     }
 
-    @Override
-    public void serialize(com.fasterxml.jackson.core.JsonGenerator jsonGenerator, com.fasterxml.jackson.databind.SerializerProvider serializerProvider) throws IOException, com.fasterxml.jackson.core.JsonProcessingException {
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeStringField("id", this.getId());
-        jsonGenerator.writeStringField("owner", this.getOwner().getName());
-        jsonGenerator.writeStringField("visibility", this.getVisibility().name());
-        jsonGenerator.writeEndObject();
-    }
-
-    @Override
-    public void serializeWithType(JsonGenerator jsonGenerator, SerializerProvider serializerProvider, TypeSerializer typeSerializer) throws IOException, JsonProcessingException {
-
-    }
 }

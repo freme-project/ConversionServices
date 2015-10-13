@@ -41,15 +41,19 @@ public class User {
 
 	private String role;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Token> tokens;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Dataset> datasets;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Template> templates;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Pipeline> pipelines;
 

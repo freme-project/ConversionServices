@@ -18,12 +18,14 @@
 package eu.freme.common.persistence.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import eu.freme.common.exception.BadRequestException;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -33,6 +35,7 @@ import java.io.IOException;
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */
+@Component
 @Entity
 @Table(name = "template")
 public class Template extends OwnedResource {
@@ -112,6 +115,7 @@ public class Template extends OwnedResource {
         }
     }
 
+    @JsonIgnore
     public Model getRDF(){
         Model result = ModelFactory.createDefaultModel();
         result.enterCriticalSection(false);
@@ -172,25 +176,4 @@ public class Template extends OwnedResource {
         this.type = type;
     }
 
-    @Override
-    public void serialize(com.fasterxml.jackson.core.JsonGenerator jsonGenerator, com.fasterxml.jackson.databind.SerializerProvider serializerProvider) throws IOException, com.fasterxml.jackson.core.JsonProcessingException {
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeStringField("id", this.getId());
-        jsonGenerator.writeStringField("owner", this.getOwner().getName());
-        jsonGenerator.writeStringField("visibility", this.getVisibility().name());
-        jsonGenerator.writeStringField("type", this.getType().name());
-        jsonGenerator.writeStringField("endpoint", this.getEndpoint());
-        jsonGenerator.writeStringField("query", this.getQuery());
-        jsonGenerator.writeStringField("label", this.getLabel());
-        jsonGenerator.writeStringField("description", this.getDescription());
-        jsonGenerator.writeEndObject();
-    }
-
-    @Override
-    public void serializeWithType(com.fasterxml.jackson.core.JsonGenerator jsonGenerator, com.fasterxml.jackson.databind.SerializerProvider serializerProvider, com.fasterxml.jackson.databind.jsontype.TypeSerializer typeSerializer) throws IOException, com.fasterxml.jackson.core.JsonProcessingException {
-        /*typeSerializer.writeTypePrefixForScalar(this, jsonGenerator, Template.class);
-        serialize(value, jsonGenerator, serializerProvider);
-        typeSerializer.writeTypeSuffixForScalar(this, jsonGenerator);
-        */
-    }
 }
