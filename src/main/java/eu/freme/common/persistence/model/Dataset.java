@@ -25,13 +25,59 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dataset")
 public class Dataset extends OwnedResource{
-    public Dataset(long id, Visibility visibility) {
+    public Dataset(long id, Visibility visibility, String name, String description) {
         super(id, visibility);
+        this.name = name;
+        this.description = description;
+        creationTime = System.currentTimeMillis();
+        totalEntities = 0;
     }
-    public Dataset(long id, User owner, Visibility visibility) {
+    public Dataset(long id, User owner, Visibility visibility, String name, String description) {
         super(id, owner, visibility);
+        this.name = name;
+        this.description = description;
+        creationTime = System.currentTimeMillis();
+        totalEntities = 0;
     }
 
     public Dataset(){super();}
+
+    private String name;
+
+    @Lob
+    private String description;
+
+    private int totalEntities;
+
+    private long creationTime;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getTotalEntities() {
+        return totalEntities;
+    }
+
+    public void setTotalEntities(int totalEntities) {
+        this.totalEntities = totalEntities;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
 }
 

@@ -33,17 +33,10 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 		return Pipeline.class.getSimpleName();
 	}
 
-	private synchronized long getNewId() {
+	@Override
+	protected synchronized long getNewId() {
 		long currentTime = System.currentTimeMillis();
 		return currentTime;
-	}
-
-	@Override
-	public void save(Pipeline pipeline) {
-		if (pipeline.getId() < 0) {
-			pipeline.setId(getNewId());
-		}
-		super.save(pipeline);
 	}
 
 	/**

@@ -29,19 +29,16 @@ public class TemplateSerializationTest {
     private Logger logger = Logger.getLogger(TemplateSerializationTest.class);
 
     @Test
-    public void templateSerialization() {
+    public void templateSerialization() throws Exception {
         User owner = new User("name", "password", User.roleUser);
         Template template = new Template(owner,OwnedResource.Visibility.PUBLIC, Template.Type.SPARQL,"endpoint","query","label","description");
 
         ObjectMapper om = new ObjectMapper();
         //om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);;
         ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
-        try {
-            String serialization = ow.writeValueAsString(template);
-            logger.info(serialization);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        String serialization = ow.writeValueAsString(template);
+        logger.info(serialization);
+
 
     }
 }

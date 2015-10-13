@@ -28,33 +28,9 @@ import java.util.Iterator;
 @Component
 public class TemplateDAO extends OwnedResourceDAO<Template> {
 
-    public long getNewId() {
-        long newId = 0;
-        if(repository.count()>0) {
-            Iterator results = entityManager.createQuery("select max(template.id) from Template template").getResultList().iterator();
-            if (results.hasNext()) {
-                //String result = results.next();
-                newId = (long)results.next();
-            }else{
-                logger.error("Could not determine the maximal template id value");
-            }
-        }
-        newId++;
-        logger.debug("template newId: "+newId);
-        return newId;
-    }
-
     @Override
     public String className() {
         return Template.class.getSimpleName();
-    }
-
-    public void save(Template template){
-        // is it a new one?
-        if(template.getId() < 0){
-            template.setId(getNewId());
-        }
-        super.save(template);
     }
 
 }
