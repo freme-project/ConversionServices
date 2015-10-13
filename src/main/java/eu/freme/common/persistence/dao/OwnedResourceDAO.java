@@ -68,6 +68,13 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return result;
     }
 
+    public void updateOwner(Entity entity, User newOwner){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
+        entity.setOwner(newOwner);
+        super.save(entity);
+    }
+
     @SuppressWarnings("unchecked")
 	public List<Entity> findAllReadAccessible(){
         if(repository.count()==0)
