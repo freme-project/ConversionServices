@@ -62,5 +62,6 @@ public class DatasetDAOTest {
 
         logger.info("delete dataset");
         assertEquals(countBefore, datasetDAO.count());
+        userDAO.delete(user);
     }
 }
