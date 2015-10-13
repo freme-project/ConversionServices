@@ -176,8 +176,9 @@ public class Template extends OwnedResource {
     public void serialize(com.fasterxml.jackson.core.JsonGenerator jsonGenerator, com.fasterxml.jackson.databind.SerializerProvider serializerProvider) throws IOException, com.fasterxml.jackson.core.JsonProcessingException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("id", this.getId());
-        jsonGenerator.writeStringField("type", this.getType().name());
+        jsonGenerator.writeStringField("owner", this.getOwner().getName());
         jsonGenerator.writeStringField("visibility", this.getVisibility().name());
+        jsonGenerator.writeStringField("type", this.getType().name());
         jsonGenerator.writeStringField("endpoint", this.getEndpoint());
         jsonGenerator.writeStringField("query", this.getQuery());
         jsonGenerator.writeStringField("label", this.getLabel());
