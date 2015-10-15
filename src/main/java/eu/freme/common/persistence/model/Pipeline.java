@@ -81,13 +81,17 @@ public class Pipeline extends OwnedResource {
 		Pipeline pipeline = (Pipeline) o;
 
 		if (persist != pipeline.persist) return false;
+		if (!label.equals(pipeline.label)) return false;
+		if (!description.equals(pipeline.description)) return false;
 		return serializedRequests.equals(pipeline.serializedRequests);
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = serializedRequests.hashCode();
+		int result = label.hashCode();
+		result = 31 * result + description.hashCode();
+		result = 31 * result + serializedRequests.hashCode();
 		result = 31 * result + (persist ? 1 : 0);
 		return result;
 	}
