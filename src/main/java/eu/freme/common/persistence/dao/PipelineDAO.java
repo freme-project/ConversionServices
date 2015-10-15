@@ -35,8 +35,7 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 
 	@Override
 	protected synchronized long getNewId() {
-		long currentTime = System.currentTimeMillis();
-		return currentTime;
+		return System.currentTimeMillis();
 	}
 
 	/**
@@ -50,8 +49,7 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 		// collect pipelines older than one week
 		for (Pipeline pipeline : repository.findAll()) {
 			if (!pipeline.isPersistent()) {
-				long id = pipeline.getId();
-				long creationTime = id;
+				long creationTime = pipeline.getId();
 				if (currentTime - oneWeek > creationTime) {
 					pipelinesToDelete.add(pipeline);
 				}

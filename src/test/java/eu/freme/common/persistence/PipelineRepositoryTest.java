@@ -73,13 +73,13 @@ public class PipelineRepositoryTest {
 		assertTrue(userDAO.findAll().iterator().hasNext());
 
 		logger.info("Create pipeline");
-		Pipeline pipeline = new Pipeline(user, OwnedResource.Visibility.PRIVATE, "first no real pipeline", false);
+		Pipeline pipeline = new Pipeline(user, OwnedResource.Visibility.PRIVATE, "label1", "description1", "first no real pipeline", false);
 		pipelineDAO.save(pipeline);
 		assertTrue(pipelineDAO.findAll().iterator().hasNext());
 		logger.info("Pipeline count: " + pipelineDAO.count());
 
 		logger.info("create 2nd pipeline");
-		Pipeline pipeline2 = new Pipeline(user, OwnedResource.Visibility.PUBLIC, "second no real pipeline", true);
+		Pipeline pipeline2 = new Pipeline(user, OwnedResource.Visibility.PUBLIC, "label2", "description2", "second no real pipeline", true);
 		pipelineDAO.save(pipeline2);
 		assertEquals(pipelineCountBefore + 2, pipelineDAO.count());
 

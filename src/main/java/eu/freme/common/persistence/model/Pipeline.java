@@ -27,7 +27,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "pipeline")
 public class Pipeline extends OwnedResource {
-
+	private String label;
+	@Lob
+	private String description;
 	@Lob
 	private String serializedRequests;
 
@@ -35,14 +37,18 @@ public class Pipeline extends OwnedResource {
 
 	public Pipeline() {}
 
-	public Pipeline(User owner, Visibility visibility, String serializedRequests, boolean persist) {
+	public Pipeline(final User owner, final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
 		super(-1, owner, visibility);
+		this.label = label;
+		this.description = description;
 		this.serializedRequests = serializedRequests;
 		this.persist = persist;
 	}
 
-	public Pipeline(Visibility visibility, String serializedRequests, boolean persist) {
+	public Pipeline(final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
 		super(-1, visibility);
+		this.label = label;
+		this.description = description;
 		this.serializedRequests = serializedRequests;
 		this.persist = persist;
 	}
@@ -53,6 +59,14 @@ public class Pipeline extends OwnedResource {
 
 	public void setSerializedRequests(String serializedRequests) {
 		this.serializedRequests = serializedRequests;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public boolean isPersistent() {
