@@ -35,6 +35,7 @@ public class Pipeline extends OwnedResource {
 
 	private boolean persist;	// true = persist forever; false = persist for (at least) one week.
 
+	@SuppressWarnings("unused")
 	public Pipeline() {}
 
 	public Pipeline(final User owner, final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
@@ -45,6 +46,7 @@ public class Pipeline extends OwnedResource {
 		this.persist = persist;
 	}
 
+	@SuppressWarnings("unused")
 	public Pipeline(final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
 		super(-1, visibility);
 		this.label = label;
@@ -53,22 +55,42 @@ public class Pipeline extends OwnedResource {
 		this.persist = persist;
 	}
 
+	@SuppressWarnings("unused")
 	public String getSerializedRequests() {
 		return serializedRequests;
 	}
 
+	@SuppressWarnings("unused")
 	public void setSerializedRequests(String serializedRequests) {
 		this.serializedRequests = serializedRequests;
 	}
 
+	@SuppressWarnings("unused")
 	public String getLabel() {
 		return label;
 	}
 
+	@SuppressWarnings("unused")
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	@SuppressWarnings("unused")
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@SuppressWarnings("unused")
+	public void setPersist(boolean persist) {
+		this.persist = persist;
+	}
+
+	@SuppressWarnings("unused")
 	public String getDescription() {
 		return description;
 	}
 
+	@SuppressWarnings("unused")
 	public boolean isPersistent() {
 		return persist;
 	}
