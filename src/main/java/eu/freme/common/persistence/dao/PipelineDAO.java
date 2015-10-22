@@ -33,11 +33,6 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 		return Pipeline.class.getSimpleName();
 	}
 
-	@Override
-	protected synchronized long getNewId() {
-		return System.currentTimeMillis();
-	}
-
 	/**
 	 * Deletes pipelines that are older than one week.
 	 */
