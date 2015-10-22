@@ -29,14 +29,12 @@ public class Dataset extends OwnedResource{
         super(id, visibility);
         this.name = name;
         this.description = description;
-        creationTime = System.currentTimeMillis();
         totalEntities = 0;
     }
     public Dataset(long id, User owner, Visibility visibility, String name, String description) {
         super(id, owner, visibility);
         this.name = name;
         this.description = description;
-        creationTime = System.currentTimeMillis();
         totalEntities = 0;
     }
 
@@ -44,14 +42,12 @@ public class Dataset extends OwnedResource{
         super(-1, visibility);
         this.name = name;
         this.description = description;
-        creationTime = System.currentTimeMillis();
         totalEntities = 0;
     }
     public Dataset(User owner, Visibility visibility, String name, String description) {
         super(-1, owner, visibility);
         this.name = name;
         this.description = description;
-        creationTime = System.currentTimeMillis();
         totalEntities = 0;
     }
 
@@ -63,8 +59,6 @@ public class Dataset extends OwnedResource{
     private String description;
 
     private int totalEntities;
-
-    private long creationTime;
 
     public String getName() {
         return name;
@@ -88,10 +82,6 @@ public class Dataset extends OwnedResource{
 
     public void setTotalEntities(int totalEntities) {
         this.totalEntities = totalEntities;
-    }
-
-    public long getCreationTime() {
-        return creationTime;
     }
 
 }

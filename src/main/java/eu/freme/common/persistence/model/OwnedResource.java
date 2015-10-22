@@ -59,6 +59,8 @@ public class OwnedResource implements Serializable {
     @Id
     private long id;
 
+    private long creationTime;
+
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
     private User owner;
 
@@ -67,6 +69,7 @@ public class OwnedResource implements Serializable {
     public OwnedResource(){}
 
     public OwnedResource(long id, User owner, Visibility visibility) {
+        this.creationTime = System.currentTimeMillis();
         this.id = id;
         this.owner = owner;
         this.visibility = visibility;
@@ -80,6 +83,7 @@ public class OwnedResource implements Serializable {
         this.owner = (User) authentication.getPrincipal();
         this.id = id;
         this.visibility = visibility;
+        this.creationTime = System.currentTimeMillis();
     }
 
     public Visibility getVisibility() {
@@ -105,6 +109,10 @@ public class OwnedResource implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
     }
 
     public String toString(){
