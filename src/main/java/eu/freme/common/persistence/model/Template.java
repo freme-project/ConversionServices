@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import java.io.IOException;
 
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
@@ -49,7 +48,7 @@ public class Template extends OwnedResource {
                 return SPARQL;
             if(type.toLowerCase().equals("ldf"))
                 return LDF;
-            throw new BadRequestException("Wrong value for type = \""+"\". Should be \"sparql\" or \"ldf\"");
+            throw new BadRequestException("Wrong value for endpointType = \""+"\". Should be \"sparql\" or \"ldf\"");
         }
     }
 
@@ -62,42 +61,42 @@ public class Template extends OwnedResource {
     @Lob
     private String description;
 
-    private Type type;
+    private Type endpointType;
 
-    public Template(User owner, Visibility visibility, Type type, String endpoint, String query, String label, String description) {
+    public Template(User owner, Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
         super(-1, owner, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
         this.description = description;
-        this.type = type;
+        this.endpointType = endpointType;
     }
-    public Template(Visibility visibility, Type type, String endpoint, String query, String label, String description) {
+    public Template(Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
         super(-1, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
         this.description = description;
-        this.type = type;
+        this.endpointType = endpointType;
     }
 
-    public Template(User owner, Visibility visibility, Type type, Model model){
+    public Template(User owner, Visibility visibility, Type endpointType, Model model){
         super(-1, owner, visibility);
         setTemplateWithModel(model);
-        this.type = type;
+        this.endpointType = endpointType;
     }
 
-    public Template(Visibility visibility, Type type, Model model){
+    public Template(Visibility visibility, Type endpointType, Model model){
         super(-1, visibility);
         setTemplateWithModel(model);
-        this.type = type;
+        this.endpointType = endpointType;
     }
 
     public Template(JSONObject newData){
-        super(-1, OwnedResource.Visibility.getByString(newData.getString("visibility")));
+        super(-1, OwnedResource.Visibility.getByString(newData.has("visibility")?newData.getString("visibility"):null));
         update(newData);
-        // set default, if key "type" was not in newData
-        this.type = Type.getByString(newData.getString("endpoint"));
+        // set default, if key "endpointType" was not in newData
+        this.endpointType = Type.getByString(newData.has("endpointType")?newData.getString("endpointType"):null);
     }
 
     public Template(){super();}
@@ -132,8 +131,8 @@ public class Template extends OwnedResource {
             this.label = newData.getString("label");
         if(newData.has("description"))
             this.description = newData.getString("description");
-        if(newData.has("type"))
-            this.type = Type.getByString(newData.getString("type"));
+        if(newData.has("endpointType"))
+            this.endpointType = Type.getByString(newData.getString("endpointType"));
         if(newData.has("visibility"))
             this.setVisibility(Visibility.getByString(newData.getString("visibility")));
     }
@@ -191,12 +190,12 @@ public class Template extends OwnedResource {
         this.description = description;
     }
 
-    public Type getType() {
-        return type;
+    public Type getEndpointType() {
+        return endpointType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setEndpointType(Type type) {
+        this.endpointType = type;
     }
 
 }
