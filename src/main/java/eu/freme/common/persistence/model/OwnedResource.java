@@ -30,10 +30,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -57,6 +54,7 @@ public class OwnedResource implements Serializable {
     }
 
     @Id
+    @GeneratedValue
     private long id;
 
     private long creationTime;
@@ -68,20 +66,18 @@ public class OwnedResource implements Serializable {
 
     public OwnedResource(){}
 
-    public OwnedResource(long id, User owner, Visibility visibility) {
+    public OwnedResource(User owner, Visibility visibility) {
         this.creationTime = System.currentTimeMillis();
-        this.id = id;
         this.owner = owner;
         this.visibility = visibility;
     }
 
-    public OwnedResource(long id, Visibility visibility) throws AccessDeniedException{
+    public OwnedResource(Visibility visibility) throws AccessDeniedException{
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
             throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
         this.owner = (User) authentication.getPrincipal();
-        this.id = id;
         this.visibility = visibility;
         this.creationTime = System.currentTimeMillis();
     }

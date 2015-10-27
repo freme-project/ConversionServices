@@ -64,7 +64,7 @@ public class Template extends OwnedResource {
     private Type endpointType;
 
     public Template(User owner, Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
-        super(-1, owner, visibility);
+        super(owner, visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
@@ -72,7 +72,7 @@ public class Template extends OwnedResource {
         this.endpointType = endpointType;
     }
     public Template(Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
-        super(-1, visibility);
+        super(visibility);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
@@ -81,19 +81,19 @@ public class Template extends OwnedResource {
     }
 
     public Template(User owner, Visibility visibility, Type endpointType, Model model){
-        super(-1, owner, visibility);
+        super(owner, visibility);
         setTemplateWithModel(model);
         this.endpointType = endpointType;
     }
 
     public Template(Visibility visibility, Type endpointType, Model model){
-        super(-1, visibility);
+        super(visibility);
         setTemplateWithModel(model);
         this.endpointType = endpointType;
     }
 
     public Template(JSONObject newData){
-        super(-1, OwnedResource.Visibility.getByString(newData.has("visibility")?newData.getString("visibility"):null));
+        super(OwnedResource.Visibility.getByString(newData.has("visibility")?newData.getString("visibility"):null));
         update(newData);
         // set default, if key "endpointType" was not in newData
         this.endpointType = Type.getByString(newData.has("endpointType")?newData.getString("endpointType"):null);

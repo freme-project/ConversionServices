@@ -53,26 +53,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         super.delete(entity);
     }
 
-    protected long getNewId() {
-        long newId = 0;
-        if(repository.count()>0) {
-            Iterator results = entityManager.createQuery("select max(resource.id) from "+className()+" resource").getResultList().iterator();
-            if (results.hasNext()) {
-                newId = (long)results.next();
-            }else{
-                logger.error("Could not determine the maximal "+className()+" id value");
-            }
-        }
-        newId++;
-        logger.debug(className()+" newId: "+newId);
-        return newId;
-    }
-
     public void save(Entity entity){
-        // is it a new one?
-        if(entity.getId() < 0){
-            entity.setId(getNewId());
-        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         super.save(entity);

@@ -39,7 +39,7 @@ public class Pipeline extends OwnedResource {
 	public Pipeline() {}
 
 	public Pipeline(final User owner, final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
-		super(-1, owner, visibility);
+		super(owner, visibility);
 		this.label = label;
 		this.description = description;
 		this.serializedRequests = serializedRequests;
@@ -48,7 +48,7 @@ public class Pipeline extends OwnedResource {
 
 	@SuppressWarnings("unused")
 	public Pipeline(final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
-		super(-1, visibility);
+		super(visibility);
 		this.label = label;
 		this.description = description;
 		this.serializedRequests = serializedRequests;
