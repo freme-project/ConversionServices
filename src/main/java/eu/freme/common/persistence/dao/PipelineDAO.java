@@ -44,7 +44,7 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 		// collect pipelines older than one week
 		for (Pipeline pipeline : repository.findAll()) {
 			if (!pipeline.isPersistent()) {
-				long creationTime = pipeline.getId();
+				long creationTime = pipeline.getCreationTime();
 				if (currentTime - oneWeek > creationTime) {
 					pipelinesToDelete.add(pipeline);
 				}
