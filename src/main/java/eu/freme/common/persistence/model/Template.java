@@ -25,6 +25,7 @@ import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import eu.freme.common.exception.BadRequestException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
@@ -92,6 +93,13 @@ public class Template extends OwnedResource {
         this.type = type;
     }
 
+    public Template(JSONObject newData){
+        super(-1, OwnedResource.Visibility.getByString(newData.getString("visibility")));
+        update(newData);
+        // set default, if key "type" was not in newData
+        this.type = Type.getByString(newData.getString("endpoint"));
+    }
+
     public Template(){super();}
 
 
@@ -113,6 +121,21 @@ public class Template extends OwnedResource {
         } finally {
             model.leaveCriticalSection();
         }
+    }
+
+    public void update(JSONObject newData){
+        if(newData.has("endpoint"))
+            this.endpoint = newData.getString("endpoint");
+        if(newData.has("query"))
+            this.query = newData.getString("query");
+        if(newData.has("label"))
+            this.label = newData.getString("label");
+        if(newData.has("description"))
+            this.description = newData.getString("description");
+        if(newData.has("type"))
+            this.type = Type.getByString(newData.getString("type"));
+        if(newData.has("visibility"))
+            this.setVisibility(Visibility.getByString(newData.getString("visibility")));
     }
 
     @JsonIgnore
