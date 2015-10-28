@@ -54,8 +54,8 @@ public class DAO<Repository  extends CrudRepository<Entity, Long>, Entity> {
     }
 
 
-    public void save(Entity entity){
-        repository.save(entity);
+    public Entity save(Entity entity){
+        return repository.save(entity);
         //entityManager.flush();
         //entityManager.clear();
     }

@@ -23,7 +23,6 @@ import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.vote.AbstractAccessDecisionManager;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -31,7 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,10 +51,10 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         super.delete(entity);
     }
 
-    public void save(Entity entity){
+    public Entity save(Entity entity){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
-        super.save(entity);
+        return super.save(entity);
     }
 
     public Entity findOneById(long id){
@@ -68,11 +66,11 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return result;
     }
 
-    public void updateOwner(Entity entity, User newOwner){
+    public Entity updateOwner(Entity entity, User newOwner){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         entity.setOwner(newOwner);
-        super.save(entity);
+        return super.save(entity);
     }
 
     @SuppressWarnings("unchecked")

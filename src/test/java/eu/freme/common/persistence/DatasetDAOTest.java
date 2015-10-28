@@ -37,7 +37,7 @@ public class DatasetDAOTest {
 
         logger.info("create user and save it");
         User user = new User("hallo", "welt", User.roleUser);
-        userDAO.save(user);
+        user = userDAO.save(user);
         logger.info("create dataset");
         Dataset dataset = new Dataset(user, OwnedResource.Visibility.PUBLIC, "name", "description");
 

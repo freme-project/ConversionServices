@@ -4,7 +4,6 @@ import eu.freme.common.FREMECommonConfig;
 import eu.freme.common.persistence.dao.DatasetSimpleDAO;
 import eu.freme.common.persistence.model.DatasetSimple;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class DatasetSimpleDAOTest {
         long count = datasetSimpleDAO.count();
         logger.info("new Dataset id before save: "+dataset.getId());
         dataset.setName("TEST");
-        datasetSimpleDAO.save(dataset);
+        dataset = datasetSimpleDAO.save(dataset);
 
         logger.info("new Dataset id after save: "+dataset.getId());
         assertEquals(count+1,datasetSimpleDAO.count());

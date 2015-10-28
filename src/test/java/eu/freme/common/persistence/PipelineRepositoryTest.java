@@ -63,7 +63,7 @@ public class PipelineRepositoryTest {
 
 		logger.info("Create user");
 		User user = new User("hallo", "wereld", User.roleUser);
-		userDAO.save(user);
+		user = userDAO.save(user);
 
 		AuthenticationManager am = new SampleAuthenticationManager();
 		Authentication request = new UsernamePasswordAuthenticationToken(user, user.getPassword());
@@ -74,13 +74,13 @@ public class PipelineRepositoryTest {
 
 		logger.info("Create pipeline");
 		Pipeline pipeline = new Pipeline(user, OwnedResource.Visibility.PRIVATE, "label1", "description1", "first no real pipeline", false);
-		pipelineDAO.save(pipeline);
+		pipeline = pipelineDAO.save(pipeline);
 		assertTrue(pipelineDAO.findAll().iterator().hasNext());
 		logger.info("Pipeline count: " + pipelineDAO.count());
 
 		logger.info("create 2nd pipeline");
 		Pipeline pipeline2 = new Pipeline(user, OwnedResource.Visibility.PUBLIC, "label2", "description2", "second no real pipeline", true);
-		pipelineDAO.save(pipeline2);
+		pipeline = pipelineDAO.save(pipeline2);
 		assertEquals(pipelineCountBefore + 2, pipelineDAO.count());
 
 		Pipeline pipeline1FromStore = pipelineDAO.findOneById(pipeline.getId());

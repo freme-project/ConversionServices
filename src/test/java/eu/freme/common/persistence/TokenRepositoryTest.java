@@ -56,10 +56,10 @@ public class TokenRepositoryTest {
 
 		logger.info("create user and token");
 		User user = new User("hallo", "welt", User.roleUser);
-		userDAO.save(user);
+		user = userDAO.save(user);
 
 		Token token = new Token("t1", user);
-		tokenDAO.save(token);
+		token = tokenDAO.save(token);
 
 		assertTrue(tokenDAO.findAll().iterator().hasNext());
 		assertTrue(userDAO.findAll().iterator().hasNext());
@@ -71,7 +71,7 @@ public class TokenRepositoryTest {
 		logger.info("token count: " + tokenDAO.count());
 		logger.info("create 2nd token and delete 1st");
 		Token token2 = new Token("t2", user);
-		tokenDAO.save(token2);
+		token = tokenDAO.save(token2);
 		logger.info("token count (before delete): " + tokenDAO.count());
 		assertEquals((long) 2, tokenDAO.count());
 		tokenDAO.delete(token);
