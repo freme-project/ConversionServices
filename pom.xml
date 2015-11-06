@@ -174,9 +174,9 @@ Istituto Superiore Mario Boella, Tilde, Vistatec, WRIPL
 	</repositories>
 
 	<scm>
-		<connection>scm:git:git@github.com:freme-project/ConversionServices.git</connection>
-		<url>scm:git:git@github.com/freme-project:ConversionServices.git</url>
-		<developerConnection>scm:git:git@github.com:freme-project/ConversionServices.git</developerConnection>
+		<connection>scm:git:git@github.com:freme-project/FREMECommon.git</connection>
+		<url>scm:git:git@github.com/freme-project:FREMECommon.git</url>
+		<developerConnection>scm:git:git@github.com:freme-project/FREMECommon.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 </project>
