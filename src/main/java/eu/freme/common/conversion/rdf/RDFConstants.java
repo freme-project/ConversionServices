@@ -35,7 +35,8 @@ public class RDFConstants {
 		RDF_XML("application/rdf+xml"),
 		N3("text/n3"),
 		N_TRIPLES("application/n-triples"),
-		JSON("application/json");
+		JSON("application/json"),
+		HTML("text/html");
 
 		private final String contentType;
 
@@ -86,6 +87,8 @@ public class RDFConstants {
 					return  "text/n3";
 				case PLAINTEXT:
 					return  "text/plain";
+				case HTML:
+					return  "text/html";
 			}
 			throw new UnknownFormatConversionException("unkown RDFSerialization: "+ this);
 		}

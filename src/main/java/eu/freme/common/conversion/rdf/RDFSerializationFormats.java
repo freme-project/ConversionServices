@@ -24,7 +24,7 @@ import java.util.HashMap;
  *
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class RDFSerializationFormats extends
 		HashMap<String, RDFConstants.RDFSerialization> {
 
@@ -52,5 +52,8 @@ public class RDFSerializationFormats extends
 
 		put("json", RDFConstants.RDFSerialization.JSON);
 		put("application/json", RDFConstants.RDFSerialization.JSON);
+
+		put("html", RDFConstants.RDFSerialization.HTML);
+		put("text/html", RDFConstants.RDFSerialization.HTML);
 	}
 }
