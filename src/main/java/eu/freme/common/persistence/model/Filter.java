@@ -38,14 +38,14 @@ public class Filter extends OwnedResource {
         this.queryString = queryString;
     }
 
-    Model getFilteredModel(Model model){
+    public Model getFilteredModel(Model model){
         if(query==null)
             setQuery();
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         return qe.execConstruct();
     }
 
-    ResultSet getFilteredResultSet(Model model){
+    public ResultSet getFilteredResultSet(Model model){
         if(query==null)
             setQuery();
         QueryExecution qe = QueryExecutionFactory.create(query, model);
