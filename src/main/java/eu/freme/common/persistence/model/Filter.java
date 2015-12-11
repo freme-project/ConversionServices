@@ -26,6 +26,12 @@ public class Filter extends OwnedResource {
         this.query = QueryFactory.create(queryString);
     }
 
+    Filter(String name, String queryString){
+        super(Visibility.PUBLIC);
+        this.name = name;
+        this.query = QueryFactory.create(queryString);
+    }
+
     Model getFilteredModel(Model model){
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         return qe.execConstruct();
