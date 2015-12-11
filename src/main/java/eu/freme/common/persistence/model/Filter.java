@@ -5,7 +5,9 @@ import com.hp.hpl.jena.rdf.model.Model;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by Arne on 11.12.2015.
@@ -15,7 +17,11 @@ import javax.persistence.Table;
 @Table(name = "filter")
 public class Filter extends OwnedResource {
 
+    @Transient
     Query query;
+
+    @Lob
+    String queryString;
     String name;
 
     Filter(){super();}
@@ -23,25 +29,32 @@ public class Filter extends OwnedResource {
     Filter(Visibility visibility, String name, String queryString){
         super(visibility);
         this.name = name;
-        this.query = QueryFactory.create(queryString);
+        this.queryString = queryString;
     }
 
     Filter(String name, String queryString){
         super(Visibility.PUBLIC);
         this.name = name;
-        this.query = QueryFactory.create(queryString);
+        this.queryString = queryString;
     }
 
     Model getFilteredModel(Model model){
+        if(query==null)
+            setQuery();
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         return qe.execConstruct();
     }
 
     ResultSet getFilteredResultSet(Model model){
+        if(query==null)
+            setQuery();
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         return qe.execSelect();
     }
 
+    private void setQuery(){
+        this.query = QueryFactory.create(queryString);
+    }
 
     public String getName() {
         return name;
@@ -51,11 +64,4 @@ public class Filter extends OwnedResource {
         this.name = name;
     }
 
-    public Query getQuery() {
-        return query;
-    }
-
-    public void setQuery(Query query) {
-        this.query = query;
-    }
 }
