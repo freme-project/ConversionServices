@@ -1,5 +1,6 @@
 package eu.freme.common.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Model;
 import org.springframework.stereotype.Component;
@@ -17,43 +18,42 @@ import javax.persistence.Transient;
 @Table(name = "filter")
 public class Filter extends OwnedResource {
 
+    @JsonIgnore
     @Transient
-    Query query;
+    Query jenaQuery;
 
     @Lob
-    String queryString;
+    String query;
     String name;
 
-    Filter(){super();}
+    public Filter(){super();}
 
-    Filter(Visibility visibility, String name, String queryString){
+    public Filter(Visibility visibility, String name, String queryString){
         super(visibility);
         this.name = name;
-        this.queryString = queryString;
+        this.query = queryString;
+        constructQuery();
     }
 
-    Filter(String name, String queryString){
+    public Filter(String name, String queryString){
         super(Visibility.PUBLIC);
         this.name = name;
-        this.queryString = queryString;
+        this.query = queryString;
+        constructQuery();
     }
 
     public Model getFilteredModel(Model model){
-        if(query==null)
-            setQuery();
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         return qe.execConstruct();
     }
 
     public ResultSet getFilteredResultSet(Model model){
-        if(query==null)
-            setQuery();
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         return qe.execSelect();
     }
 
-    private void setQuery(){
-        this.query = QueryFactory.create(queryString);
+    public void constructQuery(){
+        this.jenaQuery = QueryFactory.create(query);
     }
 
     public String getName() {
@@ -64,4 +64,12 @@ public class Filter extends OwnedResource {
         this.name = name;
     }
 
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String queryString) {
+        this.query = queryString;
+        constructQuery();
+    }
 }
