@@ -18,6 +18,7 @@
 package eu.freme.common.persistence.dao;
 
 import eu.freme.common.persistence.model.Pipeline;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,17 +29,22 @@ import java.util.List;
  */
 @Component
 public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
+	private final static long ONE_DAY = 24 * 60 * 60 * 1000;  // one day expressed in milliseconds
+
 	@Override
 	public String className() {
 		return Pipeline.class.getSimpleName();
 	}
 
 	/**
-	 * Deletes pipelines that are older than one week.
+	 * Deletes pipelines that are older than one week. This method runs once a day.
 	 */
+	@SuppressWarnings("unused")
+	@Scheduled(fixedDelay = ONE_DAY)
 	public void clean() {
+		logger.info("Deleting pipelines older than one week!");
 		long currentTime = System.currentTimeMillis();
-		long oneWeek = 7 * 24 * 60 * 60 * 1000;
+		long oneWeek = 7 * ONE_DAY;
 		List<Pipeline> pipelinesToDelete = new ArrayList<>();
 
 		// collect pipelines older than one week
@@ -46,6 +52,7 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 			if (!pipeline.isPersistent()) {
 				long creationTime = pipeline.getCreationTime();
 				if (currentTime - oneWeek > creationTime) {
+					logger.debug("Deleted pipeline " + pipeline.getId());
 					pipelinesToDelete.add(pipeline);
 				}
 			}

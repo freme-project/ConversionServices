@@ -17,12 +17,11 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.freme</groupId>
 	<artifactId>common</artifactId>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.5-SNAPSHOT</version>
 	<name>FREMECommon</name>
 	<inceptionYear>2015</inceptionYear>
 
@@ -114,6 +113,22 @@
 				<version>2.5.2</version>
 			</plugin>
 			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-javadoc-plugin</artifactId>
+			    <version>2.9</version>
+			    <executions>
+				<execution>
+				    <id>attach-javadocs</id>
+				    <goals>
+					<goal>jar</goal>
+				    </goals>
+				    <configuration>
+					<additionalparam>-Xdoclint:none</additionalparam>
+				    </configuration>
+				</execution>
+			    </executions>
+			</plugin>
+			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 				<version>2.3</version>
@@ -175,9 +190,9 @@ Istituto Superiore Mario Boella, Tilde, Vistatec, WRIPL
 	</repositories>
 
 	<scm>
-		<connection>scm:git:git@github.com:freme-project/ConversionServices.git</connection>
-		<url>scm:git:git@github.com/freme-project:ConversionServices.git</url>
-		<developerConnection>scm:git:git@github.com:freme-project/ConversionServices.git</developerConnection>
+		<connection>scm:git:git@github.com:freme-project/FREMECommon.git</connection>
+		<url>scm:git:git@github.com/freme-project:FREMECommon.git</url>
+		<developerConnection>scm:git:git@github.com:freme-project/FREMECommon.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 </project>
