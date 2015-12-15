@@ -60,6 +60,8 @@ public class Filter extends OwnedResource {
     }
 
     public int getQueryType(){
+        if(jenaQuery==null)
+            constructQuery();
         return jenaQuery.getQueryType();
     }
 
