@@ -3,6 +3,7 @@ package eu.freme.common.persistence.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Model;
+import eu.freme.common.exception.FREMEHttpException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
@@ -43,13 +44,19 @@ public class Filter extends OwnedResource {
     }
 
     public Model getFilteredModel(Model model){
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
-        return qe.execConstruct();
+        if(jenaQuery.isConstructType()) {
+            QueryExecution qe = QueryExecutionFactory.create(jenaQuery, model);
+            return qe.execConstruct();
+        }else
+            throw new FREMEHttpException("The executed query does not return a RDF graph. Current Jena query type: "+jenaQuery.getQueryType()+", see https://jena.apache.org/documentation/javadoc/arq/constant-values.html section org.apache.jena.query.Query");
     }
 
     public ResultSet getFilteredResultSet(Model model){
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
-        return qe.execSelect();
+        if(jenaQuery.isSelectType()) {
+            QueryExecution qe = QueryExecutionFactory.create(jenaQuery, model);
+            return qe.execSelect();
+        }else
+            throw new FREMEHttpException("The executed query does not return a set of tuples. Current Jena query type: "+jenaQuery.getQueryType()+", see https://jena.apache.org/documentation/javadoc/arq/constant-values.html section org.apache.jena.query.Query");
     }
 
     public void constructQuery(){
