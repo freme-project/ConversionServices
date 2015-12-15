@@ -55,5 +55,11 @@ public class RDFSerializationFormats extends
 
 		put("html", RDFConstants.RDFSerialization.HTML);
 		put("text/html", RDFConstants.RDFSerialization.HTML);
+
+		put("csv", RDFConstants.RDFSerialization.CSV);
+		put("text/comma-separated-values", RDFConstants.RDFSerialization.CSV);
+
+		put("xml", RDFConstants.RDFSerialization.XML);
+		put("text/xml", RDFConstants.RDFSerialization.XML);
 	}
 }

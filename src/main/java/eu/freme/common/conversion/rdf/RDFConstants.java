@@ -36,7 +36,9 @@ public class RDFConstants {
 		N3("text/n3"),
 		N_TRIPLES("application/n-triples"),
 		JSON("application/json"),
-		HTML("text/html");
+		HTML("text/html"),
+		CSV("text/comma-separated-values"),
+		XML("text/xml");
 
 		private final String contentType;
 
@@ -71,6 +73,7 @@ public class RDFConstants {
 			return null;
 		}
 
+		@Deprecated
 		public String getMimeType(){
 			switch(this) {
 				case JSON:
