@@ -59,6 +59,10 @@ public class Filter extends OwnedResource {
             throw new FREMEHttpException("The executed query does not return a set of tuples. Current Jena query type: "+jenaQuery.getQueryType()+", see https://jena.apache.org/documentation/javadoc/arq/constant-values.html section org.apache.jena.query.Query");
     }
 
+    public int getQueryType(){
+        return jenaQuery.getQueryType();
+    }
+
     public void constructQuery(){
         this.jenaQuery = QueryFactory.create(query);
     }
