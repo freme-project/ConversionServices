@@ -17,8 +17,6 @@
  */
 package eu.freme.common.conversion.rdf;
 
-import java.util.UnknownFormatConversionException;
-
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
@@ -71,29 +69,6 @@ public class RDFConstants {
 				}
 			}
 			return null;
-		}
-
-		@Deprecated
-		public String getMimeType(){
-			switch(this) {
-				case JSON:
-					return "application/json";
-				case TURTLE:
-					return  "text/turtle";
-				case JSON_LD:
-					return  "application/ld+json";
-				case RDF_XML:
-					return  "application/rdf+xml";
-				case N_TRIPLES:
-					return  "application/n-triples";
-				case N3:
-					return  "text/n3";
-				case PLAINTEXT:
-					return  "text/plain";
-				case HTML:
-					return  "text/html";
-			}
-			throw new UnknownFormatConversionException("unkown RDFSerialization: "+ this);
 		}
 	}
 }
