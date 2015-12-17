@@ -10,5 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface DatasetSimpleRepository extends CrudRepository<DatasetSimple, Long> {
 
     DatasetSimple findOneById(long id);
+    DatasetSimple findOneByName(String name);
 
 }
