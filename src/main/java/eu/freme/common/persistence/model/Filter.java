@@ -44,14 +44,6 @@ public class Filter extends OwnedResource {
         constructQuery();
     }
 
-    // dummy for deployment
-    public Filter(String name, String queryString){
-        super(Visibility.PUBLIC, null);
-        this.name = name;
-        this.query = queryString;
-        constructQuery();
-    }
-
     public Model getFilteredModel(Model model){
         if(jenaQuery.isConstructType()) {
             QueryExecution qe = QueryExecutionFactory.create(jenaQuery, model);
