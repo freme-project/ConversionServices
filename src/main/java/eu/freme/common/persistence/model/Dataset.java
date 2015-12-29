@@ -27,24 +27,19 @@ import javax.persistence.*;
 public class Dataset extends OwnedResource{
 
     public Dataset(Visibility visibility, String name, String description) {
-        super(visibility);
+        super(visibility, description);
         this.name = name;
-        this.description = description;
         totalEntities = 0;
     }
     public Dataset(User owner, Visibility visibility, String name, String description) {
-        super(owner, visibility);
+        super(owner, visibility, description);
         this.name = name;
-        this.description = description;
         totalEntities = 0;
     }
 
     public Dataset(){super();}
 
     private String name;
-
-    @Lob
-    private String description;
 
     private int totalEntities;
 
@@ -54,14 +49,6 @@ public class Dataset extends OwnedResource{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getTotalEntities() {

@@ -58,47 +58,51 @@ public class Template extends OwnedResource {
     private String query;
     @Lob
     private String label;
-    @Lob
-    private String description;
 
     private Type endpointType;
 
+    @SuppressWarnings("unused")
     public Template(User owner, Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
-        super(owner, visibility);
+        super(owner, visibility, description);
         this.endpoint = endpoint;
         this.query = query;
         this.label = label;
-        this.description = description;
-        this.endpointType = endpointType;
-    }
-    public Template(Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
-        super(visibility);
-        this.endpoint = endpoint;
-        this.query = query;
-        this.label = label;
-        this.description = description;
         this.endpointType = endpointType;
     }
 
-    public Template(User owner, Visibility visibility, Type endpointType, Model model){
-        super(owner, visibility);
+    @SuppressWarnings("unused")
+    public Template(Visibility visibility, Type endpointType, String endpoint, String query, String label, String description) {
+        super(visibility, description);
+        this.endpoint = endpoint;
+        this.query = query;
+        this.label = label;
+        this.endpointType = endpointType;
+    }
+
+    @SuppressWarnings("unused")
+    public Template(User owner, Visibility visibility, Type endpointType, Model model, String description){
+        super(owner, visibility, description);
         setTemplateWithModel(model);
         this.endpointType = endpointType;
     }
 
-    public Template(Visibility visibility, Type endpointType, Model model){
-        super(visibility);
+    @SuppressWarnings("unused")
+    public Template(Visibility visibility, Type endpointType, Model model, String description){
+        super(visibility, description);
         setTemplateWithModel(model);
         this.endpointType = endpointType;
     }
 
     public Template(JSONObject newData){
-        super(OwnedResource.Visibility.getByString(newData.has("visibility")?newData.getString("visibility"):null));
+        // create with defaults
+        super(Visibility.PUBLIC, null);
+        // set values
         update(newData);
         // set default, if key "endpointType" was not in newData
         this.endpointType = Type.getByString(newData.has("endpointType")?newData.getString("endpointType"):null);
     }
 
+    @SuppressWarnings("unused")
     public Template(){super();}
 
 
@@ -114,7 +118,7 @@ public class Template extends OwnedResource {
                 endpoint = templRes.getProperty(model.getProperty("http://www.freme-project.eu/ns#endpoint")).getObject().asLiteral().toString();
                 query = templRes.getProperty(model.getProperty("http://www.freme-project.eu/ns#query")).getObject().asLiteral().toString();
                 label = templRes.getProperty(RDFS.label).getObject().asLiteral().toString();
-                description = templRes.getProperty(DCTerms.description).getObject().asLiteral().toString();
+                setDescription(templRes.getProperty(DCTerms.description).getObject().asLiteral().toString());
             }
 
         } finally {
@@ -130,7 +134,7 @@ public class Template extends OwnedResource {
         if(newData.has("label"))
             this.label = newData.getString("label");
         if(newData.has("description"))
-            this.description = newData.getString("description");
+            this.setDescription(newData.getString("description"));
         if(newData.has("endpointType"))
             this.endpointType = Type.getByString(newData.getString("endpointType"));
         if(newData.has("visibility"))
@@ -180,14 +184,6 @@ public class Template extends OwnedResource {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Type getEndpointType() {

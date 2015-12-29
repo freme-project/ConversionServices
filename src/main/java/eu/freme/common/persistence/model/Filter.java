@@ -2,6 +2,7 @@ package eu.freme.common.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.rdf.model.Model;
 import eu.freme.common.exception.FREMEHttpException;
 import org.springframework.stereotype.Component;
@@ -29,15 +30,23 @@ public class Filter extends OwnedResource {
 
     public Filter(){super();}
 
-    public Filter(Visibility visibility, String name, String queryString){
-        super(visibility);
+    public Filter(Visibility visibility, String name, String queryString, String description){
+        super(visibility, description);
         this.name = name;
         this.query = queryString;
         constructQuery();
     }
 
+    public Filter(String name, String queryString, String description){
+        super(Visibility.PUBLIC, description);
+        this.name = name;
+        this.query = queryString;
+        constructQuery();
+    }
+
+    // dummy for deployment
     public Filter(String name, String queryString){
-        super(Visibility.PUBLIC);
+        super(Visibility.PUBLIC, null);
         this.name = name;
         this.query = queryString;
         constructQuery();

@@ -28,8 +28,7 @@ import javax.persistence.Table;
 @Table(name = "pipeline")
 public class Pipeline extends OwnedResource {
 	private String label;
-	@Lob
-	private String description;
+
 	@Lob
 	private String serializedRequests;
 
@@ -39,18 +38,16 @@ public class Pipeline extends OwnedResource {
 	public Pipeline() {}
 
 	public Pipeline(final User owner, final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
-		super(owner, visibility);
+		super(owner, visibility, description);
 		this.label = label;
-		this.description = description;
 		this.serializedRequests = serializedRequests;
 		this.persist = persist;
 	}
 
 	@SuppressWarnings("unused")
 	public Pipeline(final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
-		super(visibility);
+		super(visibility, description);
 		this.label = label;
-		this.description = description;
 		this.serializedRequests = serializedRequests;
 		this.persist = persist;
 	}
@@ -76,18 +73,8 @@ public class Pipeline extends OwnedResource {
 	}
 
 	@SuppressWarnings("unused")
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@SuppressWarnings("unused")
 	public void setPersist(boolean persist) {
 		this.persist = persist;
-	}
-
-	@SuppressWarnings("unused")
-	public String getDescription() {
-		return description;
 	}
 
 	@SuppressWarnings("unused")
@@ -104,7 +91,7 @@ public class Pipeline extends OwnedResource {
 
 		if (persist != pipeline.persist) return false;
 		if (!label.equals(pipeline.label)) return false;
-		if (!description.equals(pipeline.description)) return false;
+		if (!getDescription().equals(pipeline.getDescription())) return false;
 		return serializedRequests.equals(pipeline.serializedRequests);
 
 	}
@@ -112,7 +99,7 @@ public class Pipeline extends OwnedResource {
 	@Override
 	public int hashCode() {
 		int result = label.hashCode();
-		result = 31 * result + description.hashCode();
+		result = 31 * result + getDescription().hashCode();
 		result = 31 * result + serializedRequests.hashCode();
 		result = 31 * result + (persist ? 1 : 0);
 		return result;
