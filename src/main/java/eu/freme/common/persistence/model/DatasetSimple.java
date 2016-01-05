@@ -13,6 +13,10 @@ public class DatasetSimple {
         creationTime = System.currentTimeMillis();
     }
 
+    public DatasetSimple(String name, String description, int totalEntities){
+        creationTime = System.currentTimeMillis();
+    }
+
     @Id @GeneratedValue
     private long id;
 

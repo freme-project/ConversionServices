@@ -125,4 +125,8 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return model;
 	}
 
+	public String getJenaType(RDFConstants.RDFSerialization type){
+		return rdfTypeMapping.get(type);
+	}
+
 }

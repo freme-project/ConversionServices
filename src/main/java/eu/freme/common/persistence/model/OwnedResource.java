@@ -18,12 +18,6 @@
 package eu.freme.common.persistence.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializable;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import eu.freme.common.exception.BadRequestException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -31,7 +25,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -59,6 +52,9 @@ public class OwnedResource implements Serializable {
 
     private long creationTime;
 
+    @Lob
+    private String description;
+
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
     private User owner;
 
@@ -66,19 +62,21 @@ public class OwnedResource implements Serializable {
 
     public OwnedResource(){}
 
-    public OwnedResource(User owner, Visibility visibility) {
+    public OwnedResource(User owner, Visibility visibility, String description) {
         this.creationTime = System.currentTimeMillis();
         this.owner = owner;
         this.visibility = visibility;
+        this.description = description;
     }
 
-    public OwnedResource(Visibility visibility) throws AccessDeniedException{
+    public OwnedResource(Visibility visibility, String description) throws AccessDeniedException{
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
             throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
         this.owner = (User) authentication.getPrincipal();
         this.visibility = visibility;
+        this.description = description;
         this.creationTime = System.currentTimeMillis();
     }
 
@@ -109,6 +107,14 @@ public class OwnedResource implements Serializable {
 
     public long getCreationTime() {
         return creationTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String toString(){

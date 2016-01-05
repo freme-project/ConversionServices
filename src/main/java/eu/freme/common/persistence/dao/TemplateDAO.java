@@ -32,5 +32,4 @@ public class TemplateDAO extends OwnedResourceDAO<Template> {
     public String className() {
         return Template.class.getSimpleName();
     }
-
 }
