@@ -40,12 +40,14 @@ public class RDFSerializationFormats extends
 
 		put("application/n-triples", RDFConstants.RDFSerialization.N_TRIPLES);
 		put("n-triples", RDFConstants.RDFSerialization.N_TRIPLES);
+		put("ntriples", RDFConstants.RDFSerialization.N_TRIPLES);
 
 		put("text/plain", RDFConstants.RDFSerialization.PLAINTEXT);
 		put("text", RDFConstants.RDFSerialization.PLAINTEXT);
 
 		put("application/rdf+xml", RDFConstants.RDFSerialization.RDF_XML);
 		put("rdf-xml", RDFConstants.RDFSerialization.RDF_XML);
+		put("rdfxml", RDFConstants.RDFSerialization.RDF_XML);
 
 		put("text/n3", RDFConstants.RDFSerialization.N3);
 		put("n3", RDFConstants.RDFSerialization.N3);
