@@ -18,14 +18,23 @@
 package eu.freme.common;
 
 import eu.freme.common.persistence.tools.AccessLevelHelper;
+import eu.freme.common.rest.NIFParameterFactory;
 import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;
 import eu.freme.common.security.voter.UserAccessDecisionVoter;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 import eu.freme.common.conversion.etranslate.TranslationConversionService;
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
 import eu.freme.common.conversion.rdf.RDFConversionService;
+import eu.freme.common.conversion.rdf.RDFSerializationFormats;
+
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
 
@@ -34,9 +43,20 @@ import java.util.ArrayList;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-@SpringBootApplication
+@EntityScan
+@ComponentScan
+@Configuration
+@EnableAutoConfiguration
 public class FREMECommonConfig {
 
+    @Bean
+    public RDFSerializationFormats rdfFormats(){
+    	return new RDFSerializationFormats();
+    }
+    @Bean
+    public NIFParameterFactory getNifParameterFactory(){
+    	return new NIFParameterFactory();
+    }
 	@Bean
 	public RDFConversionService getRDFConversionService() {
 		return new JenaRDFConversionService();
@@ -62,5 +82,4 @@ public class FREMECommonConfig {
 	public AccessLevelHelper accessLevelHelper() {
 		return new AccessLevelHelper();
 	}
-
 }

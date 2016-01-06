@@ -6,6 +6,7 @@ import eu.freme.common.persistence.dao.UserDAO;
 import eu.freme.common.persistence.model.Dataset;
 import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
