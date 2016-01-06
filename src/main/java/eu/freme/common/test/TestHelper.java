@@ -1,17 +1,21 @@
 package eu.freme.common.test;
 
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestHelper {
+public class TestHelper implements ApplicationContextAware{
 
+	ApplicationContext context;
+	
 	/**
 	 * Returns the base url of the API given the spring application context, e.g. http://localhost:8080
 	 * @return
 	 */
-	public String getAPIBaseUrl(ApplicationContext context){
+	public String getAPIBaseUrl(){
 		String port = context.getEnvironment().getProperty("server.port");
 		if( port == null){
 			port = "8080";
@@ -25,7 +29,7 @@ public class TestHelper {
 	 * @param context
 	 * @return
 	 */
-	public String getAdminUsername(ApplicationContext context){
+	public String getAdminUsername(){
 		return context.getEnvironment().getProperty("admin.username");
 	}
 	
@@ -35,7 +39,14 @@ public class TestHelper {
 	 * @param context
 	 * @return
 	 */
-	public String getAdminPassword(ApplicationContext context){
+	public String getAdminPassword(){
 		return context.getEnvironment().getProperty("admin.password");
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.context = applicationContext;
+		
 	}
 }
