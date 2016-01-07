@@ -27,7 +27,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDAO extends DAO<UserRepository, User> {
 
-    public void delete(User entity){
+    @Override
+	public void delete(User entity){
         User user = repository.findOneByName(entity.getName());
         super.delete(user);
     }

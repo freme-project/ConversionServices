@@ -45,13 +45,15 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
 
     public abstract String className();
 
-    public void delete(Entity entity){
+    @Override
+	public void delete(Entity entity){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         super.delete(entity);
     }
 
-    public Entity save(Entity entity){
+    @Override
+	public Entity save(Entity entity){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         return super.save(entity);
@@ -90,7 +92,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             User authUser = (User) authentication.getPrincipal();
             queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
         }
-        return (List<Entity>)entityManager.createQuery(queryString).getResultList();
+        return entityManager.createQuery(queryString).getResultList();
     }
 
 }

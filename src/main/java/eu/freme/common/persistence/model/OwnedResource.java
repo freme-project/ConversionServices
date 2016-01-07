@@ -117,7 +117,8 @@ public class OwnedResource implements Serializable {
         this.description = description;
     }
 
-    public String toString(){
+    @Override
+	public String toString(){
         return "OwnedResource[id="+id+", owner="+owner.toString()+", visibility="+ visibility.toString()+"]";
     }
 

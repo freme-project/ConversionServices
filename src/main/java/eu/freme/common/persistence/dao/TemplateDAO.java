@@ -20,8 +20,6 @@ package eu.freme.common.persistence.dao;
 import eu.freme.common.persistence.model.Template;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
-
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */

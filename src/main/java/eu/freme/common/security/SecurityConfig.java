@@ -34,8 +34,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderNotFoundException;
@@ -134,6 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 				BasicAuthenticationFilter.class);
 	}
 
+	@Override
 	@Bean
 	public AuthenticationManager authenticationManager() {
 		return new AuthenticationManager() {

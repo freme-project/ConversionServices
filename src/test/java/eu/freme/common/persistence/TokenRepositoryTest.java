@@ -74,7 +74,7 @@ public class TokenRepositoryTest {
 		Token token2 = new Token("t2", user);
 		token = tokenDAO.save(token2);
 		logger.info("token count (before delete): " + tokenDAO.count());
-		assertEquals((long) 2, tokenDAO.count());
+		assertEquals(2, tokenDAO.count());
 		tokenDAO.delete(token);
 
 		logger.info("token count (after delete): " + tokenDAO.count());
