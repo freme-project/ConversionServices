@@ -189,4 +189,15 @@ public abstract class BaseRestController {
 		return new ResponseEntity<>(rdfString, responseHeaders, HttpStatus.OK);
 	}
 
+	public RDFConversionService getRdfConversionService() {
+		return rdfConversionService;
+	}
+
+	public NIFParameterFactory getNifParameterFactory() {
+		return nifParameterFactory;
+	}
+
+	public RDFSerializationFormats getRdfSerializationFormats() {
+		return rdfSerializationFormats;
+	}
 }
