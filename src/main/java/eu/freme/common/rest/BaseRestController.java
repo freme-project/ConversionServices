@@ -54,9 +54,6 @@ public abstract class BaseRestController {
 
 	@Autowired
 	RDFSerializationFormats rdfSerializationFormats;
-
-	@Autowired
-	RDFELinkSerializationFormats rdfELinkSerializationFormats;
 	
 	@Autowired
 	ExceptionHandlerService exceptionHandlerService;

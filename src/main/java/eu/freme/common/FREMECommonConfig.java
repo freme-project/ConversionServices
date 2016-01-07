@@ -29,6 +29,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+
 import eu.freme.common.conversion.etranslate.TranslationConversionService;
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
@@ -37,6 +38,7 @@ import eu.freme.common.conversion.rdf.RDFSerializationFormats;
 
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
+
 import java.util.ArrayList;
 
 /**
