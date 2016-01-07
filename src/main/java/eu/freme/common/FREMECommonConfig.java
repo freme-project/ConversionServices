@@ -19,15 +19,21 @@ package eu.freme.common;
 
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 import eu.freme.common.rest.NIFParameterFactory;
+import eu.freme.common.security.SecurityConfig;
 import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;
 import eu.freme.common.security.voter.UserAccessDecisionVoter;
+import eu.freme.common.starter.FREMEStarter;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import eu.freme.common.conversion.etranslate.TranslationConversionService;
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
@@ -35,28 +41,38 @@ import eu.freme.common.conversion.rdf.JenaRDFConversionService;
 import eu.freme.common.conversion.rdf.RDFConversionService;
 import eu.freme.common.conversion.rdf.RDFSerializationFormats;
 
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
 import java.util.ArrayList;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-@EntityScan
-@ComponentScan
+//@EntityScan("eu.freme.common.persistence.model")
+//@ComponentScan(basePackages={"eu.freme.common"})
+//@Import(SecurityConfig.class)
+//@EnableAutoConfiguration
+//@EnableJpaRepositories(basePackages={"eu.freme.common.persistence.repository"})
 @Configuration
 @EnableAutoConfiguration
+@ComponentScan(basePackageClasses=FREMECommonConfig.class, excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE, value=FREMEStarter.class))
+
 public class FREMECommonConfig {
 
     @Bean
     public RDFSerializationFormats rdfFormats(){
     	return new RDFSerializationFormats();
     }
+    
     @Bean
     public NIFParameterFactory getNifParameterFactory(){
     	return new NIFParameterFactory();
     }
+    
 	@Bean
 	public RDFConversionService getRDFConversionService() {
 		return new JenaRDFConversionService();

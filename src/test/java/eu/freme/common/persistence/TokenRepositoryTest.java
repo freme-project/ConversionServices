@@ -22,6 +22,7 @@ import eu.freme.common.persistence.dao.TokenDAO;
 import eu.freme.common.persistence.dao.UserDAO;
 import eu.freme.common.persistence.model.Token;
 import eu.freme.common.persistence.model.User;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;

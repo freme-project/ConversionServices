@@ -18,7 +18,6 @@
 package eu.freme.common.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
