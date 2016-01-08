@@ -20,22 +20,26 @@ package eu.freme.common.security.voter;
 import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
+@Component
 public class OwnedResourceAccessDecisionVoter implements AccessDecisionVoter<Object> {
 
     // TODO: Why does Autowire not work?
-    //@Autowired
-    //AccessLevelHelper accessLevelHelper;
-    static AccessLevelHelper accessLevelHelper = new AccessLevelHelper();
+    @Autowired
+    AccessLevelHelper accessLevelHelper;
+    //static AccessLevelHelper accessLevelHelper = new AccessLevelHelper();
 
     @Override
     public boolean supports(ConfigAttribute attribute) {

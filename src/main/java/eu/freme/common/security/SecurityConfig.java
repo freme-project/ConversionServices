@@ -18,6 +18,8 @@
 package eu.freme.common.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
@@ -34,6 +36,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderNotFoundException;
@@ -49,6 +53,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.UserRepository;
+import eu.freme.common.persistence.tools.AccessLevelHelper;
+
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 /**
@@ -74,6 +80,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	
 	@Value("${admin.create:false}")
 	private boolean createAdminUser;
+	
+	@SuppressWarnings("rawtypes")
+	@Autowired
+	List<AccessDecisionVoter> accessDecisionVoters;
 
 	@PostConstruct
 	public void init() {
@@ -198,14 +208,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 		return registration;
 	}
 
-	/*
+	
 	@Bean
 	public AffirmativeBased defaultAccessDecisionManager() {
+		
 		@SuppressWarnings("rawtypes")
-		ArrayList<AccessDecisionVoter> list = new ArrayList<AccessDecisionVoter>();
-		list.add(new UserAccessDecisionVoter());
-		list.add(new OwnedResourceAccessDecisionVoter());
-		AffirmativeBased ab = new AffirmativeBased(list);
+		AffirmativeBased ab = new AffirmativeBased(accessDecisionVoters);
 		return ab;
 	}
 
@@ -213,7 +221,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	public AccessLevelHelper accessLevelHelper() {
 		return new AccessLevelHelper();
 	}
-*/
+
 
 	public String getAdminUsername(){
 		return adminUsername;

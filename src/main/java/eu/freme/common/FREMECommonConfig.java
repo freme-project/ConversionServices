@@ -20,7 +20,6 @@ package eu.freme.common;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 import eu.freme.common.rest.NIFParameterFactory;
 import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;
-import eu.freme.common.security.voter.UserAccessDecisionVoter;
 import eu.freme.common.starter.FREMEStarter;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -52,7 +51,6 @@ import java.util.ArrayList;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackageClasses=FREMECommonConfig.class, excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE, value=FREMEStarter.class))
-
 public class FREMECommonConfig {
 
     @Bean
@@ -73,21 +71,5 @@ public class FREMECommonConfig {
 	@Bean
 	public TranslationConversionService getTranslationConversionService() {
 		return new TranslationConversionServiceImpl();
-	}
-
-	@Bean
-	public AffirmativeBased defaultAccessDecisionManager() {
-		@SuppressWarnings("rawtypes")
-		ArrayList<AccessDecisionVoter> list = new ArrayList<AccessDecisionVoter>();
-		//list.add(new TemplateAccessDecisionVoter());
-		list.add(new UserAccessDecisionVoter());
-		list.add(new OwnedResourceAccessDecisionVoter());
-		AffirmativeBased ab = new AffirmativeBased(list);
-		return ab;
-	}
-
-	@Bean
-	public AccessLevelHelper accessLevelHelper() {
-		return new AccessLevelHelper();
 	}
 }
