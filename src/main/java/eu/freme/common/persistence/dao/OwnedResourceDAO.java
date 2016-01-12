@@ -59,6 +59,13 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return super.save(entity);
     }
 
+    /**
+     * @Depricated use findOneByIdentifier instead and override findOneByIdentifierUnsecured in
+     * the DAO class of the entity you want to use if an identifier other then id is prefered/needed.
+     * @param id
+     * @return
+     */
+    @Deprecated
     public Entity findOneById(long id){
         Entity result = repository.findOneById(id);
         if(result==null)
