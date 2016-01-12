@@ -34,17 +34,19 @@ public class Filter extends OwnedResource {
         super(visibility, description);
         this.name = name;
         this.query = queryString;
-        constructQuery();
+        //constructQuery();
     }
 
     public Filter(String name, String queryString, String description){
         super(Visibility.PUBLIC, description);
         this.name = name;
         this.query = queryString;
-        constructQuery();
+        //constructQuery();
     }
 
     public Model getFilteredModel(Model model){
+        if(jenaQuery==null)
+            constructQuery();
         if(jenaQuery.isConstructType()) {
             QueryExecution qe = QueryExecutionFactory.create(jenaQuery, model);
             return qe.execConstruct();
@@ -53,6 +55,8 @@ public class Filter extends OwnedResource {
     }
 
     public ResultSet getFilteredResultSet(Model model){
+        if(jenaQuery==null)
+            constructQuery();
         if(jenaQuery.isSelectType()) {
             QueryExecution qe = QueryExecutionFactory.create(jenaQuery, model);
             return qe.execSelect();
@@ -84,6 +88,6 @@ public class Filter extends OwnedResource {
 
     public void setQuery(String queryString) {
         this.query = queryString;
-        constructQuery();
+        this.jenaQuery = null;
     }
 }

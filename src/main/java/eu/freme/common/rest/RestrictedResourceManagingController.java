@@ -27,17 +27,22 @@ import java.util.Map;
 @RestController
 public abstract class RestrictedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
 
-    protected abstract Entity createEntity(String id, OwnedResource.Visibility visibility, String description, String body, Map<String, String> parameters) throws AccessDeniedException;
-    protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters);
-
     @Autowired
     OwnedResourceDAO<Entity> entityDAO;
 
     @Autowired
     UserDAO userDAO;
 
-    //@Autowired
-    //JenaRDFConversionService jenaRDFConversionService;
+    protected abstract Entity createEntity(String id, OwnedResource.Visibility visibility, String description, String body, Map<String, String> parameters) throws AccessDeniedException;
+    protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters);
+
+    public OwnedResourceDAO<Entity> getEntityDAO() {
+        return entityDAO;
+    }
+
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
 
     @RequestMapping(value = "/manage", method = RequestMethod.POST)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
