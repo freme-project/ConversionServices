@@ -77,7 +77,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return result;
     }
 
-    protected Entity findOneByIdentifierUnsecured(String identifier){
+    public Entity findOneByIdentifierUnsecured(String identifier){
         return repository.findOneById(Integer.parseInt(identifier));
     }
 

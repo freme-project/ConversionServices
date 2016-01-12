@@ -36,7 +36,7 @@ public class FilterDAO extends OwnedResourceDAO<Filter> {
     }*/
 
     @Override
-    protected Filter findOneByIdentifierUnsecured(String identifier){
+    public Filter findOneByIdentifierUnsecured(String identifier){
         return ((FilterRepository)repository).findOneByName(identifier);
     }
 
