@@ -68,6 +68,19 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return result;
     }
 
+    public Entity findOneByIdentifier(String identifier){
+        Entity result = findOneByIdentifierUnsecured(identifier);
+        if(result==null)
+            throw new OwnedResourceNotFoundException("Could not find resource with identifier='"+identifier+"'");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
+        return result;
+    }
+
+    protected Entity findOneByIdentifierUnsecured(String identifier){
+        return repository.findOneById(Integer.parseInt(identifier));
+    }
+
     public Entity updateOwner(Entity entity, User newOwner){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());

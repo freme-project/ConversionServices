@@ -18,7 +18,7 @@ public class FilterDAO extends OwnedResourceDAO<Filter> {
         return Filter.class.getSimpleName();
     }
 
-    public Filter findOneByName(String name){
+    /*public Filter findOneByName(String name){
         Filter result = ((FilterRepository)repository).findOneByName(name);
         if(result==null)
             throw new OwnedResourceNotFoundException("Could not find filter with name='"+name+"'");
@@ -33,6 +33,11 @@ public class FilterDAO extends OwnedResourceDAO<Filter> {
         Filter filter = super.findOneById(id);
         filter.constructQuery();
         return filter;
+    }*/
+
+    @Override
+    protected Filter findOneByIdentifierUnsecured(String identifier){
+        return ((FilterRepository)repository).findOneByName(identifier);
     }
 
 }
