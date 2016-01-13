@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 /**
  * Created by Arne on 11.12.2015.
  */
+@Deprecated
 @Component
 @Entity
 @Table(name = "filter")
