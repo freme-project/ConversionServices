@@ -20,23 +20,6 @@ public class FilterDAO extends OwnedResourceDAO<Filter> {
         return Filter.class.getSimpleName();
     }
 
-    /*public Filter findOneByName(String name){
-        Filter result = ((FilterRepository)repository).findOneByName(name);
-        if(result==null)
-            throw new OwnedResourceNotFoundException("Could not find filter with name='"+name+"'");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
-        result.constructQuery();
-        return result;
-    }
-
-    @Override
-    public Filter findOneById(long id){
-        Filter filter = super.findOneById(id);
-        filter.constructQuery();
-        return filter;
-    }*/
-
     @Override
     public Filter findOneByIdentifierUnsecured(String identifier){
         return ((FilterRepository)repository).findOneByName(identifier);
