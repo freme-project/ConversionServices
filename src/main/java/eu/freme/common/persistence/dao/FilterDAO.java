@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  * Created by Arne on 11.12.2015.
  */
 
-@Deprecated
 @Component
 public class FilterDAO extends OwnedResourceDAO<Filter> {
 
