@@ -33,8 +33,8 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
     @Autowired
     UserDAO userDAO;
 
-    protected abstract Entity createEntity(String id, OwnedResource.Visibility visibility, String description, String body, Map<String, String> parameters) throws AccessDeniedException;
-    protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters);
+    protected abstract Entity createEntity(String id, OwnedResource.Visibility visibility, String description, String body, Map<String, String> parameters) throws BadRequestException;
+    protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters) throws BadRequestException;
 
     public OwnedResourceDAO<Entity> getEntityDAO() {
         return entityDAO;

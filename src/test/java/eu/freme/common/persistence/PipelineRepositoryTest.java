@@ -17,11 +17,13 @@
  */
 package eu.freme.common.persistence;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import eu.freme.common.FREMECommonConfig;
 import eu.freme.common.persistence.dao.PipelineDAO;
 import eu.freme.common.persistence.dao.UserDAO;
 import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.Pipeline;
+import eu.freme.common.persistence.model.SerializedRequest;
 import eu.freme.common.persistence.model.User;
 
 import org.apache.log4j.Logger;
@@ -35,6 +37,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -58,7 +64,7 @@ public class PipelineRepositoryTest {
 	private UserDAO userDAO;
 
 	@Test
-	public void testPipelineRepository() {
+	public void testPipelineRepository() throws JsonProcessingException {
 		long pipelineCountBefore = pipelineDAO.count();
 		long userCountBefore = userDAO.count();
 
@@ -73,21 +79,25 @@ public class PipelineRepositoryTest {
 
 		assertTrue(userDAO.findAll().iterator().hasNext());
 
+
+
 		logger.info("Create pipeline");
-		Pipeline pipeline = new Pipeline(user, OwnedResource.Visibility.PRIVATE, "label1", "description1", "first no real pipeline", false);
+		SerializedRequest request1 = new SerializedRequest(SerializedRequest.HttpMethod.GET, "endpoint1", new HashMap<>(), new HashMap<>(), "body1");
+		Pipeline pipeline = new Pipeline(user, OwnedResource.Visibility.PRIVATE, "label1", "description1", Collections.singletonList(request1) , false);
 		pipeline = pipelineDAO.save(pipeline);
 		assertTrue(pipelineDAO.findAll().iterator().hasNext());
 		logger.info("Pipeline count: " + pipelineDAO.count());
 
 		logger.info("create 2nd pipeline");
-		Pipeline pipeline2 = new Pipeline(user, OwnedResource.Visibility.PUBLIC, "label2", "description2", "second no real pipeline", true);
+		SerializedRequest request2 = new SerializedRequest(SerializedRequest.HttpMethod.POST, "endpoint2", new HashMap<>(), new HashMap<>(), "body2");
+		Pipeline pipeline2 = new Pipeline(user, OwnedResource.Visibility.PUBLIC, "label2", "description2", Collections.singletonList(request2), true);
 		pipeline = pipelineDAO.save(pipeline2);
 		assertEquals(pipelineCountBefore + 2, pipelineDAO.count());
 
-		Pipeline pipeline1FromStore = pipelineDAO.findOneById(pipeline.getId());
+		Pipeline pipeline1FromStore = pipelineDAO.findOneByIdentifier(pipeline.getId()+"");
 		assertEquals(pipeline, pipeline1FromStore);
 
-		Pipeline pipeline2FromStore = pipelineDAO.findOneById(pipeline2.getId());
+		Pipeline pipeline2FromStore = pipelineDAO.findOneByIdentifier(pipeline2.getId()+"");
 		assertEquals(pipeline2, pipeline2FromStore);
 
 		logger.info("Deleting first pipeline");

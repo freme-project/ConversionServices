@@ -17,9 +17,20 @@
  */
 package eu.freme.common.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Gerald Haesendonck
@@ -29,37 +40,56 @@ import javax.persistence.Table;
 public class Pipeline extends OwnedResource {
 	private String label;
 
+	@Transient
+	private List<SerializedRequest> serializedRequests;
+
+	@JsonIgnore
 	@Lob
-	private String serializedRequests;
+	private String requests;
 
 	private boolean persist;	// true = persist forever; false = persist for (at least) one week.
 
 	@SuppressWarnings("unused")
 	public Pipeline() {}
 
-	public Pipeline(final User owner, final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
+	public Pipeline(final User owner, final Visibility visibility, final String label, final String description, final List<SerializedRequest> serializedRequests, boolean persist) throws JsonProcessingException {
 		super(owner, visibility, description);
 		this.label = label;
 		this.serializedRequests = serializedRequests;
+		if(serializedRequests!=null)
+			serializeRequests();
 		this.persist = persist;
 	}
 
 	@SuppressWarnings("unused")
-	public Pipeline(final Visibility visibility, final String label, final String description, final String serializedRequests, boolean persist) {
+	public Pipeline(final Visibility visibility, final String label, final String description, final List<SerializedRequest> serializedRequests, boolean persist) throws JsonProcessingException {
 		super(visibility, description);
 		this.label = label;
 		this.serializedRequests = serializedRequests;
+		if(serializedRequests!=null)
+			serializeRequests();
 		this.persist = persist;
 	}
 
 	@SuppressWarnings("unused")
-	public String getSerializedRequests() {
+	public Pipeline(final String label, final String description, final List<SerializedRequest> serializedRequests) throws JsonProcessingException {
+		super(Visibility.PUBLIC, description);
+		this.label = label;
+		this.serializedRequests = serializedRequests;
+		if(serializedRequests!=null)
+			serializeRequests();
+	}
+
+	@SuppressWarnings("unused")
+	public List<SerializedRequest> getSerializedRequests() throws IOException {
+		unSerializeRequests();
 		return serializedRequests;
 	}
 
 	@SuppressWarnings("unused")
-	public void setSerializedRequests(String serializedRequests) {
+	public void setSerializedRequests(List<SerializedRequest> serializedRequests) throws JsonProcessingException {
 		this.serializedRequests = serializedRequests;
+		serializeRequests();
 	}
 
 	@SuppressWarnings("unused")
@@ -78,8 +108,45 @@ public class Pipeline extends OwnedResource {
 	}
 
 	@SuppressWarnings("unused")
-	public boolean isPersistent() {
+	public boolean isPersist() {
 		return persist;
+	}
+
+	@SuppressWarnings("unused")
+	public String getRequests() throws JsonProcessingException {
+		serializeRequests();
+		return requests;
+	}
+
+	@SuppressWarnings("unused")
+	public void setRequests(String requests) throws IOException {
+		this.requests = requests;
+		unSerializeRequests();
+	}
+
+	@SuppressWarnings("unused")
+	public String isValid() {
+		if (label == null) {
+			return "No label given.";
+		}
+		if (getDescription() == null) {
+			return "No description given.";
+		}
+		if (serializedRequests == null) {
+			return "No requests given.";
+		}
+		return "";
+	}
+
+	public void serializeRequests() throws JsonProcessingException {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		requests = ow.writeValueAsString(serializedRequests);
+	}
+
+	public void unSerializeRequests() throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		serializedRequests = mapper.readValue(requests,
+				TypeFactory.defaultInstance().constructCollectionType(List.class, SerializedRequest.class));
 	}
 
 	@Override
@@ -89,19 +156,38 @@ public class Pipeline extends OwnedResource {
 
 		Pipeline pipeline = (Pipeline) o;
 
+		if (getId() != pipeline.getId()) return false;
+		if (getCreationTime() != pipeline.getCreationTime()) return false;
 		if (persist != pipeline.persist) return false;
 		if (!label.equals(pipeline.label)) return false;
 		if (!getDescription().equals(pipeline.getDescription())) return false;
+		if (getVisibility() != null ? !getVisibility().equals(pipeline.getVisibility()) : pipeline.getVisibility() != null) return false;
+		if (getOwner() != null ? !getOwner().equals(pipeline.getOwner()) : pipeline.getOwner() != null) return false;
 		return serializedRequests.equals(pipeline.serializedRequests);
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = label.hashCode();
+		int result = (int) (getId() ^ (getId() >>> 32));
+		result = 31 * result + (int) (getCreationTime() ^ (getCreationTime() >>> 32));
+		result = 31 * result + label.hashCode();
 		result = 31 * result + getDescription().hashCode();
-		result = 31 * result + serializedRequests.hashCode();
 		result = 31 * result + (persist ? 1 : 0);
+		result = 31 * result + (getVisibility() != null ? getVisibility().hashCode() : 0);
+		result = 31 * result + (getOwner() != null ? getOwner().hashCode() : 0);
+		result = 31 * result + serializedRequests.hashCode();
 		return result;
+	}
+
+
+	public String toJSON() throws JsonProcessingException {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		return ow.writeValueAsString(this);
+	}
+
+	public static Pipeline fromJSON(String json) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(json, Pipeline.class);
 	}
 }
