@@ -180,14 +180,4 @@ public class Pipeline extends OwnedResource {
 		return result;
 	}
 
-
-	public String toJSON() throws JsonProcessingException {
-		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		return ow.writeValueAsString(this);
-	}
-
-	public static Pipeline fromJSON(String json) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(json, Pipeline.class);
-	}
 }

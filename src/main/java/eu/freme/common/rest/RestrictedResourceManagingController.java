@@ -27,6 +27,13 @@ import java.util.Map;
 @RestController
 public abstract class RestrictedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
 
+    public static final String relativeManagePath = "/manage";
+    public static final String identifierParameterName = "entityId";
+    public static final String visibilityParameterName = "visibility";
+    public static final String newOwnerParameterName = "newOwner";
+    public static final String descriptionParameterName = "description";
+
+
     @Autowired
     OwnedResourceDAO<Entity> entityDAO;
 
@@ -44,12 +51,12 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
         return userDAO;
     }
 
-    @RequestMapping(value = "/manage", method = RequestMethod.POST)
+    @RequestMapping(value = relativeManagePath, method = RequestMethod.POST)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> addEntity(
-            @RequestParam(value = "entityId", required = false) String entityId,
-            @RequestParam(value = "visibility", required = false) String visibility,
-            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = identifierParameterName, required = false) String entityId,
+            @RequestParam(value = visibilityParameterName, required = false) String visibility,
+            @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam Map<String, String> allParams,
             @RequestBody String postBody
     ){
@@ -86,7 +93,7 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
         }
     }
 
-    @RequestMapping(value = "/manage/{filterName}", method = RequestMethod.GET)
+    @RequestMapping(value = relativeManagePath +"/{filterName}", method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getEntityById(
             @PathVariable("filterName") String filterName
@@ -113,13 +120,13 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
         }
     }
 
-    @RequestMapping(value = "/manage/{filterName}", method = RequestMethod.PUT)
+    @RequestMapping(value = relativeManagePath +"/{filterName}", method = RequestMethod.PUT)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> putEntityById(
             @PathVariable("filterName") String filterName,
-            @RequestParam(value = "visibility", required = false) String visibility,
-            @RequestParam(value = "description", required = false) String description,
-            @RequestParam(value = "newOwner", required = false) String ownerName,
+            @RequestParam(value = visibilityParameterName, required = false) String visibility,
+            @RequestParam(value = descriptionParameterName, required = false) String description,
+            @RequestParam(value = newOwnerParameterName, required = false) String ownerName,
             @RequestParam Map<String, String> allParams,
             @RequestBody String postBody
     ){
@@ -171,7 +178,7 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
         }
     }
 
-    @RequestMapping(value = "/manage/{filterName}", method = RequestMethod.DELETE)
+    @RequestMapping(value = relativeManagePath +"/{filterName}", method = RequestMethod.DELETE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> deleteEntityById(
             @PathVariable("filterName") String filterName
@@ -195,7 +202,7 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
         }
     }
 
-    @RequestMapping(value = "/manage", method = RequestMethod.GET)
+    @RequestMapping(value = relativeManagePath, method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getAllEntities(
     ){
