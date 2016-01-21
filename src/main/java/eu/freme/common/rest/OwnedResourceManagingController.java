@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by Arne Binder (arne.b.binder@gmail.com) on 12.01.2016.
  */
 @RestController
-public abstract class RestrictedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
+public abstract class OwnedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
 
     public static final String relativeManagePath = "/manage";
     public static final String identifierParameterName = "entityId";

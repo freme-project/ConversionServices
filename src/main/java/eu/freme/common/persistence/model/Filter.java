@@ -71,6 +71,7 @@ public class Filter extends OwnedResource {
     }
 
     @JsonIgnore
+    @Override
     public String getIdentifier(){
         return getName();
     }
