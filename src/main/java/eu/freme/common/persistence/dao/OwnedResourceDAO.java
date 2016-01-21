@@ -118,7 +118,11 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
         }else {
             User authUser = (User) authentication.getPrincipal();
-            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
+            if(authUser.getRole().equals(User.roleAdmin)) {
+                queryString = "select " + entity + " from " + entityName + " " + entity + " order by id";
+            }else {
+                queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal() + " order by id"; //
+            }
         }
         return entityManager.createQuery(queryString).getResultList();
     }
