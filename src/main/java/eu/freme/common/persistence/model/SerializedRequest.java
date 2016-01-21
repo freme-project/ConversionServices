@@ -79,6 +79,10 @@ public class SerializedRequest {
 		return endpoint;
 	}
 
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
+	}
+
 	public Map<String, Object> getParameters() {
 		return parameters;
 	}
