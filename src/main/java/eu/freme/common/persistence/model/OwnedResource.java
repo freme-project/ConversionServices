@@ -29,7 +29,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -65,7 +64,10 @@ public class OwnedResource implements Serializable {
 
     private Visibility visibility;
 
-    public OwnedResource(){ this.creationTime = System.currentTimeMillis();}
+    public OwnedResource(){
+        this.creationTime = System.currentTimeMillis();
+        this.visibility = Visibility.PUBLIC;
+    }
 
     public OwnedResource(User owner, Visibility visibility, String description) {
         this.creationTime = System.currentTimeMillis();
@@ -83,14 +85,6 @@ public class OwnedResource implements Serializable {
         this.visibility = visibility;
         this.description = description;
         this.creationTime = System.currentTimeMillis();
-    }
-
-    public void setOwnerToCurrentUser(){
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken)
-            throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
-        this.owner = (User) authentication.getPrincipal();
     }
 
     public Visibility getVisibility() {

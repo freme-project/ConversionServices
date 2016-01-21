@@ -24,6 +24,7 @@ import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.vote.AbstractAccessDecisionManager;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -54,6 +55,13 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
 
     @Override
 	public Entity save(Entity entity){
+        if(entity.getOwner() == null) {
+            Authentication authentication = SecurityContextHolder.getContext()
+                    .getAuthentication();
+            if(authentication instanceof AnonymousAuthenticationToken)
+                throw new AccessDeniedException("Could not set current user as owner of created resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
+            entity.setOwner((User) authentication.getPrincipal());
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
         return super.save(entity);

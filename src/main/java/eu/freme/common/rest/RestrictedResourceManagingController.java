@@ -40,8 +40,8 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
     @Autowired
     UserDAO userDAO;
 
-    protected abstract Entity createEntity(String id, OwnedResource.Visibility visibility, String description, String body, Map<String, String> parameters) throws BadRequestException;
-    protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters) throws BadRequestException;
+    protected abstract Entity createEntity(String id, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
+    protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
 
     public OwnedResourceDAO<Entity> getEntityDAO() {
         return entityDAO;
@@ -58,6 +58,7 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
             @RequestParam(value = visibilityParameterName, required = false) String visibility,
             @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam Map<String, String> allParams,
+            @RequestHeader Map<String, String> allHeaders,
             @RequestBody String postBody
     ){
         try {
@@ -67,7 +68,16 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
                 if (entity != null)
                     throw new FREMEHttpException("Can not add entity: Entity with identifier: " + entityId + " already exists.");
             }
-            Entity entity = createEntity(entityId, OwnedResource.Visibility.getByString(visibility), description, postBody, allParams);
+            Entity entity = createEntity(entityId, postBody, allParams, allHeaders);
+
+            if(!Strings.isNullOrEmpty(visibility)){
+                entity.setVisibility(OwnedResource.Visibility.getByString(visibility));
+            }
+
+            if(!Strings.isNullOrEmpty(description)){
+                entity.setDescription(description);
+            }
+
             entity = entityDAO.save(entity);
 
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -128,12 +138,13 @@ public abstract class RestrictedResourceManagingController<Entity extends OwnedR
             @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam(value = newOwnerParameterName, required = false) String ownerName,
             @RequestParam Map<String, String> allParams,
+            @RequestHeader Map<String, String> allHeaders,
             @RequestBody String postBody
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(filterName);
 
-            updateEntity(entity, postBody, allParams);
+            updateEntity(entity, postBody, allParams, allHeaders);
 
             if(!Strings.isNullOrEmpty(visibility)){
                 entity.setVisibility(OwnedResource.Visibility.getByString(visibility));

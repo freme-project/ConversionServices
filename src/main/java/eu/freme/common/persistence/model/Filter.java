@@ -35,14 +35,12 @@ public class Filter extends OwnedResource {
         super(visibility, description);
         this.name = name;
         this.query = queryString;
-        //constructQuery();
     }
 
-    public Filter(String name, String queryString, String description){
-        super(Visibility.PUBLIC, description);
+    public Filter(String name, String queryString){
+        super(Visibility.PUBLIC, "");
         this.name = name;
         this.query = queryString;
-        //constructQuery();
     }
 
     public Model getFilteredModel(Model model){
