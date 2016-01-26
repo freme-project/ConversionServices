@@ -18,8 +18,8 @@ import javax.persistence.Transient;
 
 @Component
 @Entity
-@Table(name = "filter")
-public class Filter extends OwnedResource {
+@Table(name = "sparqlconverter")
+public class SparqlConverter extends OwnedResource {
 
     @JsonIgnore
     @Transient
@@ -29,15 +29,15 @@ public class Filter extends OwnedResource {
     String query;
     String name;
 
-    public Filter(){super();}
+    public SparqlConverter(){super();}
 
-    public Filter(Visibility visibility, String name, String queryString, String description){
+    public SparqlConverter(Visibility visibility, String name, String queryString, String description){
         super(visibility, description);
         this.name = name;
         this.query = queryString;
     }
 
-    public Filter(String name, String queryString){
+    public SparqlConverter(String name, String queryString){
         super(Visibility.PUBLIC, "");
         this.name = name;
         this.query = queryString;
