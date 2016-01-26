@@ -28,7 +28,6 @@ import java.util.Map;
 public abstract class OwnedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
 
     public static final String relativeManagePath = "/manage";
-    public static final String identifierParameterName = "entityId";
     public static final String visibilityParameterName = "visibility";
     public static final String newOwnerParameterName = "newOwner";
     public static final String descriptionParameterName = "description";
@@ -40,7 +39,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     @Autowired
     UserDAO userDAO;
 
-    protected abstract Entity createEntity(String id, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
+    protected abstract Entity createEntity(String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
     protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
 
     public OwnedResourceDAO<Entity> getEntityDAO() {
@@ -54,7 +53,6 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     @RequestMapping(value = relativeManagePath, method = RequestMethod.POST)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> addEntity(
-            @RequestParam(value = identifierParameterName, required = false) String entityId,
             @RequestParam(value = visibilityParameterName, required = false) String visibility,
             @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam Map<String, String> allParams,
@@ -63,12 +61,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     ){
         try {
 
-            if(!Strings.isNullOrEmpty(entityId)) {
-                Entity entity = entityDAO.findOneByIdentifierUnsecured(entityId);
-                if (entity != null)
-                    throw new FREMEHttpException("Can not add entity: Entity with identifier: " + entityId + " already exists.");
-            }
-            Entity entity = createEntity(entityId, postBody, allParams, allHeaders);
+            Entity entity = createEntity(postBody, allParams, allHeaders);
 
             if(!Strings.isNullOrEmpty(visibility)){
                 entity.setVisibility(OwnedResource.Visibility.getByString(visibility));
@@ -103,13 +96,13 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{filterName}", method = RequestMethod.GET)
+    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getEntityById(
-            @PathVariable("filterName") String filterName
+            @PathVariable("identifier") String identifier
     ){
         try {
-            Entity entity = entityDAO.findOneByIdentifier(filterName);
+            Entity entity = entityDAO.findOneByIdentifier(identifier);
             HttpHeaders responseHeaders = new HttpHeaders();
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String serialization = ow.writeValueAsString(entity);
@@ -130,10 +123,10 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{filterName}", method = RequestMethod.PUT)
+    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.PUT)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> putEntityById(
-            @PathVariable("filterName") String filterName,
+            @PathVariable("identifier") String identifier,
             @RequestParam(value = visibilityParameterName, required = false) String visibility,
             @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam(value = newOwnerParameterName, required = false) String ownerName,
@@ -142,7 +135,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestBody String postBody
     ){
         try {
-            Entity entity = entityDAO.findOneByIdentifier(filterName);
+            Entity entity = entityDAO.findOneByIdentifier(identifier);
 
             updateEntity(entity, postBody, allParams, allHeaders);
 
@@ -189,13 +182,13 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{filterName}", method = RequestMethod.DELETE)
+    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.DELETE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> deleteEntityById(
-            @PathVariable("filterName") String filterName
+            @PathVariable("identifier") String identifier
     ){
         try {
-            Entity entity = entityDAO.findOneByIdentifier(filterName);
+            Entity entity = entityDAO.findOneByIdentifier(identifier);
             entityDAO.delete(entity);
             return new ResponseEntity<>("The entity was sucessfully removed.", HttpStatus.OK);
         }catch (AccessDeniedException ex) {
