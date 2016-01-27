@@ -106,6 +106,7 @@ public class Template extends OwnedResource {
     public Template(){super();}
 
 
+    @JsonIgnore
     public void setTemplateWithModel(Model model){
         model.enterCriticalSection(false);
         try {
