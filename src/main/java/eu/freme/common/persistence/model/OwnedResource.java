@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -139,4 +140,8 @@ public class OwnedResource implements Serializable {
         return ow.writeValueAsString(this);
     }
 
+    public static <T extends OwnedResource> T fromJson(String json, Class<T> entityClass)throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return entityClass.cast(mapper.readValue(json, entityClass));
+    }
 }
