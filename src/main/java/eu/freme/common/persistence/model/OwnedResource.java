@@ -134,4 +134,9 @@ public class OwnedResource implements Serializable {
         return "OwnedResource[id="+id+", owner="+owner.toString()+", visibility="+ visibility.toString()+"]";
     }
 
+    public String toJson() throws JsonProcessingException {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        return ow.writeValueAsString(this);
+    }
+
 }

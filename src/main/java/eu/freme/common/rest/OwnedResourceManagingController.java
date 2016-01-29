@@ -1,7 +1,6 @@
 package eu.freme.common.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Strings;
 import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.exception.BadRequestException;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 12.01.2016.
@@ -74,10 +74,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             entity = entityDAO.save(entity);
 
             HttpHeaders responseHeaders = new HttpHeaders();
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String serialization = ow.writeValueAsString(entity);
             responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
-            return new ResponseEntity<>(serialization, responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(entity.toJson(), responseHeaders, HttpStatus.OK);
         } catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
             throw new eu.freme.common.exception.AccessDeniedException(ex.getMessage());
@@ -104,10 +102,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
             HttpHeaders responseHeaders = new HttpHeaders();
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String serialization = ow.writeValueAsString(entity);
             responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
-            return new ResponseEntity<>(serialization, responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(entity.toJson(), responseHeaders, HttpStatus.OK);
         }catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
             throw new eu.freme.common.exception.AccessDeniedException(ex.getMessage());
@@ -158,10 +154,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
                 entity = entityDAO.updateOwner(entity, owner);
             }
             HttpHeaders responseHeaders = new HttpHeaders();
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String serialization = ow.writeValueAsString(entity);
             responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
-            return new ResponseEntity<>(serialization, responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(entity.toJson(), responseHeaders, HttpStatus.OK);
         }catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
             throw new eu.freme.common.exception.AccessDeniedException(ex.getMessage());
@@ -209,18 +203,28 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     @RequestMapping(value = relativeManagePath, method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getAllEntities(
-    ){
+    ) {
         try {
             List<Entity> entities = entityDAO.findAllReadAccessible();
+            String serialization = entities.stream()
+                    .map(p -> {
+                        try {
+                            return p.toJson();
+                        } catch (JsonProcessingException e) {
+                            throw new FREMEHttpException("Could not serialize entity with identifier=\""+p.getIdentifier()+"\" to JSON. "+e.getMessage());
+                        }
+                    })
+                    .collect(Collectors.joining(",\n"));
+
             HttpHeaders responseHeaders = new HttpHeaders();
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String serialization = ow.writeValueAsString(entities);
+            //ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            //String serialization = ow.writeValueAsString(entities);
             responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
-            return new ResponseEntity<>(serialization, responseHeaders, HttpStatus.OK);
-        }catch (FREMEHttpException ex){
+            return new ResponseEntity<>("["+serialization+"]", responseHeaders, HttpStatus.OK);
+        } catch (FREMEHttpException ex) {
             logger.error(ex.getMessage());
             throw ex;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
             throw new FREMEHttpException(ex.getMessage());
         }
