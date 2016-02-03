@@ -19,6 +19,7 @@ package eu.freme.common.conversion.rdf;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 
 import eu.freme.common.conversion.rdf.RDFConstants;
 
@@ -74,5 +75,5 @@ public interface RDFConversionService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String extractFirstPlaintext(Model model) throws Exception;
+	public Statement extractFirstPlaintext(Model model) throws Exception;
 }

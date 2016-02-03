@@ -134,7 +134,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	@Override
-	public String extractFirstPlaintext(Model model) throws Exception {
+	public Statement extractFirstPlaintext(Model model) throws Exception {
 		Resource context = model
 				.getResource("http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context");
 		Property isString = model
@@ -144,7 +144,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 			Resource contextRes = iter.nextStatement().getSubject();
 			Statement isStringStm = contextRes.getProperty(isString);
 			if (isStringStm != null) {
-				return isStringStm.getObject().asLiteral().getString();
+				return isStringStm;
 			}
 		}
 		return null;

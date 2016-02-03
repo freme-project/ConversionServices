@@ -28,6 +28,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
@@ -140,12 +141,12 @@ public class JenaRDFConverterTest {
 		
 		String rdf = readFile("src/test/resources/rdftest/test-plaintext.ttl");
 		Model model = converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
-		String plaintext = converter.extractFirstPlaintext(model);
+		Statement plaintext = converter.extractFirstPlaintext(model);
 		assertTrue(plaintext == null);
 		
 		rdf = readFile("src/test/resources/rdftest/test-plaintext-2.ttl");
 		model = converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
 		plaintext = converter.extractFirstPlaintext(model);
-		assertTrue(plaintext.equals("hello world"));
+		assertTrue(plaintext.getObject().asLiteral().getString().equals("hello world"));
 	}
 }
