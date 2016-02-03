@@ -36,7 +36,8 @@ public interface RDFConversionService {
 	 * @param plaintext
 	 * @param language
 	 *            set to null if no language is attached to isString
-	 * @param prefix defines the uri that for the new resource
+	 * @param prefix
+	 *            defines the uri that for the new resource
 	 * @return the newly generated resource
 	 */
 	public Resource plaintextToRDF(Model model, String plaintext,
@@ -63,4 +64,15 @@ public interface RDFConversionService {
 	 */
 	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
 			throws Exception;
+
+	/**
+	 * Extracts plaintext for enrichment. It looks for a resource that is a
+	 * nif:Context and extracts returns of the nif:isString property. When there
+	 * is more then one of these literals then it returns an arbitrary literal.
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public String extractFirstPlaintext(Model model) throws Exception;
 }

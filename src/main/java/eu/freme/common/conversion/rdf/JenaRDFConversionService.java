@@ -27,6 +27,9 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.conversion.rdf.RDFConversionService;
@@ -43,7 +46,8 @@ public class JenaRDFConversionService implements RDFConversionService {
 		rdfTypeMapping = new HashMap<RDFConstants.RDFSerialization, String>();
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.TURTLE, "TTL");
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.JSON_LD, "JSON-LD");
-		rdfTypeMapping.put(RDFConstants.RDFSerialization.N_TRIPLES, "N-TRIPLES");
+		rdfTypeMapping
+				.put(RDFConstants.RDFSerialization.N_TRIPLES, "N-TRIPLES");
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.N3, "N3");
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.RDF_XML, "RDF/XML");
 	}
@@ -56,7 +60,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
 
 		String uri = prefix;
-		if( !uri.contains("#char=")){
+		if (!uri.contains("#char=")) {
 			uri += "#char=0," + plaintext.length();
 		}
 		Resource resource = model.createResource(uri);
@@ -121,12 +125,29 @@ public class JenaRDFConversionService implements RDFConversionService {
 		Model model = ModelFactory.createDefaultModel();
 		StringReader reader = new StringReader(rdf);
 		model.read(reader, null, jenaIdentifier);
-		
+
 		return model;
 	}
 
-	public String getJenaType(RDFConstants.RDFSerialization type){
+	public String getJenaType(RDFConstants.RDFSerialization type) {
 		return rdfTypeMapping.get(type);
+	}
+
+	@Override
+	public String extractFirstPlaintext(Model model) throws Exception {
+		Resource context = model
+				.getResource("http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context");
+		Property isString = model
+				.getProperty("http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#isString");
+		StmtIterator iter = model.listStatements(null, RDF.type, context);
+		while (iter.hasNext()) {
+			Resource contextRes = iter.nextStatement().getSubject();
+			Statement isStringStm = contextRes.getProperty(isString);
+			if (isStringStm != null) {
+				return isStringStm.getObject().asLiteral().getString();
+			}
+		}
+		return null;
 	}
 
 }
