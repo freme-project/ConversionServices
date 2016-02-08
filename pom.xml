@@ -21,7 +21,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.freme</groupId>
 	<artifactId>common</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<name>FREMECommon</name>
 	<inceptionYear>2015</inceptionYear>
 
@@ -193,6 +193,6 @@ Istituto Superiore Mario Boella, Tilde, Vistatec, WRIPL
 		<connection>scm:git:git@github.com:freme-project/FREMECommon.git</connection>
 		<url>scm:git:git@github.com/freme-project:FREMECommon.git</url>
 		<developerConnection>scm:git:git@github.com:freme-project/FREMECommon.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>common-0.5</tag>
 	</scm>
 </project>
