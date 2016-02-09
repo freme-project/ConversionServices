@@ -27,9 +27,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import eu.freme.common.exception.InternalServerErrorException;
-import eu.freme.common.persistence.model.Token;
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.repository.UserRepository;
+import eu.freme.persistence.model.Token;
+import eu.freme.persistence.model.User;
+import eu.freme.persistence.repository.UserRepository;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */

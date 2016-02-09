@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import eu.freme.common.FREMECommonConfig;
-import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.Template;
-import eu.freme.common.persistence.model.User;
+import eu.freme.persistence.model.OwnedResource;
+import eu.freme.persistence.model.Template;
+import eu.freme.persistence.model.User;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;

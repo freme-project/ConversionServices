@@ -18,13 +18,14 @@
 package eu.freme.common.persistence;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import eu.freme.common.FREMECommonConfig;
-import eu.freme.common.persistence.dao.PipelineDAO;
-import eu.freme.common.persistence.dao.UserDAO;
-import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.Pipeline;
-import eu.freme.common.persistence.model.SerializedRequest;
-import eu.freme.common.persistence.model.User;
+import eu.freme.persistence.dao.PipelineDAO;
+import eu.freme.persistence.dao.UserDAO;
+import eu.freme.persistence.model.OwnedResource;
+import eu.freme.persistence.model.Pipeline;
+import eu.freme.persistence.model.SerializedRequest;
+import eu.freme.persistence.model.User;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;

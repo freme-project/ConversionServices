@@ -18,10 +18,10 @@
 package eu.freme.common.persistence;
 
 import eu.freme.common.FREMECommonConfig;
-import eu.freme.common.persistence.dao.TokenDAO;
-import eu.freme.common.persistence.dao.UserDAO;
-import eu.freme.common.persistence.model.Token;
-import eu.freme.common.persistence.model.User;
+import eu.freme.persistence.dao.TokenDAO;
+import eu.freme.persistence.dao.UserDAO;
+import eu.freme.persistence.model.Token;
+import eu.freme.persistence.model.User;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;

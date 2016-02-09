@@ -51,9 +51,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.repository.UserRepository;
-import eu.freme.common.persistence.tools.AccessLevelHelper;
+import eu.freme.persistence.model.User;
+import eu.freme.persistence.repository.UserRepository;
+import eu.freme.persistence.tools.AccessLevelHelper;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

@@ -23,9 +23,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 
-import eu.freme.common.persistence.model.Token;
-import eu.freme.common.persistence.repository.TokenRepository;
-import eu.freme.common.persistence.model.User;
+import eu.freme.persistence.model.Token;
+import eu.freme.persistence.model.User;
+import eu.freme.persistence.repository.TokenRepository;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */

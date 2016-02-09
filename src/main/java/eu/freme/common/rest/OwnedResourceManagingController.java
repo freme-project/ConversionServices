@@ -2,13 +2,15 @@ package eu.freme.common.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Strings;
+
 import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.exception.BadRequestException;
 import eu.freme.common.exception.FREMEHttpException;
-import eu.freme.common.persistence.dao.OwnedResourceDAO;
-import eu.freme.common.persistence.dao.UserDAO;
-import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.User;
+import eu.freme.persistence.dao.OwnedResourceDAO;
+import eu.freme.persistence.dao.UserDAO;
+import eu.freme.persistence.model.OwnedResource;
+import eu.freme.persistence.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

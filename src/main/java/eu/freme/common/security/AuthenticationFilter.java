@@ -44,8 +44,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 
-import eu.freme.common.persistence.model.Token;
 import eu.freme.common.rest.BaseRestController;
+import eu.freme.persistence.model.Token;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */

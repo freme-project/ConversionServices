@@ -15,30 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.security;
+package eu.freme.persistence.repository;
 
-import java.util.Collection;
+import eu.freme.persistence.model.User;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-
-import eu.freme.persistence.model.Token;
+import org.springframework.data.repository.CrudRepository;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-@SuppressWarnings("serial")
-public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-	public AuthenticationWithToken(Object aPrincipal, Object aCredentials, Collection<? extends GrantedAuthority> anAuthorities, Token token) {
-        super(aPrincipal, aCredentials, anAuthorities);
-        setToken(token);
-    }
-
-    public void setToken(Token token) {
-        setDetails(token);
-    }
-
-    public Token getToken() {
-        return (Token)getDetails();
-    }
+    User findOneByName(String name);
+    
 }

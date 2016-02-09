@@ -15,30 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.security;
-
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+package eu.freme.persistence.dao;
 
 import eu.freme.persistence.model.Token;
+import eu.freme.persistence.repository.TokenRepository;
+
+import org.springframework.stereotype.Component;
+
 /**
- * @author Jan Nehring - jan.nehring@dfki.de
+ * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */
-@SuppressWarnings("serial")
-public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken {
-
-	public AuthenticationWithToken(Object aPrincipal, Object aCredentials, Collection<? extends GrantedAuthority> anAuthorities, Token token) {
-        super(aPrincipal, aCredentials, anAuthorities);
-        setToken(token);
-    }
-
-    public void setToken(Token token) {
-        setDetails(token);
-    }
-
-    public Token getToken() {
-        return (Token)getDetails();
-    }
+@Component
+public class TokenDAO extends DAO<TokenRepository, Token> {
 }
