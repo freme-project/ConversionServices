@@ -1,4 +1,4 @@
-package eu.freme.common.persistence;
+package eu.freme.persistence;
 
 import eu.freme.common.FREMECommonConfig;
 import eu.freme.persistence.dao.DatasetSimpleDAO;

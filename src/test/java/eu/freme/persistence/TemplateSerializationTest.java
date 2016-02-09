@@ -1,4 +1,4 @@
-package eu.freme.common.persistence;
+package eu.freme.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
