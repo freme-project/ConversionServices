@@ -17,9 +17,9 @@
  */
 package eu.freme.common.security.voter;
 
-import eu.freme.persistence.model.OwnedResource;
-import eu.freme.persistence.model.User;
-import eu.freme.persistence.tools.AccessLevelHelper;
+import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.tools.AccessLevelHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;

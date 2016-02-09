@@ -17,25 +17,23 @@
  */
 package eu.freme.common;
 
+import eu.freme.common.persistence.tools.AccessLevelHelper;
 import eu.freme.common.rest.NIFParameterFactory;
 import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;
 import eu.freme.common.starter.FREMEStarter;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import eu.freme.common.conversion.etranslate.TranslationConversionService;
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
 import eu.freme.common.conversion.rdf.RDFConversionService;
 import eu.freme.common.conversion.rdf.RDFSerializationFormats;
-import eu.freme.persistence.tools.AccessLevelHelper;
 
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
@@ -45,14 +43,14 @@ import java.util.ArrayList;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-@EntityScan("eu.freme.persistence.model")
+//@EntityScan("eu.freme.common.persistence.model")
 //@ComponentScan(basePackages={"eu.freme.common"})
 //@Import(SecurityConfig.class)
 //@EnableAutoConfiguration
-@EnableJpaRepositories(basePackages={"eu.freme.persistence.repository"})
+//@EnableJpaRepositories(basePackages={"eu.freme.common.persistence.repository"})
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages={"eu.freme.common", "eu.freme.persistence"}, excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE, value=FREMEStarter.class))
+@ComponentScan(basePackageClasses=FREMECommonConfig.class, excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE, value=FREMEStarter.class))
 public class FREMECommonConfig {
 
     @Bean

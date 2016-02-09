@@ -15,42 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.security;
-
-import java.util.Date;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
+package eu.freme.common.persistence.dao;
 
 import eu.freme.common.persistence.model.Token;
 import eu.freme.common.persistence.repository.TokenRepository;
-import eu.freme.common.persistence.model.User;
+import org.springframework.stereotype.Component;
+
 /**
- * @author Jan Nehring - jan.nehring@dfki.de
+ * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */
-public class TokenService {
-
-	@Autowired
-	TokenRepository tokenRepository;
-
-	public Token generateNewToken(User user) {
-		Token token = new Token(UUID.randomUUID().toString(), user);
-		token = tokenRepository.save(token);
-		return token;
-	}
-
-	public Token retrieve(String tokenStr) {
-		Token token = tokenRepository.findOneByToken(tokenStr);
-		if (token == null) {
-			throw new BadCredentialsException("invalid token");
-		}
-		return token;
-	}
-	
-	public Token updateLastUsed(Token token){
-		token.setLastUsedDate(new Date());
-		token = tokenRepository.save(token);
-		return token;
-	}
+@Component
+public class TokenDAO extends DAO<TokenRepository, Token> {
 }

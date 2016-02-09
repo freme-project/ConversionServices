@@ -15,30 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.security;
+package eu.freme.common.persistence.dao;
 
-import java.util.Collection;
+import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.repository.UserRepository;
+import org.springframework.stereotype.Component;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-
-import eu.freme.common.persistence.model.Token;
 /**
- * @author Jan Nehring - jan.nehring@dfki.de
+ * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */
-@SuppressWarnings("serial")
-public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken {
+@Component
+public class UserDAO extends DAO<UserRepository, User> {
 
-	public AuthenticationWithToken(Object aPrincipal, Object aCredentials, Collection<? extends GrantedAuthority> anAuthorities, Token token) {
-        super(aPrincipal, aCredentials, anAuthorities);
-        setToken(token);
-    }
-
-    public void setToken(Token token) {
-        setDetails(token);
-    }
-
-    public Token getToken() {
-        return (Token)getDetails();
+    @Override
+	public void delete(User entity){
+        User user = repository.findOneByName(entity.getName());
+        super.delete(user);
     }
 }
