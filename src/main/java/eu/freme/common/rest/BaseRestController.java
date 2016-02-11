@@ -29,12 +29,16 @@ import eu.freme.common.exception.InternalServerErrorException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -122,6 +126,35 @@ public abstract class BaseRestController {
 		}
 		return nifParameterFactory.constructFromHttp(input, informat,
 				outformat, postBody, acceptHeader, contentTypeHeader, prefix, allowEmptyInput);
+	}
+	
+	/**
+	 * Get NIFParameterSet from a HttpServletRequest. Throws an BadRequestException in case the input is not valid NIF.
+	 * 
+	 * @param request the request
+	 * @param allowEmptyInput Specifies if it is allowed to send empty input text.
+	 * @return
+	 * @throws IOException
+	 */
+	protected NIFParameterSet normalizeNif(HttpServletRequest request, boolean allowEmptyInput) throws IOException{
+		
+		BufferedReader reader = request.getReader();
+		StringBuilder bldr = new StringBuilder();
+		String line;
+		while( (line=reader.readLine()) != null){
+			bldr.append(line);
+			bldr.append("\n");	
+		}
+		
+		String postBody = bldr.toString();
+		String acceptHeader = request.getHeader("accept");
+		String contentTypeHeader = request.getHeader("content-type");
+		
+		Map<String,String> parameters = new HashMap<String, String>();
+		for( String key : request.getParameterMap().keySet()){
+			parameters.put(key, request.getParameter(key));
+		}
+		return normalizeNif(postBody, acceptHeader, contentTypeHeader, parameters, allowEmptyInput);
 	}
 
 	/**
