@@ -127,4 +127,26 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return entityManager.createQuery(queryString).getResultList();
     }
 
+    public boolean hasReadAccess(Entity entity){
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        try {
+            decisionManager.decide(authentication, entity, accessLevelHelper.readAccess());
+        }catch (AccessDeniedException e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasWriteAccess(Entity entity){
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        try {
+            decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
+        }catch (AccessDeniedException e){
+            return false;
+        }
+        return true;
+    }
+
 }
