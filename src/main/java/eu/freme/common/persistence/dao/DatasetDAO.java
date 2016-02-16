@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatasetDAO extends OwnedResourceDAO<Dataset> {
     @Override
-    public String className() {
+    public String tableName() {
         return Dataset.class.getSimpleName();
     }
 }

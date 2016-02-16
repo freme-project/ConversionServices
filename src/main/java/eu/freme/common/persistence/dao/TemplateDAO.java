@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class TemplateDAO extends OwnedResourceDAO<Template> {
 
     @Override
-    public String className() {
+    public String tableName() {
         return Template.class.getSimpleName();
     }
 }

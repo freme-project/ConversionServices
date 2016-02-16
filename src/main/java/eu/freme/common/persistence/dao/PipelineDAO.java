@@ -33,7 +33,7 @@ public class PipelineDAO extends OwnedResourceDAO<Pipeline> {
 	private final static long ONE_DAY = 24 * 60 * 60 * 1000;  // one day expressed in milliseconds
 
 	@Override
-	public String className() {
+	public String tableName() {
 		return Pipeline.class.getSimpleName();
 	}
 

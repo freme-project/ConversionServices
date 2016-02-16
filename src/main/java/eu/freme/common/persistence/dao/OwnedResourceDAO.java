@@ -44,7 +44,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
     @Autowired
     AccessLevelHelper accessLevelHelper;
 
-    public abstract String className();
+    public abstract String tableName();
 
     @Override
 	public void delete(Entity entity){
@@ -108,7 +108,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         if(repository.count()==0)
             return new ArrayList<>(0);
 
-        String entityName = className();
+        String entityName = tableName();
         String entity = entityName.toLowerCase();
         String queryString;
         Authentication authentication = SecurityContextHolder.getContext()
