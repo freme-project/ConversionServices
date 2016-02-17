@@ -78,7 +78,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam Map<String, String> allParams,
             @RequestHeader Map<String, String> allHeaders,
-            @RequestBody String postBody
+            @RequestBody(required = false) String postBody
     ){
         try {
 
@@ -149,7 +149,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestParam(value = newOwnerParameterName, required = false) String ownerName,
             @RequestParam Map<String, String> allParams,
             @RequestHeader Map<String, String> allHeaders,
-            @RequestBody String postBody
+            @RequestBody(required = false) String postBody
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
