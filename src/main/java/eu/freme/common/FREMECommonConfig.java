@@ -37,6 +37,7 @@ import eu.freme.common.conversion.rdf.RDFSerializationFormats;
 
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.boot.autoconfigure.solr.SolrAutoConfiguration;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 //@EnableAutoConfiguration
 //@EnableJpaRepositories(basePackages={"eu.freme.common.persistence.repository"})
 @Configuration
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude={SolrAutoConfiguration.class})
 @ComponentScan(basePackageClasses=FREMECommonConfig.class, excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE, value=FREMEStarter.class))
 public class FREMECommonConfig {
 
