@@ -83,7 +83,6 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
-        result.postRead();
         return result;
     }
 
@@ -93,6 +92,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             throw new OwnedResourceNotFoundException("Could not find resource with identifier='"+identifier+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
+        result.postRead();
         return result;
     }
 
