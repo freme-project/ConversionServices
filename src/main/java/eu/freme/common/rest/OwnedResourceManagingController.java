@@ -39,28 +39,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     @Autowired
     UserDAO userDAO;
 
-    /**
-     * Implementations of this method have to create a new entity object of the class Entity.
-     * Http body, parameters and headers should be evaluated before forwarding to any Entity constructor.
-     *
-     * @param body http request body
-     * @param parameters http request parameters
-     * @param headers http request headers
-     * @return the new entity object
-     * @throws BadRequestException
-     */
     protected abstract Entity createEntity(String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
-
-    /**
-     * Implementations of this method have to update an entity object of the class Entity.
-     * Http body, parameters and headers should be evaluated before forwarding to any method which manipulates the entity object.
-     *
-     * @param entity the entity object which should be updated
-     * @param body http request body
-     * @param parameters http request parameters
-     * @param headers http request headers
-     * @throws BadRequestException
-     */
     protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
 
     public OwnedResourceDAO<Entity> getEntityDAO() {
@@ -78,7 +57,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestParam(value = descriptionParameterName, required = false) String description,
             @RequestParam Map<String, String> allParams,
             @RequestHeader Map<String, String> allHeaders,
-            @RequestBody(required = false) String postBody
+            @RequestBody String postBody
     ){
         try {
 
@@ -149,7 +128,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestParam(value = newOwnerParameterName, required = false) String ownerName,
             @RequestParam Map<String, String> allParams,
             @RequestHeader Map<String, String> allHeaders,
-            @RequestBody(required = false) String postBody
+            @RequestBody String postBody
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);

@@ -81,8 +81,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	@Value("${admin.create:false}")
 	private boolean createAdminUser;
 	
+	@SuppressWarnings("rawtypes")
 	@Autowired
-	List<AccessDecisionVoter<? extends Object>> accessDecisionVoters;
+	List<AccessDecisionVoter> accessDecisionVoters;
 
 	@PostConstruct
 	public void init() {
@@ -211,6 +212,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	@Bean
 	public AffirmativeBased defaultAccessDecisionManager() {
 		
+		@SuppressWarnings("rawtypes")
 		AffirmativeBased ab = new AffirmativeBased(accessDecisionVoters);
 		return ab;
 	}
