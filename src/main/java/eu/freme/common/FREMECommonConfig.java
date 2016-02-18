@@ -17,6 +17,7 @@
  */
 package eu.freme.common;
 
+import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
 import eu.freme.common.rest.NIFParameterFactory;
 import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;

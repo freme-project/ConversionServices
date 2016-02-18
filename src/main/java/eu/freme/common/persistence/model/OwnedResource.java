@@ -65,27 +65,23 @@ public class OwnedResource implements Serializable {
 
     private Visibility visibility;
 
-    public OwnedResource(){
+    public OwnedResource() throws AccessDeniedException{
+        setCurrentUserAsOwner();
+        this.creationTime = System.currentTimeMillis();
+        this.visibility = Visibility.PUBLIC;
+    }
+    public OwnedResource(User owner){
+        this.owner = owner;
         this.creationTime = System.currentTimeMillis();
         this.visibility = Visibility.PUBLIC;
     }
 
-    public OwnedResource(User owner, Visibility visibility, String description) {
-        this.creationTime = System.currentTimeMillis();
-        this.owner = owner;
-        this.visibility = visibility;
-        this.description = description;
-    }
-
-    public OwnedResource(Visibility visibility, String description) throws AccessDeniedException{
+    public void setCurrentUserAsOwner() throws AccessDeniedException{
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
             throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
         this.owner = (User) authentication.getPrincipal();
-        this.visibility = visibility;
-        this.description = description;
-        this.creationTime = System.currentTimeMillis();
     }
 
     public Visibility getVisibility() {

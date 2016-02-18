@@ -63,6 +63,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
 
             Entity entity = createEntity(postBody, allParams, allHeaders);
 
+            entity.setCurrentUserAsOwner();
+
             if(!Strings.isNullOrEmpty(visibility)){
                 entity.setVisibility(OwnedResource.Visibility.getByString(visibility));
             }
