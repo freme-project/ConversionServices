@@ -64,8 +64,11 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, entity, accessLevelHelper.writeAccess());
+        entity.preSave();
         return super.save(entity);
     }
+
+
 
     /**
      * @Depricated use findOneByIdentifier instead and override findOneByIdentifierUnsecured in
@@ -80,6 +83,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
+        result.postRead();
         return result;
     }
 
@@ -108,23 +112,27 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         if(repository.count()==0)
             return new ArrayList<>(0);
 
-        String entityName = tableName();
-        String entity = entityName.toLowerCase();
+        String tableName = tableName();
+        String entityName = tableName.toLowerCase();
         String queryString;
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken) {
             logger.debug("Find owned resources as ANONYMOUS USER");
-            queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
+            queryString = "select " + entityName + " from " + tableName + " " + entityName + " where " + entityName + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
         }else {
             User authUser = (User) authentication.getPrincipal();
             if(authUser.getRole().equals(User.roleAdmin)) {
-                queryString = "select " + entity + " from " + entityName + " " + entity + " order by id";
+                queryString = "select " + entityName + " from " + tableName + " " + entityName + " order by id";
             }else {
-                queryString = "select " + entity + " from " + entityName + " " + entity + " where " + entity + ".owner.name = '" + authUser.getName() + "' or " + entity + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal() + " order by id"; //
+                queryString = "select " + entityName + " from " + tableName + " " + entityName + " where " + entityName + ".owner.name = '" + authUser.getName() + "' or " + entityName + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal() + " order by id"; //
             }
         }
-        return entityManager.createQuery(queryString).getResultList();
+        List<Entity> result = entityManager.createQuery(queryString).getResultList();
+        for(Entity entity: result){
+            entity.postRead();
+        }
+        return result;
     }
 
     public boolean hasReadAccess(Entity entity){

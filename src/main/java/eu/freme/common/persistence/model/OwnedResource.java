@@ -140,4 +140,12 @@ public class OwnedResource implements Serializable {
         ObjectMapper mapper = new ObjectMapper();
         return entityClass.cast(mapper.readValue(json, entityClass));
     }
+
+    public void preSave(){
+        // empty
+    }
+
+    public void postRead(){
+        // empty
+    }
 }
