@@ -92,7 +92,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             throw new OwnedResourceNotFoundException("Could not find resource with identifier='"+identifier+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
-        result.postRead();
+        result.postFetch();
         return result;
     }
 
@@ -130,7 +130,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         }
         List<Entity> result = entityManager.createQuery(queryString).getResultList();
         for(Entity entity: result){
-            entity.postRead();
+            entity.postFetch();
         }
         return result;
     }

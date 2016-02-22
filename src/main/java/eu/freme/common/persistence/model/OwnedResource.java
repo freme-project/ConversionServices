@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import eu.freme.common.exception.BadRequestException;
 
+import eu.freme.common.exception.InternalServerErrorException;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.access.AccessDeniedException;
@@ -146,11 +147,11 @@ public class OwnedResource implements Serializable {
         return entityClass.cast(mapper.readValue(json, entityClass));
     }
 
-    public void preSave(){
+    public void preSave() throws BadRequestException{
         // empty
     }
 
-    public void postRead(){
+    public void postFetch() throws InternalServerErrorException{
         // empty
     }
 }
