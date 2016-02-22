@@ -23,12 +23,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import eu.freme.common.exception.BadRequestException;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -61,6 +65,7 @@ public class OwnedResource implements Serializable {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private User owner;
 
     private Visibility visibility;
