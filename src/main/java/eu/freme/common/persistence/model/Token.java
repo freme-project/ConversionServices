@@ -25,6 +25,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
@@ -37,6 +40,7 @@ public class Token {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
 	Date creationDate;
