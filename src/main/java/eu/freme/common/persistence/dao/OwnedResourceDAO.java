@@ -59,7 +59,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
             Authentication authentication = SecurityContextHolder.getContext()
                     .getAuthentication();
             if(authentication instanceof AnonymousAuthenticationToken)
-                throw new AccessDeniedException("Could not set current user as owner of created resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
+                throw new AccessDeniedException("Could not set current user as owner of created resource ("+tableName()+"): The anonymous user can not own any resource. You have to be logged in to create a resource.");
             entity.setOwner((User) authentication.getPrincipal());
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -68,28 +68,10 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
         return super.save(entity);
     }
 
-
-
-    /**
-     * @Depricated use findOneByIdentifier instead and override findOneByIdentifierUnsecured in
-     * the DAO class of the entity you want to use if an identifier other then id is prefered/needed.
-     * @param id
-     * @return
-     */
-    @Deprecated
-    public Entity findOneById(long id){
-        Entity result = repository.findOneById(id);
-        if(result==null)
-            throw new OwnedResourceNotFoundException("Could not find resource with id='"+id+"'");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
-        return result;
-    }
-
     public Entity findOneByIdentifier(String identifier){
         Entity result = findOneByIdentifierUnsecured(identifier);
         if(result==null)
-            throw new OwnedResourceNotFoundException("Could not find resource with identifier='"+identifier+"'");
+            throw new OwnedResourceNotFoundException("Can not find "+tableName()+" with identifier='"+identifier+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
         result.postFetch();
