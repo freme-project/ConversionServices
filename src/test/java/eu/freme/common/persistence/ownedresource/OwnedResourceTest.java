@@ -31,5 +31,12 @@ public class OwnedResourceTest {
 
 		phoneService.deleteUser();
 		assertTrue(phoneService.countPhoneNumbers() == 0);
+		
+		phoneService.createEntities();
+		assertTrue(phoneService.countPhoneNumbers() == 1);
+		
+		phoneService.deletePhone();
+		assertTrue(phoneService.countPhoneNumbers() == 0);
+		assertTrue(phoneService.countUsers() == 1);
 	}
 }

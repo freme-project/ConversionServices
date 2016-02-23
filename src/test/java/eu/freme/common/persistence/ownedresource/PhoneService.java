@@ -32,9 +32,19 @@ public class PhoneService {
 		return phoneNumberDAO.count();
 	}
 	
+	public long countUsers(){
+		return userDAO.count();
+	}
+	
 	@Transactional
 	public void deleteUser(){
 		User user = userDAO.findAll().iterator().next();
 		userDAO.delete(user);
+	}
+	
+	@Transactional
+	public void deletePhone(){
+		PhoneNumber phone = phoneNumberDAO.findAll().iterator().next();
+		phoneNumberDAO.delete(phone);
 	}
 }
