@@ -147,10 +147,12 @@ public class OwnedResource implements Serializable {
         return entityClass.cast(mapper.readValue(json, entityClass));
     }
 
+    // This is executed before the entity will be persisted to the database
     public void preSave() throws BadRequestException{
         // empty
     }
 
+    // This is executed after the entity is created from the database content
     public void postFetch() throws InternalServerErrorException{
         // empty
     }
