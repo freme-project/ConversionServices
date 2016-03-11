@@ -7,6 +7,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +40,11 @@ public class RestHelper {
 	@Autowired
 	RDFSerializationFormats rdfSerializationFormats;
 
-	String defaultPrefix = "http://freme-project.eu/";
+	//String defaultPrefix = "http://freme-project.eu/";
+
+	public String getDefaultPrefix() {
+		return nifParameterFactory.getDefaultPrefix();
+	}
 
 	/**
 	 * Create a NIFParameterSet to make dealing with NIF API specifications
@@ -223,5 +230,18 @@ public class RestHelper {
 			return model;
 		}
 
+	}
+
+
+	public HttpResponse<String> sendNifRequest(NIFParameterSet parameters, String url) throws UnirestException {
+		String prefix = parameters.getPrefix();
+		if(prefix == null)
+			prefix = nifParameterFactory.getDefaultPrefix();
+		return Unirest.post(url)
+				.header("Content-Type", parameters.getInformat().contentType())
+				.header("Accept", parameters.getOutformat().contentType())
+				.queryString("prefix", prefix)
+				.body(parameters.getInput())
+				.asString();
 	}
 }

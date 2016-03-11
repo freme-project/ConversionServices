@@ -139,4 +139,8 @@ public class NIFParameterFactory {
 	public boolean isNIFParameter(String parameter){
 		return NIF_PARAMETERS.contains(parameter);
 	}
+
+	public String getDefaultPrefix() {
+		return defaultPrefix;
+	}
 }
