@@ -17,26 +17,54 @@
  */
 package eu.freme.common;
 
+import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
+import eu.freme.common.rest.NIFParameterFactory;
 import eu.freme.common.security.voter.OwnedResourceAccessDecisionVoter;
-import eu.freme.common.security.voter.UserAccessDecisionVoter;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import eu.freme.common.starter.FREMEStarter;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+
 import eu.freme.common.conversion.etranslate.TranslationConversionService;
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
 import eu.freme.common.conversion.rdf.RDFConversionService;
+import eu.freme.common.conversion.rdf.RDFSerializationFormats;
+
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.boot.autoconfigure.solr.SolrAutoConfiguration;
 
 import java.util.ArrayList;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
-@SpringBootApplication
+//@EntityScan("eu.freme.common.persistence.model")
+//@ComponentScan(basePackages={"eu.freme.common"})
+//@Import(SecurityConfig.class)
+//@EnableAutoConfiguration
+//@EnableJpaRepositories(basePackages={"eu.freme.common.persistence.repository"})
+@Configuration
+@EnableAutoConfiguration(exclude={SolrAutoConfiguration.class})
+@ComponentScan(basePackageClasses=FREMECommonConfig.class, excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE, value=FREMEStarter.class))
 public class FREMECommonConfig {
 
+    @Bean
+    public RDFSerializationFormats rdfFormats(){
+    	return new RDFSerializationFormats();
+    }
+    
+    @Bean
+    public NIFParameterFactory getNifParameterFactory(){
+    	return new NIFParameterFactory();
+    }
+    
 	@Bean
 	public RDFConversionService getRDFConversionService() {
 		return new JenaRDFConversionService();
@@ -46,21 +74,4 @@ public class FREMECommonConfig {
 	public TranslationConversionService getTranslationConversionService() {
 		return new TranslationConversionServiceImpl();
 	}
-
-	@Bean
-	public AffirmativeBased defaultAccessDecisionManager() {
-		@SuppressWarnings("rawtypes")
-		ArrayList<AccessDecisionVoter> list = new ArrayList<AccessDecisionVoter>();
-		//list.add(new TemplateAccessDecisionVoter());
-		list.add(new UserAccessDecisionVoter());
-		list.add(new OwnedResourceAccessDecisionVoter());
-		AffirmativeBased ab = new AffirmativeBased(list);
-		return ab;
-	}
-
-	@Bean
-	public AccessLevelHelper accessLevelHelper() {
-		return new AccessLevelHelper();
-	}
-
 }

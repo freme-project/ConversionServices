@@ -15,14 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence.repository;
+package eu.freme.common.exception;
 
-import eu.freme.common.persistence.model.Template;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
+ * @author Jan Nehring - jan.nehring@dfki.de
  */
-public interface TemplateRepository extends OwnedResourceRepository<Template> {
-
+@SuppressWarnings("serial")
+@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="")
+public class NotFoundException extends FREMEHttpException{
+    public NotFoundException(){super();}
+    public NotFoundException(String msg){super(msg);}
 }
-

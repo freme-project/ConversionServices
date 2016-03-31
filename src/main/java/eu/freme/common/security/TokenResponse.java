@@ -15,14 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence.repository;
+package eu.freme.common.security;
 
-import eu.freme.common.persistence.model.Pipeline;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 /**
- * <p>Copyright 2015 MMLab, UGent</p>
- *
- * @author Gerald Haesendonck
+ * @author Jan Nehring - jan.nehring@dfki.de
  */
-public interface PipelineRepository extends OwnedResourceRepository<Pipeline> {
+public class TokenResponse {
+    @JsonProperty
+    private String token;
+
+    public TokenResponse() {
+    }
+
+    public TokenResponse(String token) {
+        this.token = token;
+    }
 }

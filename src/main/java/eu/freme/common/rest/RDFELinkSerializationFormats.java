@@ -15,51 +15,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.conversion.rdf;
+package eu.freme.common.rest;
 
 import java.util.HashMap;
 
-/**
- * Defines the RDFSerializationFormats accepted by the REST endpoints.
- *
- * @author Jan Nehring - jan.nehring@dfki.de
- */
-@SuppressWarnings({"serial", "unused"})
-public class RDFSerializationFormats extends
-		HashMap<String, RDFConstants.RDFSerialization> {
+import eu.freme.common.conversion.rdf.RDFConstants;
 
-	public RDFSerializationFormats() {
+@SuppressWarnings("serial")
+public class RDFELinkSerializationFormats extends HashMap<String, RDFConstants.RDFSerialization>{
+
+	public RDFELinkSerializationFormats(){
 		super();
 		put("text/turtle", RDFConstants.RDFSerialization.TURTLE);
 		put("application/x-turtle", RDFConstants.RDFSerialization.TURTLE);
 		put("turtle", RDFConstants.RDFSerialization.TURTLE);
 
-		put("application/json+ld", RDFConstants.RDFSerialization.JSON_LD);
-		put("application/ld+json", RDFConstants.RDFSerialization.JSON_LD);
+                put("application/json+ld",RDFConstants.RDFSerialization.JSON_LD);
 		put("json-ld", RDFConstants.RDFSerialization.JSON_LD);
-
-		put("application/n-triples", RDFConstants.RDFSerialization.N_TRIPLES);
-		put("n-triples", RDFConstants.RDFSerialization.N_TRIPLES);
-
-		put("text/plain", RDFConstants.RDFSerialization.PLAINTEXT);
-		put("text", RDFConstants.RDFSerialization.PLAINTEXT);
+		
+                put("application/n-triples",RDFConstants.RDFSerialization.N_TRIPLES);
+		put("ntriples", RDFConstants.RDFSerialization.N_TRIPLES);
 
 		put("application/rdf+xml", RDFConstants.RDFSerialization.RDF_XML);
 		put("rdf-xml", RDFConstants.RDFSerialization.RDF_XML);
-
-		put("text/n3", RDFConstants.RDFSerialization.N3);
-		put("n3", RDFConstants.RDFSerialization.N3);
-
-		put("json", RDFConstants.RDFSerialization.JSON);
+                
+                put("text/n3",RDFConstants.RDFSerialization.N3);
+		put("n3",RDFConstants.RDFSerialization.N3);
+                
 		put("application/json", RDFConstants.RDFSerialization.JSON);
-
-		put("html", RDFConstants.RDFSerialization.HTML);
-		put("text/html", RDFConstants.RDFSerialization.HTML);
-
-		put("csv", RDFConstants.RDFSerialization.CSV);
-		put("text/comma-separated-values", RDFConstants.RDFSerialization.CSV);
-
-		put("xml", RDFConstants.RDFSerialization.XML);
-		put("text/xml", RDFConstants.RDFSerialization.XML);
+		put("json", RDFConstants.RDFSerialization.JSON);
 	}
 }

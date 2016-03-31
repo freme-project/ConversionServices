@@ -44,7 +44,7 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Token> tokens;
-
+/*
 	@JsonIgnore
 	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Dataset> datasets;
@@ -56,7 +56,7 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Pipeline> pipelines;
-
+*/
 	protected User() {
 	}
 
@@ -65,10 +65,12 @@ public class User {
 		this.password = password;
 		this.role = role;
 
+
 		tokens = new ArrayList<>();
-		datasets = new ArrayList<>();
+		/*datasets = new ArrayList<>();
 		pipelines = new ArrayList<>();
 		templates = new ArrayList<>();
+		*/
 	}
 
 	@Override
@@ -100,10 +102,11 @@ public class User {
 		this.role = role;
 	}
 
+
 	public List<Token> getTokens() {
 		return tokens;
 	}
-
+/*
 	public List<Dataset> getDatasets() {
 		return datasets;
 	}
@@ -123,6 +126,7 @@ public class User {
 	public void setPipelines(List<Pipeline> pipelines) {
 		this.pipelines = pipelines;
 	}
+	*/
 
 	@Override
 	public boolean equals(Object o){

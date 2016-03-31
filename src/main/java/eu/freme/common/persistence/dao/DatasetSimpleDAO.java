@@ -10,5 +10,4 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DatasetSimpleDAO extends DAO<DatasetSimpleRepository, DatasetSimple> {
-
 }

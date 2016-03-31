@@ -1,6 +1,9 @@
 package eu.freme.common.persistence.repository;
 
+import java.util.List;
+
 import eu.freme.common.persistence.model.DatasetSimple;
+
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -11,5 +14,6 @@ public interface DatasetSimpleRepository extends CrudRepository<DatasetSimple, L
 
     DatasetSimple findOneById(long id);
     DatasetSimple findOneByName(String name);
+    List<DatasetSimple> findAll();
 
 }

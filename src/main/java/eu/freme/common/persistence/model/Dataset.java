@@ -27,17 +27,21 @@ import javax.persistence.*;
 public class Dataset extends OwnedResource{
 
     public Dataset(Visibility visibility, String name, String description) {
-        super(visibility, description);
+        super();
+        setVisibility(visibility);
+        setDescription(description);
         this.name = name;
         totalEntities = 0;
     }
     public Dataset(User owner, Visibility visibility, String name, String description) {
-        super(owner, visibility, description);
+        super(owner);
+        setVisibility(visibility);
+        setDescription(description);
         this.name = name;
         totalEntities = 0;
     }
 
-    public Dataset(){super();}
+    public Dataset(){super(null);}
 
     private String name;
 

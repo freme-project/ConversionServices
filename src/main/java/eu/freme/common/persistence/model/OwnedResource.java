@@ -18,13 +18,23 @@
 package eu.freme.common.persistence.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import eu.freme.common.exception.BadRequestException;
+
+import eu.freme.common.exception.InternalServerErrorException;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -56,28 +66,28 @@ public class OwnedResource implements Serializable {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private User owner;
 
     private Visibility visibility;
 
-    public OwnedResource(){}
-
-    public OwnedResource(User owner, Visibility visibility, String description) {
+    public OwnedResource() throws AccessDeniedException{
+        setCurrentUserAsOwner();
         this.creationTime = System.currentTimeMillis();
+        this.visibility = Visibility.PUBLIC;
+    }
+    public OwnedResource(User owner){
         this.owner = owner;
-        this.visibility = visibility;
-        this.description = description;
+        this.creationTime = System.currentTimeMillis();
+        this.visibility = Visibility.PUBLIC;
     }
 
-    public OwnedResource(Visibility visibility, String description) throws AccessDeniedException{
+    public void setCurrentUserAsOwner() throws AccessDeniedException{
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken)
             throw new AccessDeniedException("Could not create resource: The anonymous user can not own any resource. You have to be logged in to create a resource.");
         this.owner = (User) authentication.getPrincipal();
-        this.visibility = visibility;
-        this.description = description;
-        this.creationTime = System.currentTimeMillis();
     }
 
     public Visibility getVisibility() {
@@ -117,8 +127,33 @@ public class OwnedResource implements Serializable {
         this.description = description;
     }
 
-    public String toString(){
+    @JsonIgnore
+    public String getIdentifier(){
+        return getId()+"";
+    }
+
+    @Override
+	public String toString(){
         return "OwnedResource[id="+id+", owner="+owner.toString()+", visibility="+ visibility.toString()+"]";
     }
 
+    public String toJson() throws JsonProcessingException {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        return ow.writeValueAsString(this);
+    }
+
+    public static <T extends OwnedResource> T fromJson(String json, Class<T> entityClass)throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return entityClass.cast(mapper.readValue(json, entityClass));
+    }
+
+    // This is executed before the entity will be persisted to the database
+    public void preSave() throws BadRequestException{
+        // empty
+    }
+
+    // This is executed after the entity is created from the database content
+    public void postFetch() throws InternalServerErrorException{
+        // empty
+    }
 }

@@ -15,18 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence.dao;
+package eu.freme.common.exception;
 
-import eu.freme.common.persistence.model.Dataset;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
+ * @author Jan Nehring - jan.nehring@dfki.de
  */
-@Component
-public class DatasetDAO extends OwnedResourceDAO<Dataset> {
-    @Override
-    public String tableName() {
-        return Dataset.class.getSimpleName();
-    }
+@SuppressWarnings("serial")
+@ResponseStatus(value=HttpStatus.UNAUTHORIZED, reason="")
+public class AccessDeniedException extends FREMEHttpException{
+    public AccessDeniedException(){super();}
+    public AccessDeniedException(String msg){super(msg);}
 }

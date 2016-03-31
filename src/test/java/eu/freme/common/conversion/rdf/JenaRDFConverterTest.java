@@ -28,10 +28,12 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;
 import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
 import static org.junit.Assert.*;
 
 /**
@@ -130,5 +132,21 @@ public class JenaRDFConverterTest {
 
 		rdf = readFile("src/test/resources/rdftest/test.jsonld");
 		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.JSON_LD);
+	}
+	
+	@Test
+	public void testExtractPlaintext() throws Exception{
+		
+		JenaRDFConversionService converter = new JenaRDFConversionService();
+		
+		String rdf = readFile("src/test/resources/rdftest/test-plaintext.ttl");
+		Model model = converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
+		Statement plaintext = converter.extractFirstPlaintext(model);
+		assertTrue(plaintext == null);
+		
+		rdf = readFile("src/test/resources/rdftest/test-plaintext-2.ttl");
+		model = converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
+		plaintext = converter.extractFirstPlaintext(model);
+		assertTrue(plaintext.getObject().asLiteral().getString().equals("hello world"));
 	}
 }
