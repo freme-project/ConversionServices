@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 public abstract class OwnedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
 
-    public static final String relativeManagePath = "/manage";
+    //public static final String relativeManagePath = "/manage";
     public static final String visibilityParameterName = "visibility";
     public static final String newOwnerParameterName = "newOwner";
     public static final String descriptionParameterName = "description";
@@ -71,7 +71,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         return userDAO;
     }
 
-    @RequestMapping(value = relativeManagePath, method = RequestMethod.POST)
+    @RequestMapping( method = RequestMethod.POST)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> addEntity(
             @RequestParam(value = visibilityParameterName, required = false) String visibility,
@@ -118,7 +118,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getEntityById(
             @PathVariable("identifier") String identifier
@@ -143,7 +143,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.PUT)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> putEntityById(
             @PathVariable("identifier") String identifier,
@@ -200,7 +200,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.DELETE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> deleteEntityById(
             @PathVariable("identifier") String identifier
@@ -224,7 +224,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath, method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getAllEntities(
     ) {
