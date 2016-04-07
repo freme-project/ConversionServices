@@ -15,15 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.freme.common.persistence.repository;
+package eu.freme.common.persistence.dao;
 
-import eu.freme.common.persistence.model.Dataset;
+import eu.freme.common.persistence.model.DatasetMetadata;
+import eu.freme.common.persistence.repository.DatasetMetadataRepository;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */
+@Component
+public class DatasetMetadataDAO extends OwnedResourceDAO<DatasetMetadata> {
+    @Override
+    public String tableName() {
+        return DatasetMetadata.class.getSimpleName();
+    }
 
-public interface DatasetRepository extends OwnedResourceRepository<Dataset> {
+    @Override
+    public DatasetMetadata findOneByIdentifierUnsecured(String identifier){
+        return ((DatasetMetadataRepository)repository).findOneByName(identifier);
+    }
 
 }
-

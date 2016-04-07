@@ -24,16 +24,16 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "dataset")
-public class Dataset extends OwnedResource{
+public class DatasetMetadata extends OwnedResource{
 
-    public Dataset(Visibility visibility, String name, String description) {
+    public DatasetMetadata(Visibility visibility, String name, String description) {
         super();
         setVisibility(visibility);
         setDescription(description);
         this.name = name;
         totalEntities = 0;
     }
-    public Dataset(User owner, Visibility visibility, String name, String description) {
+    public DatasetMetadata(User owner, Visibility visibility, String name, String description) {
         super(owner);
         setVisibility(visibility);
         setDescription(description);
@@ -41,7 +41,7 @@ public class Dataset extends OwnedResource{
         totalEntities = 0;
     }
 
-    public Dataset(){super(null);}
+    public DatasetMetadata(){super(null);}
 
     private String name;
 
