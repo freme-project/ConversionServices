@@ -9,6 +9,7 @@ import eu.freme.common.persistence.dao.OwnedResourceDAO;
 import eu.freme.common.persistence.dao.UserDAO;
 import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -62,6 +63,10 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
      * @throws BadRequestException
      */
     protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
+
+    protected void preDelete(Entity entity){
+        // empty
+    }
 
     public OwnedResourceDAO<Entity> getEntityDAO() {
         return entityDAO;
@@ -157,6 +162,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
 
+            entityDAO.hasWriteAccess(entity);
+
             updateEntity(entity, postBody, allParams, allHeaders);
 
             if(!Strings.isNullOrEmpty(visibility)){
@@ -207,8 +214,10 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
+            entityDAO.hasWriteAccess(entity);
+            preDelete(entity);
             entityDAO.delete(entity);
-            return new ResponseEntity<>("The entity was sucessfully removed.", HttpStatus.OK);
+            return new ResponseEntity<>("The " + entityDAO.tableName() + ": " + entity.getIdentifier() + " was removed sucessfully.", HttpStatus.OK);
         }catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
             throw new eu.freme.common.exception.AccessDeniedException(ex.getMessage());

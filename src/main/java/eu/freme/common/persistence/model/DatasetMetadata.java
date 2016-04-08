@@ -17,16 +17,18 @@
  */
 package eu.freme.common.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
  */
 @Entity
-@Table(name = "dataset")
+//@Table(name = "datasetMetadata")
 public class DatasetMetadata extends OwnedResource{
 
-    public DatasetMetadata(Visibility visibility, String name, String description) {
+    /*public DatasetMetadata(Visibility visibility, String name, String description) {
         super();
         setVisibility(visibility);
         setDescription(description);
@@ -39,13 +41,24 @@ public class DatasetMetadata extends OwnedResource{
         setDescription(description);
         this.name = name;
         totalEntities = 0;
-    }
+    }*/
 
     public DatasetMetadata(){super(null);}
 
+    public DatasetMetadata(String name){
+        super();
+        this.name = name;
+        totalEntities = 0;
+    }
+
+    @JsonIgnore
+    public String getIdentifier(){
+        return getName();
+    }
+
     private String name;
 
-    private int totalEntities;
+    private long totalEntities;
 
     public String getName() {
         return name;
@@ -55,11 +68,11 @@ public class DatasetMetadata extends OwnedResource{
         this.name = name;
     }
 
-    public int getTotalEntities() {
+    public long getTotalEntities() {
         return totalEntities;
     }
 
-    public void setTotalEntities(int totalEntities) {
+    public void setTotalEntities(long totalEntities) {
         this.totalEntities = totalEntities;
     }
 
