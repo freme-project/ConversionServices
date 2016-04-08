@@ -16,6 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -86,6 +89,11 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestBody(required = false) String postBody
     ){
         try {
+
+            Authentication authentication = SecurityContextHolder.getContext()
+                    .getAuthentication();
+            if(authentication instanceof AnonymousAuthenticationToken)
+                throw new AccessDeniedException("Access denied");
 
             Entity entity = createEntity(postBody, allParams, allHeaders);
 
@@ -162,7 +170,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
 
-            entityDAO.hasWriteAccess(entity);
+            if(!entityDAO.hasWriteAccess(entity))
+                throw new AccessDeniedException("Access denied");
 
             updateEntity(entity, postBody, allParams, allHeaders);
 
@@ -214,7 +223,8 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
-            entityDAO.hasWriteAccess(entity);
+            if(!entityDAO.hasWriteAccess(entity))
+                throw new AccessDeniedException("Access denied");
             preDelete(entity);
             entityDAO.delete(entity);
             return new ResponseEntity<>("The " + entityDAO.tableName() + ": " + entity.getIdentifier() + " was removed sucessfully.", HttpStatus.OK);
