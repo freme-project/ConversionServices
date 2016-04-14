@@ -13,7 +13,11 @@ import org.springframework.core.io.ClassPathResource;
 public class FREMEStarter {
 
 	public static void main(String[] args){
-		startPackageFromClasspath("package.xml", args);
+		String pack = "package.xml";
+		if( args.length > 0){
+			pack = args[0];
+		}
+		startPackageFromClasspath(pack, args);
 	}
 	
 	/**
