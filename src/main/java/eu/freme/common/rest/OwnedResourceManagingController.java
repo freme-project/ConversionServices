@@ -33,7 +33,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
 
     //public static final String relativeManagePath = "/manage";
     public static final String visibilityParameterName = "visibility";
-    public static final String newOwnerParameterName = "newOwner";
+    public static final String newOwnerParameterName = "owner";
     public static final String descriptionParameterName = "description";
 
 
