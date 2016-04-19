@@ -9,12 +9,16 @@ import eu.freme.common.persistence.dao.OwnedResourceDAO;
 import eu.freme.common.persistence.dao.UserDAO;
 import eu.freme.common.persistence.model.OwnedResource;
 import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +31,9 @@ import java.util.stream.Collectors;
 @RestController
 public abstract class OwnedResourceManagingController<Entity extends OwnedResource> extends BaseRestController {
 
-    public static final String relativeManagePath = "/manage";
+    //public static final String relativeManagePath = "/manage";
     public static final String visibilityParameterName = "visibility";
-    public static final String newOwnerParameterName = "newOwner";
+    public static final String newOwnerParameterName = "owner";
     public static final String descriptionParameterName = "description";
 
 
@@ -63,6 +67,10 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
      */
     protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
 
+    protected void preDelete(Entity entity){
+        // empty
+    }
+
     public OwnedResourceDAO<Entity> getEntityDAO() {
         return entityDAO;
     }
@@ -71,7 +79,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         return userDAO;
     }
 
-    @RequestMapping(value = relativeManagePath, method = RequestMethod.POST)
+    @RequestMapping( method = RequestMethod.POST)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> addEntity(
             @RequestParam(value = visibilityParameterName, required = false) String visibility,
@@ -81,6 +89,11 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             @RequestBody(required = false) String postBody
     ){
         try {
+
+            Authentication authentication = SecurityContextHolder.getContext()
+                    .getAuthentication();
+            if(authentication instanceof AnonymousAuthenticationToken)
+                throw new AccessDeniedException("Access denied");
 
             Entity entity = createEntity(postBody, allParams, allHeaders);
 
@@ -118,7 +131,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getEntityById(
             @PathVariable("identifier") String identifier
@@ -143,7 +156,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.PUT)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> putEntityById(
             @PathVariable("identifier") String identifier,
@@ -156,6 +169,9 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
+
+            if(!entityDAO.hasWriteAccess(entity))
+                throw new AccessDeniedException("Access denied");
 
             updateEntity(entity, postBody, allParams, allHeaders);
 
@@ -200,15 +216,18 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath +"/{identifier}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.DELETE)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> deleteEntityById(
             @PathVariable("identifier") String identifier
     ){
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
+            if(!entityDAO.hasWriteAccess(entity))
+                throw new AccessDeniedException("Access denied");
+            preDelete(entity);
             entityDAO.delete(entity);
-            return new ResponseEntity<>("The entity was sucessfully removed.", HttpStatus.OK);
+            return new ResponseEntity<>("The " + entityDAO.tableName() + ": " + entity.getIdentifier() + " was removed sucessfully.", HttpStatus.OK);
         }catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
             throw new eu.freme.common.exception.AccessDeniedException(ex.getMessage());
@@ -224,7 +243,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         }
     }
 
-    @RequestMapping(value = relativeManagePath, method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<String> getAllEntities(
     ) {
