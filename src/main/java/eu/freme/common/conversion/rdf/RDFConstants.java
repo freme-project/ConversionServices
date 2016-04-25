@@ -26,6 +26,12 @@ public class RDFConstants {
 	public static final String itsrdfPrefix = "http://www.w3.org/2005/11/its/rdf#";
 	public static final String xsdPrefix = "http://www.w3.org/2001/XMLSchema#";
 
+	public static final String TURTLE = "text/turtle";
+	public static final String JSON_LD = "application/ld+json";
+	public static final String RDF_XML = "application/rdf+xml";
+	public static final String N3 = "text/n3";
+	public static final String N_TRIPLES = "application/n-triples";
+
 	public enum RDFSerialization {
 		TURTLE("text/turtle"),
 		JSON_LD("application/ld+json"),
