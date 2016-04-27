@@ -55,9 +55,9 @@ public class SerializationFormatMapper extends HashMap<String, String> {
     public String put(String key, String value) throws InternalServerErrorException{
         if(containsKey(key) && !get(key).equals(value)){
             throw new InternalServerErrorException(
-                    "The SerializationFormatMapper contains already the value=\""
-                            +get(key)+"\" for the key=\""+key+"\", it can not be " +
-                            "replaced by the value=\""+value+"\". Existing values " +
+                    "The SerializationFormatMapper contains already the value='"
+                            +get(key)+"' for the key='"+key+"', it can not be " +
+                            "replaced by the value='"+value+"'. Existing values " +
                             "can not be overwritten.");
         }
         return super.put(key, value);

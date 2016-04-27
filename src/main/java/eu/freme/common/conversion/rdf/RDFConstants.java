@@ -17,6 +17,10 @@
  */
 package eu.freme.common.conversion.rdf;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
@@ -31,6 +35,10 @@ public class RDFConstants {
 	public static final String RDF_XML = "application/rdf+xml";
 	public static final String N3 = "text/n3";
 	public static final String N_TRIPLES = "application/n-triples";
+
+	public static final Set<String> SERIALIZATION_FORMATS = new HashSet<>(Arrays.asList(new String[]{
+			TURTLE, JSON_LD, RDF_XML, N3, N_TRIPLES
+	}));
 
 	public enum RDFSerialization {
 		TURTLE("text/turtle"),
