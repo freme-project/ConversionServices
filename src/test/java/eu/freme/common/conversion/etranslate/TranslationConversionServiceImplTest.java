@@ -25,11 +25,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.*;
 
 import eu.freme.common.conversion.etranslate.TranslationConversionServiceImpl;
 import eu.freme.common.conversion.rdf.JenaRDFConversionService;

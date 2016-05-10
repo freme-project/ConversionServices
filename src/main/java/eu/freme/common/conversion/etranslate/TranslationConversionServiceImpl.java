@@ -17,15 +17,16 @@
  */
 package eu.freme.common.conversion.etranslate;
 
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.*;
+/*
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;*/
 
 import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.conversion.etranslate.TranslationConversionService;
+//import eu.freme.common.conversion.etranslate.TranslationConversionService;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

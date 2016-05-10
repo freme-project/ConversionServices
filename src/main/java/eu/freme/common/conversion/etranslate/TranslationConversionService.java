@@ -17,8 +17,8 @@
  */
 package eu.freme.common.conversion.etranslate;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
