@@ -16,15 +16,23 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
 @Service
+@ControllerAdvice
 public class ExceptionHandlerService {
 
 	Logger logger = Logger.getLogger(ExceptionHandlerService.class);
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleConflict(HttpServletRequest req, Exception e) {
+    	return this.handleError(req, e);
+    }
 
 	/**
 	 * Creates a nicely formated error message out of an exception and a
