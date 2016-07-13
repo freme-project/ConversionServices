@@ -17,9 +17,7 @@
  */
 package eu.freme.common.security.voter;
 
-import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.tools.AccessLevelHelper;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -28,7 +26,9 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.tools.AccessLevelHelper;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

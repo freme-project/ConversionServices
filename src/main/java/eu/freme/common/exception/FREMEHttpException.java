@@ -17,7 +17,7 @@
  */
 package eu.freme.common.exception;
 
-import org.springframework.http.HttpStatus;import java.lang.RuntimeException;import java.lang.String;import java.lang.SuppressWarnings;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

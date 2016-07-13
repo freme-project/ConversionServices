@@ -17,11 +17,10 @@
  */
 package eu.freme.common.persistence;
 
-import eu.freme.common.FREMECommonConfig;
-import eu.freme.common.persistence.dao.TokenDAO;
-import eu.freme.common.persistence.dao.UserDAO;
-import eu.freme.common.persistence.model.Token;
-import eu.freme.common.persistence.model.User;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -30,10 +29,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.transaction.Transactional;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import eu.freme.common.FREMECommonConfig;
+import eu.freme.common.persistence.dao.TokenDAO;
+import eu.freme.common.persistence.dao.UserDAO;
+import eu.freme.common.persistence.model.Token;
+import eu.freme.common.persistence.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = FREMECommonConfig.class)

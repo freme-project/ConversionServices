@@ -18,8 +18,9 @@
 package eu.freme.common.persistence.repository;
 
 
-import eu.freme.common.persistence.model.Token;
 import org.springframework.data.repository.CrudRepository;
+
+import eu.freme.common.persistence.model.Token;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

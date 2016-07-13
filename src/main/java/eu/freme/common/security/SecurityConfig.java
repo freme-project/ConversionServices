@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Agro-Know, Deutsches Forschungszentrum für Künstliche Intelligenz, iMinds,
+* Copyright (C) 2015 Agro-Know, Deutsches Forschungszentrum für Künstliche Intelligenz, iMinds,
  * Institut für Angewandte Informatik e. V. an der Universität Leipzig,
  * Istituto Superiore Mario Boella, Tilde, Vistatec, WRIPL (http://freme-project.eu)
  *
@@ -18,7 +18,6 @@
 package eu.freme.common.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -50,12 +49,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.UserRepository;
 import eu.freme.common.persistence.tools.AccessLevelHelper;
-
-import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
@@ -81,7 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	@Value("${admin.create:false}")
 	private boolean createAdminUser;
 	
-	@SuppressWarnings("rawtypes")
 	@Autowired
 	List<AccessDecisionVoter> accessDecisionVoters;
 

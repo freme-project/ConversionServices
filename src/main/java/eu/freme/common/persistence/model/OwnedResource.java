@@ -18,13 +18,16 @@
 package eu.freme.common.persistence.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import eu.freme.common.exception.BadRequestException;
+import java.io.IOException;
+import java.io.Serializable;
 
-import eu.freme.common.exception.InternalServerErrorException;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,15 +35,19 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
-import java.io.IOException;
-import java.io.Serializable;
+import eu.freme.common.exception.BadRequestException;
+import eu.freme.common.exception.InternalServerErrorException;
 
 /**
  * @author Jonathan Sauder jsauder@campus.tu-berlin.de
  */
 
+@SuppressWarnings("serial")
 @MappedSuperclass
 public class OwnedResource implements Serializable {
 

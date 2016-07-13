@@ -25,7 +25,6 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.conversion.etranslate.TranslationConversionService;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

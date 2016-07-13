@@ -17,12 +17,12 @@
  */
 package eu.freme.common.persistence.tools;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Helper class to deal with security config attributes.

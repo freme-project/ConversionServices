@@ -17,17 +17,17 @@
  */
 package eu.freme.common.rest;
 
-import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
-import eu.freme.common.conversion.rdf.RDFSerializationFormats;
-import eu.freme.common.exception.BadRequestException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
+import eu.freme.common.conversion.rdf.RDFSerializationFormats;
+import eu.freme.common.exception.BadRequestException;
 
 /**
  * Helper class to create a NIFParameterSet according to the specification of NIF.

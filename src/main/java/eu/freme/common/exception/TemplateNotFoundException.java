@@ -18,7 +18,7 @@
 package eu.freme.common.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;import java.lang.String;import java.lang.SuppressWarnings;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *

@@ -1,15 +1,9 @@
 package eu.freme.common.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Strings;
-import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.exception.BadRequestException;
-import eu.freme.common.exception.FREMEHttpException;
-import eu.freme.common.persistence.dao.OwnedResourceDAO;
-import eu.freme.common.persistence.dao.UserDAO;
-import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.repository.OwnedResourceRepository;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +13,24 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.base.Strings;
+
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.exception.BadRequestException;
+import eu.freme.common.exception.FREMEHttpException;
+import eu.freme.common.persistence.dao.OwnedResourceDAO;
+import eu.freme.common.persistence.dao.UserDAO;
+import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.User;
 
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 12.01.2016.

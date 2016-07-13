@@ -17,11 +17,18 @@
  */
 package eu.freme.common.persistence.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
@@ -52,7 +59,6 @@ public class User {
 		this.name = name;
 		this.password = password;
 		this.role = role;
-
 
 		tokens = new ArrayList<>();
 	}
@@ -91,15 +97,16 @@ public class User {
 	}
 
 	@Override
-	public boolean equals(Object o){
-		if(!(o instanceof User))
+	public boolean equals(Object o) {
+		if (!(o instanceof User))
 			return false;
 		User casted = (User) o;
 		return casted.getName().equals(this.getName());
 	}
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return this.getName().hashCode();
 	}
+
 }

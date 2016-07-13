@@ -17,9 +17,13 @@
  */
 package eu.freme.common.persistence.repository;
 
-import eu.freme.common.persistence.model.OwnedResource;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+
+import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.User;
 
 /**
  * Created by Arne on 18.09.2015.
@@ -28,4 +32,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface OwnedResourceRepository<T extends OwnedResource> extends CrudRepository<T, Long> {
     T findOneById(long id);
+    List<T> findAllByOwner(User owner);
 }

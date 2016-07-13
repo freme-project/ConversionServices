@@ -17,6 +17,8 @@
  */
 package eu.freme.common.conversion.rdf;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,10 +33,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 
-import eu.freme.common.conversion.rdf.JenaRDFConversionService;
-import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
-import static org.junit.Assert.*;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de

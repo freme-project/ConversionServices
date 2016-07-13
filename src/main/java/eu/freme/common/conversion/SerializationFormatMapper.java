@@ -1,11 +1,12 @@
 package eu.freme.common.conversion;
 
-import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.exception.InternalServerErrorException;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.exception.InternalServerErrorException;
 
 /**
  * This class should be used to normalize serialization formats.

@@ -17,9 +17,18 @@
  */
 package eu.freme.common.persistence.dao;
 
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.repository.UserRepository;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.repository.OwnedResourceRepository;
+import eu.freme.common.persistence.repository.UserRepository;
 
 /**
  * Created by Arne Binder (arne.b.binder@gmail.com) on 01.10.2015.
@@ -27,9 +36,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDAO extends DAO<UserRepository, User> {
 
-    @Override
+	@SuppressWarnings("rawtypes")
+	@Autowired
+	List<OwnedResourceRepository> repositories;
+	
+    @PersistenceContext
+    EntityManager entityManager;
+	
+    @SuppressWarnings("unchecked")
+	@Override
 	public void delete(User entity){
-        User user = repository.findOneByName(entity.getName());
+		User user = repository.findOneByName(entity.getName());
+
+		for( OwnedResourceRepository<OwnedResource> repository : repositories){
+			List<OwnedResource> list = repository.findAllByOwner(user);
+			for( OwnedResource or : list ){
+				entityManager.remove(or);
+			}
+		}
+		entityManager.flush();
+		
         super.delete(user);
     }
 }

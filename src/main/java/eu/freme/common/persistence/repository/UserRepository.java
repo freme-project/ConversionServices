@@ -17,8 +17,9 @@
  */
 package eu.freme.common.persistence.repository;
 
-import eu.freme.common.persistence.model.User;
 import org.springframework.data.repository.CrudRepository;
+
+import eu.freme.common.persistence.model.User;
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */

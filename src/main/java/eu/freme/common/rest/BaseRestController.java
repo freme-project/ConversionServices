@@ -17,14 +17,12 @@
  */
 package eu.freme.common.rest;
 
-import com.hp.hpl.jena.rdf.model.Model;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.conversion.rdf.RDFConversionService;
-import eu.freme.common.conversion.rdf.RDFSerializationFormats;
-import eu.freme.common.exception.BadRequestException;
-import eu.freme.common.exception.ExceptionHandlerService;
-import eu.freme.common.exception.InternalServerErrorException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
+import com.hp.hpl.jena.rdf.model.Model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.rdf.RDFConversionService;
+import eu.freme.common.conversion.rdf.RDFSerializationFormats;
+import eu.freme.common.exception.BadRequestException;
+import eu.freme.common.exception.ExceptionHandlerService;
+import eu.freme.common.exception.InternalServerErrorException;
 
 /**
  * Common codes for all rest controllers.

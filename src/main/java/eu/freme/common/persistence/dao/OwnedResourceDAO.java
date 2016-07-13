@@ -18,11 +18,9 @@
 package eu.freme.common.persistence.dao;
 
 
-import eu.freme.common.exception.OwnedResourceNotFoundException;
-import eu.freme.common.persistence.model.OwnedResource;
-import eu.freme.common.persistence.model.User;
-import eu.freme.common.persistence.repository.OwnedResourceRepository;
-import eu.freme.common.persistence.tools.AccessLevelHelper;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.vote.AbstractAccessDecisionManager;
@@ -30,8 +28,11 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.ArrayList;
-import java.util.List;
+import eu.freme.common.exception.OwnedResourceNotFoundException;
+import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.repository.OwnedResourceRepository;
+import eu.freme.common.persistence.tools.AccessLevelHelper;
 
 /**
  * Created by Arne on 18.09.2015.

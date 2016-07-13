@@ -21,8 +21,6 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 
-import eu.freme.common.conversion.rdf.RDFConstants;
-
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */

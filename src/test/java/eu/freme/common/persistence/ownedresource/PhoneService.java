@@ -5,7 +5,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import eu.freme.common.persistence.dao.PhoneNumberDAO;
 import eu.freme.common.persistence.dao.UserDAO;
+import eu.freme.common.persistence.model.PhoneNumber;
 import eu.freme.common.persistence.model.User;
 
 @Component
@@ -19,12 +21,11 @@ public class PhoneService {
 	
 	@Transactional
 	public void createEntities(){	
-		User user = new User("henry", "password", User.roleUser);
+		User user = new User("123123123", "password", User.roleUser);
 		userDAO.save(user);
 		
-		PhoneNumber phoneNumber = new PhoneNumber();
+		PhoneNumber phoneNumber = new PhoneNumber(user);
 		phoneNumber.setNumber("12345");
-		phoneNumber.setUser(user);
 		phoneNumberDAO.save(phoneNumber);
 	}
 	
