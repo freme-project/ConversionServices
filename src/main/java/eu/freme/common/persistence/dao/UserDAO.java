@@ -51,11 +51,14 @@ public class UserDAO extends DAO<UserRepository, User> {
 	@Override
 	@Transactional
 	public void delete(User entity) {
-		for (OwnedResourceRepository<OwnedResource> repository : repositories) {
-			List<OwnedResource> list = repository.findByOwner(entity);
-			for (OwnedResource or : list) {
-				entityManager.remove(or);
-			}
+		
+		if( repositories != null ){
+			for (OwnedResourceRepository<OwnedResource> repository : repositories) {
+				List<OwnedResource> list = repository.findByOwner(entity);
+				for (OwnedResource or : list) {
+					entityManager.remove(or);
+				}
+			}			
 		}
 		super.delete(entity);
 	}
