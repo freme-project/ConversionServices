@@ -41,7 +41,7 @@ import eu.freme.common.persistence.repository.UserRepository;
 public class UserDAO extends DAO<UserRepository, User> {
 
 	@SuppressWarnings("rawtypes")
-	@Autowired
+	@Autowired(required = false)
 	List<OwnedResourceRepository> repositories;
 
 	@PersistenceContext
