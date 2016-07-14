@@ -21,11 +21,15 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import eu.freme.common.persistence.model.OwnedResource;
+import eu.freme.common.persistence.model.Token;
 import eu.freme.common.persistence.model.User;
 import eu.freme.common.persistence.repository.OwnedResourceRepository;
 import eu.freme.common.persistence.repository.UserRepository;
@@ -39,23 +43,20 @@ public class UserDAO extends DAO<UserRepository, User> {
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	List<OwnedResourceRepository> repositories;
-	
-    @PersistenceContext
-    EntityManager entityManager;
-	
-    @SuppressWarnings("unchecked")
-	@Override
-	public void delete(User entity){
-		User user = repository.findOneByName(entity.getName());
 
-		for( OwnedResourceRepository<OwnedResource> repository : repositories){
-			List<OwnedResource> list = repository.findAllByOwner(user);
-			for( OwnedResource or : list ){
+	@PersistenceContext
+	EntityManager entityManager;
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public void delete(User entity) {
+		for (OwnedResourceRepository<OwnedResource> repository : repositories) {
+			List<OwnedResource> list = repository.findByOwner(entity);
+			for (OwnedResource or : list) {
 				entityManager.remove(or);
 			}
 		}
-		entityManager.flush();
-		
-        super.delete(user);
-    }
+		super.delete(entity);
+	}
 }

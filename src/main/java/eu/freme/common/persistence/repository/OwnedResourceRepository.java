@@ -32,5 +32,5 @@ import eu.freme.common.persistence.model.User;
 @NoRepositoryBean
 public interface OwnedResourceRepository<T extends OwnedResource> extends CrudRepository<T, Long> {
     T findOneById(long id);
-    List<T> findAllByOwner(User owner);
+    List<T> findByOwner(User owner);
 }

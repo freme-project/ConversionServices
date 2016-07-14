@@ -23,7 +23,7 @@ public class OwnedResourceTest {
 
 	@Autowired
 	PhoneService phoneService;
-
+	
 	@Test
 	public void testOwnedResource() {
 
@@ -38,6 +38,6 @@ public class OwnedResourceTest {
 		
 		phoneService.deletePhone();
 		assertTrue(phoneService.countPhoneNumbers() == 0);
-		assertTrue(phoneService.countUsers() == 1);
+		assertTrue(phoneService.countUsers() > 0);
 	}
 }

@@ -27,6 +27,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -50,6 +53,7 @@ public class User {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Token> tokens;
 
 	protected User() {

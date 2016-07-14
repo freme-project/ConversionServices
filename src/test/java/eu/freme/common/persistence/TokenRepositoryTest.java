@@ -42,7 +42,7 @@ public class TokenRepositoryTest {
 
 	Logger logger = Logger.getLogger(TokenRepositoryTest.class);
 
-	@Autowired
+	@Autowired 
 	UserDAO userDAO;
 
 	@Autowired

@@ -28,8 +28,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -73,7 +71,6 @@ public class OwnedResource implements Serializable {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER) //(optional=false,targetEntity = User.class)
-	@OnDelete(action = OnDeleteAction.CASCADE)
     private User owner;
 
     private Visibility visibility;

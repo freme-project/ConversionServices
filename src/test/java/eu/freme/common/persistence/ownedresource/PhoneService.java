@@ -1,5 +1,7 @@
 package eu.freme.common.persistence.ownedresource;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,13 @@ import eu.freme.common.persistence.dao.PhoneNumberDAO;
 import eu.freme.common.persistence.dao.UserDAO;
 import eu.freme.common.persistence.model.PhoneNumber;
 import eu.freme.common.persistence.model.User;
+import eu.freme.common.persistence.repository.UserRepository;
 
+/**
+ * Helper for OwnedResourceTest
+ * 
+ * @author Jan Nehring - jan.nehring@dfki.de
+ */
 @Component
 public class PhoneService {
 
@@ -19,16 +27,28 @@ public class PhoneService {
 	@Autowired
 	PhoneNumberDAO phoneNumberDAO;
 	
+	@PersistenceContext
+	EntityManager entityManager;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	final String userName = "henriette";
+	
 	@Transactional
 	public void createEntities(){	
-		User user = new User("123123123", "password", User.roleUser);
+		User user = new User(userName, "password", User.roleUser);
 		userDAO.save(user);
 		
 		PhoneNumber phoneNumber = new PhoneNumber(user);
 		phoneNumber.setNumber("12345");
-		phoneNumberDAO.save(phoneNumber);
+		phoneNumberDAO.save(phoneNumber);		
+		
+		entityManager.flush();
+		entityManager.clear();
 	}
 	
+	@Transactional
 	public long countPhoneNumbers(){
 		return phoneNumberDAO.count();
 	}
@@ -39,8 +59,10 @@ public class PhoneService {
 	
 	@Transactional
 	public void deleteUser(){
-		User user = userDAO.findAll().iterator().next();
+		User user = userRepository.findOneByName(userName);
 		userDAO.delete(user);
+		entityManager.flush();
+		entityManager.clear();
 	}
 	
 	@Transactional
