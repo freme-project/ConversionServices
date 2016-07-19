@@ -72,7 +72,7 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
     public Entity findOneByIdentifier(String identifier){
         Entity result = findOneByIdentifierUnsecured(identifier);
         if(result==null)
-            throw new OwnedResourceNotFoundException("Can not find "+tableName()+" with identifier='"+identifier+"'");
+            throw new OwnedResourceNotFoundException("Can not find "+tableName()+" with "+getIdentifierName()+"='"+identifier+"'");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         decisionManager.decide(authentication, result, accessLevelHelper.readAccess());
         result.postFetch();
@@ -81,6 +81,10 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
 
     public Entity findOneByIdentifierUnsecured(String identifier){
         return repository.findOneById(Integer.parseInt(identifier));
+    }
+
+    public String getIdentifierName(){
+        return "id";
     }
 
     public Entity updateOwner(Entity entity, User newOwner){
@@ -102,13 +106,13 @@ public abstract class OwnedResourceDAO<Entity extends OwnedResource>  extends DA
                 .getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken) {
             logger.debug("Find owned resources as ANONYMOUS USER");
-            queryString = "select " + entityName + " from " + tableName + " " + entityName + " where " + entityName + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by id"; //
+            queryString = "select " + entityName + " from " + tableName + " " + entityName + " where " + entityName + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal()+" order by "+getIdentifierName(); //
         }else {
             User authUser = (User) authentication.getPrincipal();
             if(authUser.getRole().equals(User.roleAdmin)) {
-                queryString = "select " + entityName + " from " + tableName + " " + entityName + " order by id";
+                queryString = "select " + entityName + " from " + tableName + " " + entityName + " order by "+getIdentifierName();
             }else {
-                queryString = "select " + entityName + " from " + tableName + " " + entityName + " where " + entityName + ".owner.name = '" + authUser.getName() + "' or " + entityName + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal() + " order by id"; //
+                queryString = "select " + entityName + " from " + tableName + " " + entityName + " where " + entityName + ".owner.name = '" + authUser.getName() + "' or " + entityName + ".visibility = " + OwnedResource.Visibility.PUBLIC.ordinal() + " order by "+getIdentifierName(); //
             }
         }
         List<Entity> result = entityManager.createQuery(queryString).getResultList();
