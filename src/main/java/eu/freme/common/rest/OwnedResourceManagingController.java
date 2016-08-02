@@ -1,5 +1,6 @@
 package eu.freme.common.rest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -136,6 +137,23 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             logger.error(ex.getMessage());
             throw new FREMEHttpException(ex.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/{identifier}",  method = RequestMethod.POST)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public ResponseEntity<String> addEntity2(
+            @PathVariable("identifier") String identifier,
+            @RequestParam(value = visibilityParameterName, required = false) String visibility,
+            @RequestParam(value = descriptionParameterName, required = false) String description,
+            @RequestParam Map<String, String> allParams,
+            @RequestHeader Map<String, String> allHeaders,
+            @RequestBody(required = false) String postBody
+    ){
+        if(allParams == null){
+            allParams = new HashMap<>();
+        }
+        allParams.put(entityDAO.getIdentifierName(), identifier);
+        return addEntity(visibility, description, allParams, allHeaders, postBody);
     }
 
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)

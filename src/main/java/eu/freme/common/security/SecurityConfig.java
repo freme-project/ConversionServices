@@ -92,34 +92,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	
 	private void createAdminUser(){
 		User admin = userRepository.findOneByName(adminUsername);
+		String saltedHashedPassword;
+		try {
+			saltedHashedPassword = PasswordHasher
+					.getSaltedHash(adminPassword);
+		} catch (Exception e) {
+			logger.error(e);
+			return;
+		}
 		if (admin == null) {
 			logger.info("create new admin user");
-
-			String saltedHashedPassword;
-			try {
-				saltedHashedPassword = PasswordHasher
-						.getSaltedHash(adminPassword);
-			} catch (Exception e) {
-				logger.error(e);
-				return;
-			}
 			admin = new User(adminUsername, saltedHashedPassword,
 					User.roleAdmin);
-			userRepository.save(admin);
 		} else if (!admin.getRole().equals(User.roleAdmin)) {
 			logger.info("promote user and change password");
 			admin.setRole(User.roleAdmin);
-			String saltedHashedPassword;
-			try {
-				saltedHashedPassword = PasswordHasher
-						.getSaltedHash(adminPassword);
-			} catch (Exception e) {
-				logger.error(e);
-				return;
-			}
 			admin.setPassword(saltedHashedPassword);
-			userRepository.save(admin);
+		}else{
+			logger.info("change admin password");
+			admin.setPassword(saltedHashedPassword);
 		}
+		userRepository.save(admin);
 	}
 
 	@Override
