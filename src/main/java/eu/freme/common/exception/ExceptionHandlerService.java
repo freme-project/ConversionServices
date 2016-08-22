@@ -78,6 +78,12 @@ public class ExceptionHandlerService {
 		json.put("exception", exception.getClass().getName());
 		json.put("path", req.getRequestURI());
 
+		/*if(exception instanceof AdditionalFieldsException){
+			for(String key: ((AdditionalFieldsException) exception).getAdditionalFields().keySet()){
+				json.put(key, ((AdditionalFieldsException) exception).getAdditionalFields().get(key));
+			}
+		}*/
+
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "application/json");
 
