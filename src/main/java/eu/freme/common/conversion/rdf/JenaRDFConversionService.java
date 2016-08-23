@@ -65,8 +65,6 @@ public class JenaRDFConversionService implements RDFConversionService {
 		Property type = model
 				.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 		resource.addProperty(type,
-				model.createResource(RDFConstants.nifPrefix + "String"));
-		resource.addProperty(type,
 				model.createResource(RDFConstants.nifPrefix + "Context"));
 		resource.addProperty(type,
 				model.createResource(RDFConstants.nifPrefix + "OffsetBasedString"));
