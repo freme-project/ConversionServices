@@ -51,7 +51,7 @@ public class JenaRDFConverterTest {
 		Model model = ModelFactory.createDefaultModel();
 		converter.plaintextToRDF(model, plaintext, language, prefix);
 
-		assertTrue(countStatements(model.listStatements()) == 6);
+		assertTrue(countStatements(model.listStatements()) == 5);
 
 		Property isString = model.createProperty(RDFConstants.nifPrefix
 				+ "isString");
