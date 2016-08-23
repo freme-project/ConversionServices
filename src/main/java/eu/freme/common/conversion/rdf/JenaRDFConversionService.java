@@ -57,8 +57,8 @@ public class JenaRDFConversionService implements RDFConversionService {
 		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
 
 		String uri = prefix;
-		if (!uri.contains("#char=")) {
-			uri += "#char=0," + plaintext.length();
+		if (!uri.contains("#char=") && !uri.contains("#offset_")) {
+			uri += "#offset_0_" + plaintext.length();
 		}
 		Resource resource = model.createResource(uri);
 
@@ -69,12 +69,12 @@ public class JenaRDFConversionService implements RDFConversionService {
 		resource.addProperty(type,
 				model.createResource(RDFConstants.nifPrefix + "Context"));
 		resource.addProperty(type,
-				model.createResource(RDFConstants.nifPrefix + "RFC5147String"));
+				model.createResource(RDFConstants.nifPrefix + "OffsetBasedString"));
 
 		if (language == null) {
 			resource.addProperty(
 					model.createProperty(RDFConstants.nifPrefix + "isString"),
-					model.createLiteral(plaintext));
+					model.createTypedLiteral(plaintext, XSDDatatype.XSDstring));
 		} else {
 			resource.addProperty(
 					model.createProperty(RDFConstants.nifPrefix + "isString"),
