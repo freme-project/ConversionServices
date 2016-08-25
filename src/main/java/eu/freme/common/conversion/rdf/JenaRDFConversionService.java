@@ -116,28 +116,29 @@ public class JenaRDFConversionService implements RDFConversionService {
 	 */
 	private Resource plaintextToNIF2_0(Model model, String plaintext,
 			String language, String prefix) {
+
 		model.setNsPrefix("nif", RDFConstants.nifPrefix);
 		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
 
 		String uri = prefix;
-		if (!uri.contains("#char=") && !uri.contains("#offset_")) {
-			uri += "#offset_0_" + plaintext.length();
+		if (!uri.contains("#char=")) {
+			uri += "#char=0," + plaintext.length();
 		}
 		Resource resource = model.createResource(uri);
 
 		Property type = model
 				.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 		resource.addProperty(type,
+				model.createResource(RDFConstants.nifPrefix + "String"));
+		resource.addProperty(type,
 				model.createResource(RDFConstants.nifPrefix + "Context"));
-		resource.addProperty(
-				type,
-				model.createResource(RDFConstants.nifPrefix
-						+ "OffsetBasedString"));
+		resource.addProperty(type,
+				model.createResource(RDFConstants.nifPrefix + "RFC5147String"));
 
 		if (language == null) {
 			resource.addProperty(
 					model.createProperty(RDFConstants.nifPrefix + "isString"),
-					model.createTypedLiteral(plaintext, XSDDatatype.XSDstring));
+					model.createLiteral(plaintext));
 		} else {
 			resource.addProperty(
 					model.createProperty(RDFConstants.nifPrefix + "isString"),
