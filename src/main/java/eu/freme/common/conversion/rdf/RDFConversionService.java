@@ -39,8 +39,13 @@ public interface RDFConversionService {
 	 *            defines the uri that for the new resource
 	 * @return the newly generated resource
 	 */
+
+	@Deprecated
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language, String prefix);
+	
+	public Resource plaintextToRDF(Model model, String plaintext,
+			String language, String prefix, String nifVersion);
 
 	/**
 	 * Serialize given model as NIF / Turtle

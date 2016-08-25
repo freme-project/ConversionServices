@@ -31,6 +31,8 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+import eu.freme.common.exception.NIFVersionNotSupportedException;
+
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
@@ -49,10 +51,17 @@ public class JenaRDFConversionService implements RDFConversionService {
 		rdfTypeMapping.put(RDFConstants.RDFSerialization.RDF_XML, "RDF/XML");
 	}
 
-	@Override
-	public Resource plaintextToRDF(Model model, String plaintext,
+	/**
+	 * Convert plaintext to NIF 2.1
+	 * 
+	 * @param model
+	 * @param plaintext
+	 * @param language
+	 * @param prefix
+	 * @return
+	 */
+	private Resource plaintextToNIF2_1(Model model, String plaintext,
 			String language, String prefix) {
-
 		model.setNsPrefix("nif", RDFConstants.nifPrefix);
 		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
 
@@ -66,8 +75,10 @@ public class JenaRDFConversionService implements RDFConversionService {
 				.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 		resource.addProperty(type,
 				model.createResource(RDFConstants.nifPrefix + "Context"));
-		resource.addProperty(type,
-				model.createResource(RDFConstants.nifPrefix + "OffsetBasedString"));
+		resource.addProperty(
+				type,
+				model.createResource(RDFConstants.nifPrefix
+						+ "OffsetBasedString"));
 
 		if (language == null) {
 			resource.addProperty(
@@ -94,6 +105,73 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return resource;
 	}
 
+	/**
+	 * Convert plaintext to NIF 2.0
+	 * 
+	 * @param model
+	 * @param plaintext
+	 * @param language
+	 * @param prefix
+	 * @return
+	 */
+	private Resource plaintextToNIF2_0(Model model, String plaintext,
+			String language, String prefix) {
+		model.setNsPrefix("nif", RDFConstants.nifPrefix);
+		model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
+
+		String uri = prefix;
+		if (!uri.contains("#char=") && !uri.contains("#offset_")) {
+			uri += "#offset_0_" + plaintext.length();
+		}
+		Resource resource = model.createResource(uri);
+
+		Property type = model
+				.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		resource.addProperty(type,
+				model.createResource(RDFConstants.nifPrefix + "Context"));
+		resource.addProperty(
+				type,
+				model.createResource(RDFConstants.nifPrefix
+						+ "OffsetBasedString"));
+
+		if (language == null) {
+			resource.addProperty(
+					model.createProperty(RDFConstants.nifPrefix + "isString"),
+					model.createTypedLiteral(plaintext, XSDDatatype.XSDstring));
+		} else {
+			resource.addProperty(
+					model.createProperty(RDFConstants.nifPrefix + "isString"),
+					model.createLiteral(plaintext, language));
+		}
+
+		Literal beginIndex = model.createTypedLiteral(new Integer(0),
+				XSDDatatype.XSDnonNegativeInteger);
+		resource.addProperty(
+				model.createProperty(RDFConstants.nifPrefix + "beginIndex"),
+				beginIndex);
+		Literal endIndex = model.createTypedLiteral(
+				new Integer(plaintext.length()),
+				XSDDatatype.XSDnonNegativeInteger);
+		resource.addProperty(
+				model.createProperty(RDFConstants.nifPrefix + "endIndex"),
+				endIndex);
+
+		return resource;
+	}
+
+	/**
+	 * Convert plaintext to NIF 2.0. You should better use the other
+	 * implementation of this function that lets you specify the NIF version.
+	 */
+	@Override
+	public Resource plaintextToRDF(Model model, String plaintext,
+			String language, String prefix) {
+		return plaintextToNIF2_0(model, plaintext, language, prefix);
+	}
+
+	/**
+	 * Convert Jena Model to String
+	 */
 	@Override
 	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
 			throws Exception {
@@ -109,6 +187,9 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return writer.toString();
 	}
 
+	/**
+	 * Convert String to Jena Model
+	 */
 	@Override
 	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
 			throws Exception {
@@ -128,6 +209,10 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return rdfTypeMapping.get(type);
 	}
 
+	/**
+	 * Find one context in an RDF document with an isString property and return
+	 * this statement.
+	 */
 	@Override
 	public Statement extractFirstPlaintext(Model model) throws Exception {
 		Resource context = model
@@ -143,6 +228,23 @@ public class JenaRDFConversionService implements RDFConversionService {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Convert plaintext to NIF, using one of the RDFConstants.nifVersion
+	 * variables.
+	 */
+	@Override
+	public Resource plaintextToRDF(Model model, String plaintext,
+			String language, String prefix, String nifVersion) {
+		if (nifVersion == null || nifVersion.equals(RDFConstants.nifVersion2_0)) {
+			return plaintextToNIF2_0(model, plaintext, language, prefix);
+		} else if (nifVersion.equals(RDFConstants.nifVersion2_1)) {
+			return plaintextToNIF2_1(model, plaintext, language, prefix);
+		} else {
+			throw new NIFVersionNotSupportedException("NIF version \""
+					+ nifVersion + "\" is not supported");
+		}
 	}
 
 }

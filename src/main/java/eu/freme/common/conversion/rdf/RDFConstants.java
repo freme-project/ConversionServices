@@ -35,6 +35,9 @@ public class RDFConstants {
 	public static final String RDF_XML = "application/rdf+xml";
 	public static final String N3 = "text/n3";
 	public static final String N_TRIPLES = "application/n-triples";
+	
+	public static final String nifVersion2_0 = "2.0";
+	public static final String nifVersion2_1 = "2.1";
 
 	public static final Set<String> SERIALIZATION_FORMATS = new HashSet<>(Arrays.asList(new String[]{
 			TURTLE, JSON_LD, RDF_XML, N3, N_TRIPLES
