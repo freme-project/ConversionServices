@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public abstract class AdditionalFieldsException extends FREMEHttpException {
 
-    private Map<String, Object> additionalFields = new HashMap<>();
+    private Map<String, JSONObject> additionalFields = new HashMap<>();
 
     public AdditionalFieldsException(){
         super();
@@ -31,11 +31,11 @@ public abstract class AdditionalFieldsException extends FREMEHttpException {
         setHttpStatusCode(httpStatusCode);
     }
 
-    public Map<String, Object> getAdditionalFields() {
+    public Map<String, JSONObject> getAdditionalFields() {
         return additionalFields;
     }
 
-    protected void addAdditionalField(String key, Object value){
+    protected void addAdditionalField(String key, JSONObject value){
         additionalFields.put(key, value);
     }
 }

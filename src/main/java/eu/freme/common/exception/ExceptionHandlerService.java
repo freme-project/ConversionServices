@@ -3,10 +3,12 @@ package eu.freme.common.exception;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
@@ -78,11 +80,12 @@ public class ExceptionHandlerService {
 		json.put("exception", exception.getClass().getName());
 		json.put("path", req.getRequestURI());
 
-		/*if(exception instanceof AdditionalFieldsException){
-			for(String key: ((AdditionalFieldsException) exception).getAdditionalFields().keySet()){
-				json.put(key, ((AdditionalFieldsException) exception).getAdditionalFields().get(key));
+		if(exception instanceof AdditionalFieldsException){
+			Map<String, JSONObject> additionalFields = ((AdditionalFieldsException) exception).getAdditionalFields();
+			for(String key: additionalFields.keySet()){
+				json.put(key, additionalFields.get(key));
 			}
-		}*/
+		}
 
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "application/json");
