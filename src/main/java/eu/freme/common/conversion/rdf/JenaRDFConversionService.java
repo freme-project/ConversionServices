@@ -70,7 +70,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	 */
 	private Resource plaintextToNIF2_1(Model model, String plaintext,
 			String language, String prefix) {
-		model.setNsPrefix("nif", nifPrefix_2_1);
+		model.setNsPrefix("nif", nifPrefix);
 		model.setNsPrefix("xsd", xsdPrefix);
 
 		String uri = prefix;
@@ -82,32 +82,32 @@ public class JenaRDFConversionService implements RDFConversionService {
 		Property type = model
 				.createProperty(typePrefix);
 		resource.addProperty(type,
-				model.createResource(nifPrefix_2_1 + NIF_CONTEXT_TYPE));
+				model.createResource(nifPrefix + NIF_CONTEXT_TYPE));
 		resource.addProperty(
 				type,
-				model.createResource(nifPrefix_2_1
+				model.createResource(nifPrefix
 						+ NIF21_STRINGS_IDENTIFIER));
 
 		if (language == null) {
 			resource.addProperty(
-					model.createProperty(nifPrefix_2_1 + IS_STRING),
+					model.createProperty(nifPrefix + IS_STRING),
 					model.createTypedLiteral(plaintext, XSDDatatype.XSDstring));
 		} else {
 			resource.addProperty(
-					model.createProperty(nifPrefix_2_1 + IS_STRING),
+					model.createProperty(nifPrefix + IS_STRING),
 					model.createLiteral(plaintext, language));
 		}
 
 		Literal beginIndex = model.createTypedLiteral(new Integer(0),
 				XSDDatatype.XSDnonNegativeInteger);
 		resource.addProperty(
-				model.createProperty(nifPrefix_2_1 + BEGIN_INDEX),
+				model.createProperty(nifPrefix + BEGIN_INDEX),
 				beginIndex);
 		Literal endIndex = model.createTypedLiteral(
 				new Integer(plaintext.length()),
 				XSDDatatype.XSDnonNegativeInteger);
 		resource.addProperty(
-				model.createProperty(nifPrefix_2_1 + END_INDEX),
+				model.createProperty(nifPrefix + END_INDEX),
 				endIndex);
 
 		return resource;
@@ -125,7 +125,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	private Resource plaintextToNIF2_0(Model model, String plaintext,
 			String language, String prefix) {
 
-		model.setNsPrefix("nif", nifPrefix_2_0);
+		model.setNsPrefix("nif", nifPrefix);
 		model.setNsPrefix("xsd", xsdPrefix);
 
 		String uri = prefix;
@@ -137,32 +137,32 @@ public class JenaRDFConversionService implements RDFConversionService {
 		Property type = model
 				.createProperty(typePrefix);
 		resource.addProperty(type,
-				model.createResource(nifPrefix_2_0 + NIF_STRING_TYPE));
+				model.createResource(nifPrefix + NIF_STRING_TYPE));
 		resource.addProperty(type,
-				model.createResource(nifPrefix_2_0 + NIF_CONTEXT_TYPE));
+				model.createResource(nifPrefix + NIF_CONTEXT_TYPE));
 		resource.addProperty(type,
-				model.createResource(nifPrefix_2_0 + NIF20_STRINGS_IDENTIFIER));
+				model.createResource(nifPrefix + NIF20_STRINGS_IDENTIFIER));
 
 		if (language == null) {
 			resource.addProperty(
-					model.createProperty(nifPrefix_2_0 + IS_STRING),
+					model.createProperty(nifPrefix + IS_STRING),
 					model.createLiteral(plaintext));
 		} else {
 			resource.addProperty(
-					model.createProperty(nifPrefix_2_0 + IS_STRING),
+					model.createProperty(nifPrefix + IS_STRING),
 					model.createLiteral(plaintext, language));
 		}
 
 		Literal beginIndex = model.createTypedLiteral(new Integer(0),
 				XSDDatatype.XSDnonNegativeInteger);
 		resource.addProperty(
-				model.createProperty(nifPrefix_2_0 + BEGIN_INDEX),
+				model.createProperty(nifPrefix + BEGIN_INDEX),
 				beginIndex);
 		Literal endIndex = model.createTypedLiteral(
 				new Integer(plaintext.length()),
 				XSDDatatype.XSDnonNegativeInteger);
 		resource.addProperty(
-				model.createProperty(nifPrefix_2_0 + END_INDEX),
+				model.createProperty(nifPrefix + END_INDEX),
 				endIndex);
 
 		return resource;
@@ -228,44 +228,11 @@ public class JenaRDFConversionService implements RDFConversionService {
 	 * this statement.
 	 */
 	@Override
-	public Statement extractFirstPlaintext(Model model, String nifVersion) throws Exception {
-		if (nifVersion == null || nifVersion.equals(RDFConstants.nifVersion2_0)) {
-			return extractFirstPlaintextNif2_0(model);
-		} else if (nifVersion.equals(RDFConstants.nifVersion2_1)) {
-			return extractFirstPlaintextNif2_1(model);
-		} else {
-			throw new NIFVersionNotSupportedException("NIF version \""
-					+ nifVersion + "\" is not supported");
-		}
-	}
-
-	@Override
 	public Statement extractFirstPlaintext(Model model) throws Exception {
-		return extractFirstPlaintext(model, nifVersion2_0);
-	}
-
-
-	private Statement extractFirstPlaintextNif2_0(Model model) throws Exception {
 		Resource context = model
-				.getResource(nifPrefix_2_0+NIF_CONTEXT_TYPE);
+				.getResource(nifPrefix+NIF_CONTEXT_TYPE);
 		Property isString = model
-				.getProperty(nifPrefix_2_0+IS_STRING);
-		StmtIterator iter = model.listStatements(null, RDF.type, context);
-		while (iter.hasNext()) {
-			Resource contextRes = iter.nextStatement().getSubject();
-			Statement isStringStm = contextRes.getProperty(isString);
-			if (isStringStm != null) {
-				return isStringStm;
-			}
-		}
-		return null;
-	}
-
-	private Statement extractFirstPlaintextNif2_1(Model model) throws Exception {
-		Resource context = model
-				.getResource(nifPrefix_2_1+NIF_CONTEXT_TYPE);
-		Property isString = model
-				.getProperty(nifPrefix_2_1+IS_STRING);
+				.getProperty(nifPrefix+IS_STRING);
 		StmtIterator iter = model.listStatements(null, RDF.type, context);
 		while (iter.hasNext()) {
 			Resource contextRes = iter.nextStatement().getSubject();

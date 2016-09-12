@@ -30,11 +30,10 @@ public class RDFConstants {
 	public static final String nifVersion2_0 = "2.0";
 	public static final String nifVersion2_1 = "2.1";
 
-	@Deprecated
 	public static final String nifPrefix = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#";
-	// These two prefixes should be used
-	public static final String nifPrefix_2_0 = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/2.0#";
-	public static final String nifPrefix_2_1 = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/2.1#";
+	// These two prefixes should be used. NO, THERE IS JUST ONE NIF PREFIX!
+	//public static final String nifPrefix_2_0 = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/2.0#";
+	//public static final String nifPrefix_2_1 = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/2.1#";
 
 	public static final String itsrdfPrefix = "http://www.w3.org/2005/11/its/rdf#";
 	public static final String xsdPrefix = "http://www.w3.org/2001/XMLSchema#";
@@ -60,7 +59,7 @@ public class RDFConstants {
 	public static final String NIF20_OFFSET = "#char=";
 	public static final String NIF21_OFFSET = "#offset_";
 
-	// These should not be used anymore as the nifPrefix can be one of nifPrefix_2_0 and nifPrefix_2_1
+	// These should not be used anymore as the nifPrefix can be one of nifPrefix_2_0 and nifPrefix
 	@Deprecated
 	public static final String WAS_CONVERTED_FROM_PROP = nifPrefix + WAS_CONVERTED_FROM;
 	@Deprecated
