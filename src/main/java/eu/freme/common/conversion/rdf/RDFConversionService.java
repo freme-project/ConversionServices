@@ -78,5 +78,7 @@ public interface RDFConversionService {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public Statement extractFirstPlaintext(Model model) throws Exception;
+	public Statement extractFirstPlaintext(Model model, String nifVersion) throws Exception;
 }
