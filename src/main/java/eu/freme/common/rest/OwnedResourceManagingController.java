@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import eu.freme.common.conversion.SerializationFormatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -119,7 +120,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             entity = entityDAO.save(entity);
 
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
+            responseHeaders.add("Content-Type", SerializationFormatMapper.JSON);
             return new ResponseEntity<>(entity.toJson(), responseHeaders, HttpStatus.OK);
         } catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
@@ -164,7 +165,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
         try {
             Entity entity = entityDAO.findOneByIdentifier(identifier);
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
+            responseHeaders.add("Content-Type", SerializationFormatMapper.JSON);
             return new ResponseEntity<>(entity.toJson(), responseHeaders, HttpStatus.OK);
         }catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
@@ -219,7 +220,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
                 entity = entityDAO.updateOwner(entity, owner);
             }
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
+            responseHeaders.add("Content-Type", SerializationFormatMapper.JSON);
             return new ResponseEntity<>(entity.toJson(), responseHeaders, HttpStatus.OK);
         }catch (AccessDeniedException ex) {
             logger.error(ex.getMessage(), ex);
@@ -287,7 +288,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
             HttpHeaders responseHeaders = new HttpHeaders();
             //ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             //String serialization = ow.writeValueAsString(entities);
-            responseHeaders.add("Content-Type", RDFConstants.RDFSerialization.JSON.contentType());
+            responseHeaders.add("Content-Type", SerializationFormatMapper.JSON);
             return new ResponseEntity<>("["+serialization+"]", responseHeaders, HttpStatus.OK);
         } catch (FREMEHttpException ex) {
             logger.error(ex.getMessage());

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import eu.freme.common.conversion.SerializationFormatMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -153,32 +154,6 @@ public class RestHelper {
 	}
 
 	/**
-	 * Convert Jena model to string.
-	 * 
-	 * @param model
-	 * @param format
-	 * @return
-	 * @throws Exception
-	 */
-	public String serializeNif(Model model, RDFConstants.RDFSerialization format)
-			throws Exception {
-		return rdfConversionService.serializeRDF(model, format);
-	}
-
-	/**
-	 * Convert string to Jena model.
-	 * 
-	 * @param nif
-	 * @param format
-	 * @return
-	 * @throws Exception
-	 */
-	public Model unserializeNif(String nif, RDFConstants.RDFSerialization format)
-			throws Exception {
-		return rdfConversionService.unserializeRDF(nif, format);
-	}
-
-	/**
 	 * Create a ResponseEntity for a REST API method. It accepts a Jena Model
 	 * and an RDFSerialization format. It converts the model to a string in the
 	 * desired serialization format and sets the right Content-Type header.
@@ -187,13 +162,25 @@ public class RestHelper {
 	 * @param rdfFormat
 	 * @return
 	 */
+	@Deprecated
 	public ResponseEntity<String> createSuccessResponse(Model rdf,
 			RDFConstants.RDFSerialization rdfFormat) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", rdfFormat.contentType());
 		String rdfString;
 		try {
-			rdfString = serializeNif(rdf, rdfFormat);
+			rdfString = rdfConversionService.serializeRDF(rdf, rdfFormat);
+		} catch (Exception e) {
+			throw new InternalServerErrorException();
+		}
+		return new ResponseEntity<>(rdfString, responseHeaders, HttpStatus.OK);
+	}
+	public ResponseEntity<String> createSuccessResponse(Model rdf, String rdfFormat) {
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", rdfFormat);
+		String rdfString;
+		try {
+			rdfString = rdfConversionService.serializeRDF(rdf, RDFConstants.RDFSerialization.fromValue(rdfFormat));
 		} catch (Exception e) {
 			throw new InternalServerErrorException();
 		}
@@ -212,11 +199,11 @@ public class RestHelper {
 		// create rdf model
 		Model model = ModelFactory.createDefaultModel();
 
-		if (!parameters.getInformat().equals(
-				RDFConstants.RDFSerialization.PLAINTEXT)) {
+		if (!parameters.getInformatString().equals(
+				SerializationFormatMapper.PLAINTEXT)) {
 			// input is nif
 			try {
-				model = this.unserializeNif(parameters.getInput(),
+				model = rdfConversionService.unserializeRDF(parameters.getInput(),
 						parameters.getInformat());
 				return model;
 			} catch (Exception e) {
@@ -238,8 +225,8 @@ public class RestHelper {
 		if(prefix == null)
 			prefix = nifParameterFactory.getDefaultPrefix();
 		return Unirest.post(url)
-				.header("Content-Type", parameters.getInformat().contentType())
-				.header("Accept", parameters.getOutformat().contentType())
+				.header("Content-Type", parameters.getInformatString())
+				.header("Accept", parameters.getOutformatString())
 				.queryString("prefix", prefix)
 				.body(parameters.getInput())
 				.asString();

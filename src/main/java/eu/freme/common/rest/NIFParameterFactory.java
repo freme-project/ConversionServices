@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import eu.freme.common.conversion.SerializationFormatMapper;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,6 +39,9 @@ public class NIFParameterFactory {
 
 	@Autowired
 	RDFSerializationFormats rdfSerializationFormats;
+
+	@Autowired
+	SerializationFormatMapper serializationFormatMapper;
 
 	String defaultPrefix = "http://freme-project.eu/";
 
@@ -66,16 +70,16 @@ public class NIFParameterFactory {
 			thisInput = postBody;
 		}
 
-		RDFSerialization thisInformat;
+		String thisInformat;
 		if (informat == null && contentTypeHeader == null) {
-			thisInformat = RDFSerialization.TURTLE;
+			thisInformat = RDFConstants.TURTLE;
 		} else if (informat != null) {
 			if (!rdfSerializationFormats.containsKey(informat)) {
 				throw new BadRequestException(
 						"parameter informat has invalid value \"" + informat
 								+ "\"");
 			}
-			thisInformat = rdfSerializationFormats.get(informat);
+			thisInformat = serializationFormatMapper.get(informat);
 		} else {
 			String[] contentTypeHeaderParts = contentTypeHeader.split(";");
 			if (!rdfSerializationFormats.containsKey(contentTypeHeaderParts[0])) {
@@ -83,24 +87,24 @@ public class NIFParameterFactory {
 						"Content-Type header has invalid value \""
 								+ contentTypeHeader + "\"");
 			}
-			thisInformat = rdfSerializationFormats.get(contentTypeHeaderParts[0]);
+			thisInformat = serializationFormatMapper.get(contentTypeHeaderParts[0]);
 		}
 
-		RDFSerialization thisOutformat;
+		String thisOutformat;
 		if( acceptHeader != null && acceptHeader.equals("*/*")){
 			acceptHeader = "text/turtle";
 		}
 		if (outformat == null && acceptHeader == null) {
-			thisOutformat = RDFSerialization.TURTLE;
+			thisOutformat = RDFConstants.TURTLE;
 		} else if (outformat != null) {
 			if (!rdfSerializationFormats.containsKey(outformat)) {
 				throw new BadRequestException(
 						"Parameter outformat has invalid value \"" + outformat
 								+ "\"");
 			}
-			thisOutformat = rdfSerializationFormats.get(outformat);
+			thisOutformat = serializationFormatMapper.get(outformat);
 			
-			if(thisOutformat == RDFConstants.RDFSerialization.PLAINTEXT){
+			if(thisOutformat.equals(SerializationFormatMapper.PLAINTEXT)){
 				throw new BadRequestException(
 						"Parameter outformat has invalid value \"" + outformat
 								+ "\"");
@@ -111,10 +115,10 @@ public class NIFParameterFactory {
 						"Parameter outformat has invalid value \""
 								+ acceptHeader + "\"");
 			}
-			thisOutformat = rdfSerializationFormats.get(acceptHeader);
+			thisOutformat = serializationFormatMapper.get(acceptHeader);
 			
 
-			if(thisOutformat == RDFConstants.RDFSerialization.PLAINTEXT){
+			if(thisOutformat.equals(SerializationFormatMapper.PLAINTEXT)){
 				throw new BadRequestException(
 						"Parameter outformat has invalid value \"" + acceptHeader
 								+ "\"");

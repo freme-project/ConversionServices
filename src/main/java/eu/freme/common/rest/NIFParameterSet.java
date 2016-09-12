@@ -27,14 +27,23 @@ import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
  */
 public class NIFParameterSet {
 
-	String input;
-	RDFSerialization informat;
-	RDFSerialization outformat;
-	String prefix;
+	private String input;
+	private String informat;
+	private String outformat;
+	private String prefix;
 	
 
 	public NIFParameterSet(String input, RDFSerialization informat,
 			RDFSerialization outformat, String prefix) {
+		super();
+		this.input = input;
+		this.informat = informat.contentType();
+		this.outformat = outformat.contentType();
+		this.prefix = prefix;
+	}
+
+	public NIFParameterSet(String input, String informat,
+						   String outformat, String prefix) {
 		super();
 		this.input = input;
 		this.informat = informat;
@@ -51,19 +60,27 @@ public class NIFParameterSet {
 	}
 
 	public RDFSerialization getInformat() {
+		return RDFSerialization.fromValue(informat);
+	}
+
+	public String getInformatString() {
 		return informat;
 	}
 
 	public void setInformat(RDFSerialization informat) {
-		this.informat = informat;
+		this.informat = informat.contentType();
 	}
 
 	public RDFSerialization getOutformat() {
+		return RDFSerialization.fromValue(outformat);
+	}
+
+	public String getOutformatString(){
 		return outformat;
 	}
 
 	public void setOutformat(RDFSerialization outformat) {
-		this.outformat = outformat;
+		this.outformat = outformat.contentType();
 	}
 
 	public String getPrefix() {

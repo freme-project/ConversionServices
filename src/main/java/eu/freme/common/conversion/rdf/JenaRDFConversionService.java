@@ -20,6 +20,7 @@ package eu.freme.common.conversion.rdf;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -47,16 +48,16 @@ public class JenaRDFConversionService implements RDFConversionService {
 	public final static String JENA_RDF_XML = "RDF/XML";
 
 	// map from our rdf types to jena format
-	private HashMap<String, String> rdfTypeMapping;
+	private static Map<String, String> rdfTypeMapping = constructJenaTypeMappings();
 
-	public JenaRDFConversionService() {
-		rdfTypeMapping = new HashMap<>();
-		rdfTypeMapping.put(RDFConstants.TURTLE, JENA_TURTLE);
-		rdfTypeMapping.put(RDFConstants.JSON_LD, JENA_JSON_LD);
-		rdfTypeMapping
-				.put(RDFConstants.N_TRIPLES, JENA_N_TRIPLES);
-		rdfTypeMapping.put(RDFConstants.N3, JENA_N3);
-		rdfTypeMapping.put(RDFConstants.RDF_XML, JENA_RDF_XML);
+	private static Map<String, String> constructJenaTypeMappings(){
+		HashMap<String, String> result = new HashMap<>();
+		result.put(RDFConstants.TURTLE, JENA_TURTLE);
+		result.put(RDFConstants.JSON_LD, JENA_JSON_LD);
+		result.put(RDFConstants.N_TRIPLES, JENA_N_TRIPLES);
+		result.put(RDFConstants.N3, JENA_N3);
+		result.put(RDFConstants.RDF_XML, JENA_RDF_XML);
+		return result;
 	}
 
 	/**
@@ -215,11 +216,11 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	@Deprecated
-	public String getJenaType(RDFConstants.RDFSerialization type) {
+	public static String getJenaType(RDFConstants.RDFSerialization type) {
 		return rdfTypeMapping.get(type.contentType());
 	}
 
-	public String getJenaType(String type) {
+	public static String getJenaType(String type) {
 		return rdfTypeMapping.get(type);
 	}
 
