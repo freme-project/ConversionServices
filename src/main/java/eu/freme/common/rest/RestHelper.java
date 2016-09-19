@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Strings;
 import eu.freme.common.conversion.SerializationFormatMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import eu.freme.common.conversion.rdf.RDFConversionService;
 import eu.freme.common.conversion.rdf.RDFSerializationFormats;
 import eu.freme.common.exception.BadRequestException;
 import eu.freme.common.exception.InternalServerErrorException;
+
+import static eu.freme.common.conversion.rdf.RDFConstants.nifVersion2_0;
 
 @Component
 public class RestHelper {
@@ -213,7 +216,7 @@ public class RestHelper {
 		} else {
 			// input is plaintext
 			rdfConversionService.plaintextToRDF(model, parameters.getInput(),
-					null, parameters.getPrefix());
+					null, parameters.getPrefix(), parameters.getNifVersion());
 			return model;
 		}
 

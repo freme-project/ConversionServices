@@ -17,7 +17,9 @@
  */
 package eu.freme.common.rest;
 
+import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
+import eu.freme.common.exception.NIFVersionNotSupportedException;
 
 /**
  * describes nif parameters as defined in
@@ -31,6 +33,7 @@ public class NIFParameterSet {
 	private String informat;
 	private String outformat;
 	private String prefix;
+	private String nifVersion = RDFConstants.nifVersion2_0;
 	
 
 	public NIFParameterSet(String input, RDFSerialization informat,
@@ -59,6 +62,7 @@ public class NIFParameterSet {
 		this.input = input;
 	}
 
+	@Deprecated
 	public RDFSerialization getInformat() {
 		return RDFSerialization.fromValue(informat);
 	}
@@ -67,10 +71,12 @@ public class NIFParameterSet {
 		return informat;
 	}
 
+	@Deprecated
 	public void setInformat(RDFSerialization informat) {
 		this.informat = informat.contentType();
 	}
 
+	@Deprecated
 	public RDFSerialization getOutformat() {
 		return RDFSerialization.fromValue(outformat);
 	}
@@ -79,6 +85,7 @@ public class NIFParameterSet {
 		return outformat;
 	}
 
+	@Deprecated
 	public void setOutformat(RDFSerialization outformat) {
 		this.outformat = outformat.contentType();
 	}
@@ -91,4 +98,17 @@ public class NIFParameterSet {
 		this.prefix = prefix;
 	}
 
+	public String getNifVersion() {
+		return nifVersion;
+	}
+
+	public void setNifVersion(String nifVersion) {
+		if (nifVersion != null
+				&& !(nifVersion.equals(RDFConstants.nifVersion2_0)
+				|| nifVersion.equals(RDFConstants.nifVersion2_1))) {
+			throw new NIFVersionNotSupportedException("NIF version \""
+					+ nifVersion + "\" is not supported");
+		}
+		this.nifVersion = nifVersion;
+	}
 }

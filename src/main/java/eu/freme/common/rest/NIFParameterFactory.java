@@ -30,6 +30,8 @@ import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
 import eu.freme.common.conversion.rdf.RDFSerializationFormats;
 import eu.freme.common.exception.BadRequestException;
 
+import static eu.freme.common.conversion.rdf.RDFConstants.TURTLE;
+
 /**
  * Helper class to create a NIFParameterSet according to the specification of NIF.
  * 
@@ -72,7 +74,7 @@ public class NIFParameterFactory {
 
 		String thisInformat;
 		if (informat == null && contentTypeHeader == null) {
-			thisInformat = RDFConstants.TURTLE;
+			thisInformat = TURTLE;
 		} else if (informat != null) {
 			if (!rdfSerializationFormats.containsKey(informat)) {
 				throw new BadRequestException(
@@ -92,10 +94,10 @@ public class NIFParameterFactory {
 
 		String thisOutformat;
 		if( acceptHeader != null && acceptHeader.equals("*/*")){
-			acceptHeader = "text/turtle";
+			acceptHeader = TURTLE;
 		}
 		if (outformat == null && acceptHeader == null) {
-			thisOutformat = RDFConstants.TURTLE;
+			thisOutformat = TURTLE;
 		} else if (outformat != null) {
 			if (!rdfSerializationFormats.containsKey(outformat)) {
 				throw new BadRequestException(
