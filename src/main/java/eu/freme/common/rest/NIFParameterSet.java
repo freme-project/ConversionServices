@@ -19,6 +19,7 @@ package eu.freme.common.rest;
 
 import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
+import eu.freme.common.exception.BadRequestException;
 import eu.freme.common.exception.NIFVersionNotSupportedException;
 
 /**
@@ -30,12 +31,23 @@ import eu.freme.common.exception.NIFVersionNotSupportedException;
 public class NIFParameterSet {
 
 	private String input;
+
+	/**
+	 * Possible values: values contained in {@link RDFConstants#SERIALIZATION_FORMATS}
+	 * 					and {@link eu.freme.common.conversion.SerializationFormatMapper#PLAINTEXT}
+	 */
 	private String informat;
+
+	/**
+	 * Possible values: values contained in {@link RDFConstants#SERIALIZATION_FORMATS}
+	 */
 	private String outformat;
 	private String prefix;
 	private String nifVersion = RDFConstants.nifVersion2_0;
-	
 
+	/**
+	 * @deprecated use {@link #NIFParameterSet(String, String, String, String)} instead
+     */
 	@Deprecated
 	public NIFParameterSet(String input, RDFSerialization informat,
 			RDFSerialization outformat, String prefix) {
@@ -63,6 +75,9 @@ public class NIFParameterSet {
 		this.input = input;
 	}
 
+	/**
+	 * @deprecated use {@link #getInformatString()} instead
+	 */
 	@Deprecated
 	public RDFSerialization getInformat() {
 		return RDFSerialization.fromValue(informat);
@@ -72,11 +87,17 @@ public class NIFParameterSet {
 		return informat;
 	}
 
+	/**
+	 * @deprecated use {@link #getInformatString()} instead
+	 */
 	@Deprecated
 	public void setInformat(RDFSerialization informat) {
 		this.informat = informat.contentType();
 	}
 
+	/**
+	 * @deprecated use {@link #getOutformatString()} instead
+	 */
 	@Deprecated
 	public RDFSerialization getOutformat() {
 		return RDFSerialization.fromValue(outformat);
@@ -86,9 +107,16 @@ public class NIFParameterSet {
 		return outformat;
 	}
 
+	/**
+	 * @deprecated use {@link #setOutformatString(String)} instead
+	 */
 	@Deprecated
 	public void setOutformat(RDFSerialization outformat) {
 		this.outformat = outformat.contentType();
+	}
+
+	public void setOutformatString(String outformat) {
+		this.outformat = outformat;
 	}
 
 	public String getPrefix() {

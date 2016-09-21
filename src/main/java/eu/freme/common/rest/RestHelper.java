@@ -34,10 +34,8 @@ public class RestHelper {
 	@Autowired
 	NIFParameterFactory nifParameterFactory;
 
-	//String defaultPrefix = "http://freme-project.eu/";
-
 	/*
-	 * @deprecated use RDFConstants.fremePrefix instead
+	 * @deprecated use {@link RDFConstants#fremePrefix} instead
 	 */
 	@Deprecated
 	public String getDefaultPrefix() {
@@ -151,14 +149,8 @@ public class RestHelper {
 	}
 
 	/**
-	 * Create a ResponseEntity for a REST API method. It accepts a Jena Model
-	 * and an RDFSerialization format. It converts the model to a string in the
-	 * desired serialization format and sets the right Content-Type header.
-	 * 
-	 * @param rdf
-	 * @param rdfFormat
-	 * @return
-	 */
+	 * @deprecated use {@link #createSuccessResponse(Model, String)} instead
+     */
 	@Deprecated
 	public ResponseEntity<String> createSuccessResponse(Model rdf,
 			RDFConstants.RDFSerialization rdfFormat) {
@@ -172,6 +164,16 @@ public class RestHelper {
 		}
 		return new ResponseEntity<>(rdfString, responseHeaders, HttpStatus.OK);
 	}
+
+	/**
+	 * Create a ResponseEntity for a REST API method. It accepts a Jena Model
+	 * and an RDFSerialization format. It converts the model to a string in the
+	 * desired serialization format and sets the right Content-Type header.
+	 *
+	 * @param rdf
+	 * @param rdfFormat
+	 * @return
+	 */
 	public ResponseEntity<String> createSuccessResponse(Model rdf, String rdfFormat) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", rdfFormat);

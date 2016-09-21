@@ -173,8 +173,8 @@ public class JenaRDFConversionService implements RDFConversionService {
 	/**
 	 * Convert plaintext to NIF 2.0. You should better use the other
 	 * implementation of this function that lets you specify the NIF version.
-	 * @deprecated use plaintextToRDF(Model model, String plaintext,
-	 * 		String language, String prefix, String nifVersion) instead
+	 * @deprecated use {@link #plaintextToRDF(Model model, String plaintext,
+	 * 		String language, String prefix, String nifVersion)} instead
 	 */
 	@Deprecated
 	@Override
@@ -200,6 +200,9 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return writer.toString();
 	}
 
+	/**
+	 * @deprecated use {@link #serializeRDF(Model, String)} instead
+     */
 	@Deprecated
 	@Override
 	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
@@ -224,7 +227,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	/**
-	 * @deprecated use unserializeRDF(String rdf, String format) instead
+	 * @deprecated use {@link #unserializeRDF(String rdf, String format)} instead
      */
 	@Deprecated
 	@Override
@@ -235,7 +238,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 	}
 
 	/**
-	 * @deprecated use getJenaType(String type) instead
+	 * @deprecated use {@link #getJenaType(String type)} instead
 	 */
 	@Deprecated
 	public static String getJenaType(RDFConstants.RDFSerialization type) {

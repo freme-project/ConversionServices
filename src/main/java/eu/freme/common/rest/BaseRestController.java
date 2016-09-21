@@ -110,36 +110,44 @@ public abstract class BaseRestController {
 	}
 
 	/**
+	 *
+	 * @deprecated use {@link #serializeRDF(Model, String)} instead
+     */
+	@Deprecated
+	protected String serializeRDF(Model model,
+			RDFConstants.RDFSerialization format) throws Exception {
+		return rdfConversionService.serializeRDF(model, format.contentType());
+	}
+
+	/**
 	 * Convert Jena model to string.
-	 * 
+	 *
 	 * @param model
 	 * @param format
 	 * @return
 	 * @throws Exception
 	 */
-	 @Deprecated
-	protected String serializeRDF(Model model,
-			RDFConstants.RDFSerialization format) throws Exception {
-		return rdfConversionService.serializeRDF(model, format.contentType());
-	}
 	protected String serializeRDF(Model model,
 								  String format) throws Exception {
 		return rdfConversionService.serializeRDF(model, format);
 	}
 
 	/**
-	 * Convert string to Jena model.
-	 * 
-	 * @param nif
-	 * @param format
-	 * @return
-	 * @throws Exception
-	 */
+	 * @deprecated use {@link #unserializeRDF(String, String)} instead
+     */
 	@Deprecated
 	protected Model unserializeRDF(String nif,
 			RDFConstants.RDFSerialization format) throws Exception {
 		return rdfConversionService.unserializeRDF(nif, format.contentType());
 	}
+	/**
+	 * Convert string to Jena model.
+	 *
+	 * @param nif
+	 * @param format
+	 * @return
+	 * @throws Exception
+	 */
 	protected Model unserializeRDF(String nif, String format) throws Exception {
 		return rdfConversionService.unserializeRDF(nif, format);
 	}
@@ -159,19 +167,23 @@ public abstract class BaseRestController {
 	}
 
 	/**
-	 * Create a ResponseEntity for a REST API method. It accepts a Jena Model
-	 * and an RDFSerialization format. It converts the model to a string in the
-	 * desired serialization format and sets the right Content-Type header.
-	 * 
-	 * @param rdf
-	 * @param rdfFormat
-	 * @return
+	 * @deprecated use {@link #createSuccessResponse(Model, String)} instead
 	 */
 	@Deprecated
 	public ResponseEntity<String> createSuccessResponse(Model rdf,
 			RDFConstants.RDFSerialization rdfFormat) {
 		return restHelper.createSuccessResponse(rdf, rdfFormat.contentType());
 	}
+
+	/**
+	 * Create a ResponseEntity for a REST API method. It accepts a Jena Model
+	 * and an RDFSerialization format. It converts the model to a string in the
+	 * desired serialization format and sets the right Content-Type header.
+	 *
+	 * @param rdf
+	 * @param rdfFormat
+	 * @return
+	 */
 	protected ResponseEntity<String> createSuccessResponse(Model rdf,
 														String rdfFormat) {
 		return restHelper.createSuccessResponse(rdf, rdfFormat);

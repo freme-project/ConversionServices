@@ -94,6 +94,10 @@ public class RDFConstants {
 			TURTLE, JSON_LD, RDF_XML, N3, N_TRIPLES
 	}));
 
+	/**
+	 * @deprecated use string constants like in {@link #SERIALIZATION_FORMATS}
+	 * or {@link eu.freme.common.conversion.SerializationFormatMapper#PLAINTEXT} and {@link eu.freme.common.conversion.SerializationFormatMapper#JSON} instead
+	 */
 	@Deprecated
 	public enum RDFSerialization {
 		TURTLE("text/turtle"),

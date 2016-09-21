@@ -27,9 +27,16 @@ import com.hp.hpl.jena.rdf.model.Statement;
 public interface RDFConversionService {
 
 	/**
+	 * @deprecated use {@link #plaintextToRDF(Model, String, String, String, String)} instead
+     */
+	@Deprecated
+	public Resource plaintextToRDF(Model model, String plaintext,
+			String language, String prefix);
+
+	/**
 	 * Convert a plaintext string to JsonLd / NIF. The nif:isString literal will
 	 * be annotated with given language when language!=null is submitted.
-	 * 
+	 *
 	 * @param model
 	 *            The model to enrich
 	 * @param plaintext the used plaintext input
@@ -39,11 +46,6 @@ public interface RDFConversionService {
 	 *            defines the uri that for the new resource
 	 * @return the newly generated resource
 	 */
-
-	@Deprecated
-	public Resource plaintextToRDF(Model model, String plaintext,
-			String language, String prefix);
-	
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language, String prefix, String nifVersion);
 
@@ -57,7 +59,7 @@ public interface RDFConversionService {
 			throws Exception;
 
 	/**
-	 * @deprecated use serializeRDF(Model model, String format) instead
+	 * @deprecated use {@link #serializeRDF(Model model, String format)} instead
 	 */
 	@Deprecated
 	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
@@ -77,7 +79,7 @@ public interface RDFConversionService {
 			throws Exception;
 
 	/**
-	 * @deprecated use unserializeRDF(String rdf, String format) instead
+	 * @deprecated use {@link #unserializeRDF(String rdf, String format)} instead
 	 */
 	@Deprecated
 	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)

@@ -21,13 +21,16 @@ import eu.freme.common.conversion.SerializationFormatMapper;
 import eu.freme.common.conversion.rdf.RDFConstants;
 import eu.freme.common.exception.BadRequestException;
 import eu.freme.common.exception.UnsupportedRDFSerializationException;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import static eu.freme.common.conversion.rdf.RDFConstants.SERIALIZATION_FORMATS;
 import static eu.freme.common.conversion.rdf.RDFConstants.TURTLE;
 
 /**
@@ -40,6 +43,9 @@ public class NIFParameterFactory {
 	@Autowired
 	SerializationFormatMapper serializationFormatMapper;
 
+	/**
+	 * @deprecated use {@link RDFConstants#fremePrefix} instead
+	 */
 	@Deprecated
 	String defaultPrefix = "http://freme-project.eu/";
 
@@ -76,7 +82,7 @@ public class NIFParameterFactory {
 			if (thisInformat==null) {
 				throw new BadRequestException(
 						"parameter informat has invalid value \"" + informat
-								+ "\"");
+								+ "\". Please use one of the registered serialization format values: "+serializationFormatMapper.keySet().stream().collect(Collectors.joining(", ")));
 			}
 		} else {
 			String[] contentTypeHeaderParts = contentTypeHeader.split(";");
@@ -84,13 +90,13 @@ public class NIFParameterFactory {
 			if (thisInformat==null) {
 				throw new BadRequestException(
 						"Content-Type header has invalid value \""
-								+ contentTypeHeader + "\"");
+								+ contentTypeHeader + "\". Please use one of the registered serialization format values: "+serializationFormatMapper.keySet().stream().collect(Collectors.joining(", ")));
 			}
 		}
 		if(!RDFConstants.SERIALIZATION_FORMATS.contains(thisInformat) && !thisInformat.equals(SerializationFormatMapper.PLAINTEXT)){
 			throw new UnsupportedRDFSerializationException(
 					"Parameter informat has invalid value \"" + thisInformat
-							+ "\"");
+							+ "\". Please use one of: "+SERIALIZATION_FORMATS.stream().map(v->MapUtils.invertMap(serializationFormatMapper).get(v).toString()).collect(Collectors.joining(", "))+" or "+SerializationFormatMapper.PLAINTEXT);
 		}
 
 		String thisOutformat;
@@ -104,20 +110,20 @@ public class NIFParameterFactory {
 			if (thisOutformat==null) {
 				throw new BadRequestException(
 						"Parameter outformat has invalid value \"" + outformat
-								+ "\"");
+								+ "\". Please use one of the registered serialization format values: "+serializationFormatMapper.keySet().stream().collect(Collectors.joining(", ")));
 			}
 		} else {
 			thisOutformat = serializationFormatMapper.get(acceptHeader.split(";")[0]);
 			if (thisOutformat==null) {
 				throw new BadRequestException(
 						"Accept header has invalid value \""
-								+ acceptHeader.split(";")[0] + "\"");
+								+ acceptHeader.split(";")[0] + "\". Please use one of the registered serialization format values: "+serializationFormatMapper.keySet().stream().collect(Collectors.joining(", ")));
 			}
 		}
 		if(!RDFConstants.SERIALIZATION_FORMATS.contains(thisOutformat)){
 			throw new UnsupportedRDFSerializationException(
 					"Parameter outformat has invalid value \"" + thisOutformat
-							+ "\"");
+							+ "\". Please use one of: "+SERIALIZATION_FORMATS.stream().map(v->MapUtils.invertMap(serializationFormatMapper).get(v).toString()).collect(Collectors.joining(", ")));
 		}
 
 		String thisPrefix;
@@ -140,7 +146,7 @@ public class NIFParameterFactory {
 	}
 
 	/*
-	 * @deprecated use RDFConstants.fremePrefix instead
+	 * @deprecated use {@link RDFConstants#fremePrefix} instead
 	 */
 	@Deprecated
 	public String getDefaultPrefix() {

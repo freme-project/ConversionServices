@@ -23,6 +23,7 @@ import java.util.HashMap;
  * Defines the RDFSerializationFormats accepted by the REST endpoints.
  *
  * @author Jan Nehring - jan.nehring@dfki.de
+ * @deprecated use {@link eu.freme.common.conversion.SerializationFormatMapper} instead
  */
 @Deprecated
 @SuppressWarnings({"serial", "unused"})
