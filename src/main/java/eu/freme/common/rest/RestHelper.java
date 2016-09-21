@@ -103,8 +103,10 @@ public class RestHelper {
 		if (prefix == null) {
 			prefix = parameters.get("p");
 		}
+		String nifVersion = parameters.get("nif-version");
+
 		return nifParameterFactory.constructFromHttp(input, informat,
-				outformat, postBody, acceptHeader, contentTypeHeader, prefix,
+				outformat, postBody, acceptHeader, contentTypeHeader, prefix, nifVersion,
 				allowEmptyInput);
 	}
 

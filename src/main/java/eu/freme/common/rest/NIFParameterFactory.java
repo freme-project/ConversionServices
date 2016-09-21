@@ -60,10 +60,16 @@ public class NIFParameterFactory {
 		return constructFromHttp(input, informat, outformat, postBody, acceptHeader, contentTypeHeader, prefix, false);
 	}
 
+	public NIFParameterSet constructFromHttp(String input, String informat,
+											 String outformat, String postBody, String acceptHeader,
+											 String contentTypeHeader, String prefix, boolean allowEmptyInput) throws BadRequestException {
+		return constructFromHttp(input,informat,outformat,postBody,acceptHeader,contentTypeHeader,prefix, RDFConstants.nifVersion2_0, allowEmptyInput);
+
+	}
 
 	public NIFParameterSet constructFromHttp(String input, String informat,
 			String outformat, String postBody, String acceptHeader,
-			String contentTypeHeader, String prefix, boolean allowEmptyInput) throws BadRequestException {
+			String contentTypeHeader, String prefix, String nifVersion, boolean allowEmptyInput) throws BadRequestException {
 
 		String thisInput;
 		if (!allowEmptyInput && input == null && postBody == null) {
@@ -138,7 +144,7 @@ public class NIFParameterFactory {
 			throw new BadRequestException("invalid prefix");
 		}
 
-		return new NIFParameterSet(thisInput, thisInformat, thisOutformat, thisPrefix);
+		return new NIFParameterSet(thisInput, thisInformat, thisOutformat, thisPrefix, nifVersion);
 	}
 
 	public boolean isNIFParameter(String parameter){

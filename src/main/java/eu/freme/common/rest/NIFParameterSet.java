@@ -57,7 +57,6 @@ public class NIFParameterSet {
 		this.outformat = outformat.contentType();
 		this.prefix = prefix;
 	}
-
 	public NIFParameterSet(String input, String informat,
 						   String outformat, String prefix) {
 		super();
@@ -65,6 +64,16 @@ public class NIFParameterSet {
 		this.informat = informat;
 		this.outformat = outformat;
 		this.prefix = prefix;
+	}
+
+	public NIFParameterSet(String input, String informat,
+						   String outformat, String prefix, String nifVersion) {
+		super();
+		this.input = input;
+		this.informat = informat;
+		this.outformat = outformat;
+		this.prefix = prefix;
+		setNifVersion(nifVersion);
 	}
 
 	public String getInput() {
