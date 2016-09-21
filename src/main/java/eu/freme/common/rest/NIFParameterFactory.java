@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import eu.freme.common.exception.NIFVersionNotSupportedException;
 
 import static eu.freme.common.conversion.rdf.RDFConstants.SERIALIZATION_FORMATS;
 import static eu.freme.common.conversion.rdf.RDFConstants.TURTLE;
@@ -144,7 +145,15 @@ public class NIFParameterFactory {
 			throw new BadRequestException("invalid prefix");
 		}
 
-		return new NIFParameterSet(thisInput, thisInformat, thisOutformat, thisPrefix, nifVersion);
+                if (nifVersion == null){
+                     nifVersion = RDFConstants.nifVersion2_0;
+                }else if(!(nifVersion.equals(RDFConstants.nifVersion2_0)
+				|| nifVersion.equals(RDFConstants.nifVersion2_1))) {
+			throw new NIFVersionNotSupportedException("NIF version \""
+					+ nifVersion + "\" is not supported");
+                }		
+
+                return new NIFParameterSet(thisInput, thisInformat, thisOutformat, thisPrefix, nifVersion);
 	}
 
 	public boolean isNIFParameter(String parameter){
