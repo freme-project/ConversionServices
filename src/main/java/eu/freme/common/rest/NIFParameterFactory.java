@@ -55,7 +55,7 @@ public class NIFParameterFactory {
 	}));
 
 	// name of the http parameter containing the nif Version
-	public final String versionIdentifier = "nif-version";
+	public static final String versionIdentifier = "nif-version";
 
 
 	public NIFParameterSet constructFromHttp(String input, String informat,
