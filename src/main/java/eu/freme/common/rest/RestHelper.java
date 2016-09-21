@@ -47,14 +47,14 @@ public class RestHelper {
 	 * easier. It handles informat overwrites Content-Type header, input
 	 * overwrites post body, and more.
 	 * 
-	 * @param input
-	 * @param informat
-	 * @param outformat
-	 * @param postBody
-	 * @param acceptHeader
-	 * @param contentTypeHeader
-	 * @param prefix
-	 * @return
+	 * @param input the nif input parameter
+	 * @param informat the nif informat parameter
+	 * @param outformat the nif outformat parameter
+	 * @param postBody the http post body content
+	 * @param acceptHeader the http accept header
+	 * @param contentTypeHeader the http content-type header
+	 * @param prefix the nif prefix parameter
+	 * @return the created NifParameterSet
 	 */
 	public NIFParameterSet normalizeNif(String input, String informat,
 			String outformat, String postBody, String acceptHeader,
@@ -68,13 +68,14 @@ public class RestHelper {
 	 * easier. It handles informat overwrites Content-Type header, input
 	 * overwrites post body, and more.
 	 *
-	 * @param postBody
-	 * @param acceptHeader
-	 * @param contentTypeHeader
-	 *            ,
-	 * @param parameters
-	 * @param allowEmptyInput
-	 */
+	 * @param postBody the http post body content
+	 * @param acceptHeader the http accept header
+	 * @param contentTypeHeader the http content-type header
+	 * @param parameters the http parameters containing the nif parameters
+	 * @param allowEmptyInput if false, throw a BadRequestException if post http body and nif input is empty
+	 * @return the created NIFParameterSet
+     * @throws BadRequestException
+     */
 	public NIFParameterSet normalizeNif(String postBody, String acceptHeader,
 			String contentTypeHeader, Map<String, String> parameters,
 			boolean allowEmptyInput) throws BadRequestException {
@@ -103,7 +104,7 @@ public class RestHelper {
 		if (prefix == null) {
 			prefix = parameters.get("p");
 		}
-		String nifVersion = parameters.get("nif-version");
+		String nifVersion = parameters.get(NIFParameterFactory.versionIdentifier);
 
 		return nifParameterFactory.constructFromHttp(input, informat,
 				outformat, postBody, acceptHeader, contentTypeHeader, prefix, nifVersion,
@@ -118,8 +119,7 @@ public class RestHelper {
 	 *            the request
 	 * @param allowEmptyInput
 	 *            Specifies if it is allowed to send empty input text.
-	 * @return
-	 * @throws IOException
+	 * @return the new NifParameterSet
 	 */
 	public NIFParameterSet normalizeNif(HttpServletRequest request,
 			boolean allowEmptyInput) {
@@ -137,7 +137,7 @@ public class RestHelper {
 			String acceptHeader = request.getHeader("accept");
 			String contentTypeHeader = request.getHeader("content-type");
 
-			Map<String, String> parameters = new HashMap<String, String>();
+			Map<String, String> parameters = new HashMap<>();
 			for (String key : request.getParameterMap().keySet()) {
 				parameters.put(key, request.getParameter(key));
 			}
@@ -172,9 +172,9 @@ public class RestHelper {
 	 * and an RDFSerialization format. It converts the model to a string in the
 	 * desired serialization format and sets the right Content-Type header.
 	 *
-	 * @param rdf
-	 * @param rdfFormat
-	 * @return
+	 * @param rdf the jena rdf model
+	 * @param rdfFormat the serialization output format
+	 * @return the created success response entity
 	 */
 	public ResponseEntity<String> createSuccessResponse(Model rdf, String rdfFormat) {
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -192,8 +192,8 @@ public class RestHelper {
 	 * Convert a NIFParameterSet to RDF model, from both plaintext input as from
 	 * RDF in various serialization formats.
 	 * 
-	 * @param parameters
-	 * @return
+	 * @param parameters the NifParameterSet to create the model from
+	 * @return the created jena rdf model
 	 */
 	public Model convertInputToRDFModel(NIFParameterSet parameters) {
 

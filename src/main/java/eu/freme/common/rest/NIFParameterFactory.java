@@ -54,6 +54,9 @@ public class NIFParameterFactory {
 			"input", "i", "informat", "f", "outformat", "o", "prefix", "p"
 	}));
 
+	// name of the http parameter containing the nif Version
+	public final String versionIdentifier = "nif-version";
+
 
 	public NIFParameterSet constructFromHttp(String input, String informat,
 											 String outformat, String postBody, String acceptHeader,
@@ -145,15 +148,14 @@ public class NIFParameterFactory {
 			throw new BadRequestException("invalid prefix");
 		}
 
-                if (nifVersion == null){
-                     nifVersion = RDFConstants.nifVersion2_0;
-                }else if(!(nifVersion.equals(RDFConstants.nifVersion2_0)
-				|| nifVersion.equals(RDFConstants.nifVersion2_1))) {
+		if (nifVersion == null){
+			 nifVersion = RDFConstants.nifVersion2_0;
+		}else if(!(nifVersion.equals(RDFConstants.nifVersion2_0) || nifVersion.equals(RDFConstants.nifVersion2_1))) {
 			throw new NIFVersionNotSupportedException("NIF version \""
 					+ nifVersion + "\" is not supported");
-                }		
+		}
 
-                return new NIFParameterSet(thisInput, thisInformat, thisOutformat, thisPrefix, nifVersion);
+		return new NIFParameterSet(thisInput, thisInformat, thisOutformat, thisPrefix, nifVersion);
 	}
 
 	public boolean isNIFParameter(String parameter){
