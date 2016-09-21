@@ -82,8 +82,7 @@ public class TranslationConversionServiceImplTest {
 		// model that contains a string to translate
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 		String rdf = readFile("src/test/resources/rdftest/test.turtle");
-		Model model = converter.unserializeRDF(rdf,
-				RDFConstants.RDFSerialization.TURTLE);
+		Model model = converter.unserializeRDF(rdf, RDFConstants.TURTLE);
 
 		TranslationConversionServiceImpl translationConversionService = new TranslationConversionServiceImpl();
 		Resource resource = translationConversionService
@@ -96,8 +95,7 @@ public class TranslationConversionServiceImplTest {
 
 		// model that does not contain a string to translate
 		rdf = readFile("src/test/resources/rdftest/test2.turtle");
-		model = converter.unserializeRDF(rdf,
-				RDFConstants.RDFSerialization.TURTLE);
+		model = converter.unserializeRDF(rdf, RDFConstants.TURTLE);
 		resource = translationConversionService
 				.extractTextToTranslate(model);
 		assertTrue(resource == null);

@@ -1,14 +1,15 @@
 package eu.freme.common.rest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.google.common.base.Strings;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import eu.freme.common.conversion.SerializationFormatMapper;
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.conversion.rdf.RDFConversionService;
+import eu.freme.common.exception.BadRequestException;
+import eu.freme.common.exception.InternalServerErrorException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,19 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
-import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.conversion.rdf.RDFConversionService;
-import eu.freme.common.conversion.rdf.RDFSerializationFormats;
-import eu.freme.common.exception.BadRequestException;
-import eu.freme.common.exception.InternalServerErrorException;
-
-import static eu.freme.common.conversion.rdf.RDFConstants.nifVersion2_0;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class RestHelper {
@@ -41,11 +34,12 @@ public class RestHelper {
 	@Autowired
 	NIFParameterFactory nifParameterFactory;
 
-	@Autowired
-	RDFSerializationFormats rdfSerializationFormats;
-
 	//String defaultPrefix = "http://freme-project.eu/";
 
+	/*
+	 * @deprecated use RDFConstants.fremePrefix instead
+	 */
+	@Deprecated
 	public String getDefaultPrefix() {
 		return nifParameterFactory.getDefaultPrefix();
 	}
@@ -172,7 +166,7 @@ public class RestHelper {
 		responseHeaders.add("Content-Type", rdfFormat.contentType());
 		String rdfString;
 		try {
-			rdfString = rdfConversionService.serializeRDF(rdf, rdfFormat);
+			rdfString = rdfConversionService.serializeRDF(rdf, rdfFormat.contentType());
 		} catch (Exception e) {
 			throw new InternalServerErrorException();
 		}
@@ -183,7 +177,7 @@ public class RestHelper {
 		responseHeaders.add("Content-Type", rdfFormat);
 		String rdfString;
 		try {
-			rdfString = rdfConversionService.serializeRDF(rdf, RDFConstants.RDFSerialization.fromValue(rdfFormat));
+			rdfString = rdfConversionService.serializeRDF(rdf, rdfFormat);
 		} catch (Exception e) {
 			throw new InternalServerErrorException();
 		}
@@ -207,7 +201,7 @@ public class RestHelper {
 			// input is nif
 			try {
 				model = rdfConversionService.unserializeRDF(parameters.getInput(),
-						parameters.getInformat());
+						parameters.getInformatString());
 				return model;
 			} catch (Exception e) {
 				logger.error("failed", e);
@@ -226,7 +220,7 @@ public class RestHelper {
 	public HttpResponse<String> sendNifRequest(NIFParameterSet parameters, String url) throws UnirestException {
 		String prefix = parameters.getPrefix();
 		if(prefix == null)
-			prefix = nifParameterFactory.getDefaultPrefix();
+			prefix = RDFConstants.fremePrefix;
 		return Unirest.post(url)
 				.header("Content-Type", parameters.getInformatString())
 				.header("Accept", parameters.getOutformatString())

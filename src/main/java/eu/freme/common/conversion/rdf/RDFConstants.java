@@ -40,6 +40,8 @@ public class RDFConstants {
 	public static final String typePrefix = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 	public static final String dcPrefix = "http://purl.org/dc/elements/1.1/";
 
+	public static final String fremePrefix = "http://freme-project.eu/";
+
 	// used in a nif 2.1 file, i.e. nif:predLang isolang:eng
 	public static final String isolangPrefix = "http://www.lexvo.org/id/iso639-3/";
 

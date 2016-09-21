@@ -32,7 +32,7 @@ public interface RDFConversionService {
 	 * 
 	 * @param model
 	 *            The model to enrich
-	 * @param plaintext
+	 * @param plaintext the used plaintext input
 	 * @param language
 	 *            set to null if no language is attached to isString
 	 * @param prefix
@@ -49,33 +49,49 @@ public interface RDFConversionService {
 
 	/**
 	 * Serialize given model as NIF / Turtle
-	 * 
-	 * @param model
-	 * @return
+	 *
+	 * @param model the jena rdf model to serialize
+	 * @return the serialization
 	 */
+	public String serializeRDF(Model model, String format)
+			throws Exception;
+
+	/**
+	 * @deprecated use serializeRDF(Model model, String format) instead
+	 */
+	@Deprecated
 	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
 			throws Exception;
 
 	/**
 	 * Create model from rdf string in given format
-	 * 
+	 *
 	 * @param rdf
 	 *            rdf data in given format
 	 * @param format
 	 *            format identifier
-	 * @return
+	 * @return the deserialized jena rdf model
 	 * @throws Exception
 	 */
+	public Model unserializeRDF(String rdf, String format)
+			throws Exception;
+
+	/**
+	 * @deprecated use unserializeRDF(String rdf, String format) instead
+	 */
+	@Deprecated
 	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
 			throws Exception;
+
+
 
 	/**
 	 * Extracts plaintext for enrichment. It looks for a resource that is a
 	 * nif:Context and extracts returns of the nif:isString property. When there
 	 * is more then one of these literals then it returns an arbitrary literal.
 	 * 
-	 * @param model
-	 * @return
+	 * @param model the jena rdf model to extract the statement from
+	 * @return the rdf statement containing the first plain text
 	 * @throws Exception
 	 */
 	public Statement extractFirstPlaintext(Model model) throws Exception;

@@ -36,6 +36,7 @@ public class NIFParameterSet {
 	private String nifVersion = RDFConstants.nifVersion2_0;
 	
 
+	@Deprecated
 	public NIFParameterSet(String input, RDFSerialization informat,
 			RDFSerialization outformat, String prefix) {
 		super();

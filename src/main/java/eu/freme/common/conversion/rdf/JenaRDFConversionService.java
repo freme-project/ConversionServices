@@ -33,6 +33,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 import eu.freme.common.exception.NIFVersionNotSupportedException;
+import eu.freme.common.exception.UnsupportedRDFSerializationException;
 
 import static eu.freme.common.conversion.rdf.RDFConstants.*;
 
@@ -172,7 +173,10 @@ public class JenaRDFConversionService implements RDFConversionService {
 	/**
 	 * Convert plaintext to NIF 2.0. You should better use the other
 	 * implementation of this function that lets you specify the NIF version.
+	 * @deprecated use plaintextToRDF(Model model, String plaintext,
+	 * 		String language, String prefix, String nifVersion) instead
 	 */
+	@Deprecated
 	@Override
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language, String prefix) {
@@ -183,12 +187,11 @@ public class JenaRDFConversionService implements RDFConversionService {
 	 * Convert Jena Model to String
 	 */
 	@Override
-	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
-			throws Exception {
+	public String serializeRDF(Model model, String format) throws Exception {
 
 		String jenaIdentifier = getJenaType(format);
 		if (jenaIdentifier == null) {
-			throw new RuntimeException("unsupported format: " + format);
+			throw new UnsupportedRDFSerializationException("unsupported format: " + format);
 		}
 
 		StringWriter writer = new StringWriter();
@@ -197,16 +200,21 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return writer.toString();
 	}
 
+	@Deprecated
+	@Override
+	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
+			throws Exception {
+		return serializeRDF(model, format.contentType());
+	}
+
 	/**
 	 * Convert String to Jena Model
 	 */
 	@Override
-	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
-			throws Exception {
-
+	public Model unserializeRDF(String rdf, String format) throws Exception {
 		String jenaIdentifier = getJenaType(format);
 		if (jenaIdentifier == null) {
-			throw new RuntimeException("unsupported format: " + format);
+			throw new UnsupportedRDFSerializationException("unsupported format: " + format);
 		}
 		Model model = ModelFactory.createDefaultModel();
 		StringReader reader = new StringReader(rdf);
@@ -215,6 +223,20 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return model;
 	}
 
+	/**
+	 * @deprecated use unserializeRDF(String rdf, String format) instead
+     */
+	@Deprecated
+	@Override
+	public Model unserializeRDF(String rdf, RDFConstants.RDFSerialization format)
+			throws Exception {
+
+		return unserializeRDF(rdf, format.contentType());
+	}
+
+	/**
+	 * @deprecated use getJenaType(String type) instead
+	 */
 	@Deprecated
 	public static String getJenaType(RDFConstants.RDFSerialization type) {
 		return rdfTypeMapping.get(type.contentType());

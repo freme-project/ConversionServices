@@ -24,6 +24,7 @@ import java.util.HashMap;
  *
  * @author Jan Nehring - jan.nehring@dfki.de
  */
+@Deprecated
 @SuppressWarnings({"serial", "unused"})
 public class RDFSerializationFormats extends
 		HashMap<String, RDFConstants.RDFSerialization> {

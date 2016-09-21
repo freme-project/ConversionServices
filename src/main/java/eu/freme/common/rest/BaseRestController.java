@@ -120,11 +120,11 @@ public abstract class BaseRestController {
 	 @Deprecated
 	protected String serializeRDF(Model model,
 			RDFConstants.RDFSerialization format) throws Exception {
-		return rdfConversionService.serializeRDF(model, format);
+		return rdfConversionService.serializeRDF(model, format.contentType());
 	}
 	protected String serializeRDF(Model model,
 								  String format) throws Exception {
-		return rdfConversionService.serializeRDF(model, RDFConstants.RDFSerialization.fromValue(format));
+		return rdfConversionService.serializeRDF(model, format);
 	}
 
 	/**
@@ -138,10 +138,10 @@ public abstract class BaseRestController {
 	@Deprecated
 	protected Model unserializeRDF(String nif,
 			RDFConstants.RDFSerialization format) throws Exception {
-		return rdfConversionService.unserializeRDF(nif, format);
+		return rdfConversionService.unserializeRDF(nif, format.contentType());
 	}
 	protected Model unserializeRDF(String nif, String format) throws Exception {
-		return rdfConversionService.unserializeRDF(nif, RDFConstants.RDFSerialization.fromValue(format));
+		return rdfConversionService.unserializeRDF(nif, format);
 	}
 
 	/**
@@ -170,7 +170,7 @@ public abstract class BaseRestController {
 	@Deprecated
 	public ResponseEntity<String> createSuccessResponse(Model rdf,
 			RDFConstants.RDFSerialization rdfFormat) {
-		return restHelper.createSuccessResponse(rdf, rdfFormat);
+		return restHelper.createSuccessResponse(rdf, rdfFormat.contentType());
 	}
 	protected ResponseEntity<String> createSuccessResponse(Model rdf,
 														String rdfFormat) {

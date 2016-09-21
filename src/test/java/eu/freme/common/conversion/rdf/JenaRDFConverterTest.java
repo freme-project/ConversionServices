@@ -17,30 +17,21 @@
  */
 package eu.freme.common.conversion.rdf;
 
-import static org.junit.Assert.assertTrue;
+import com.hp.hpl.jena.rdf.model.*;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.junit.Test;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-
-import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Jan Nehring - jan.nehring@dfki.de
  */
 public class JenaRDFConverterTest {
 
-	String prefix = "http://freme-project.eu/";
+
 	@Test
 	public void testPlaintextToRDF() {
 
@@ -49,7 +40,7 @@ public class JenaRDFConverterTest {
 		String plaintext = "hello world";
 		String language = "en";
 		Model model = ModelFactory.createDefaultModel();
-		converter.plaintextToRDF(model, plaintext, language, prefix);
+		converter.plaintextToRDF(model, plaintext, language, RDFConstants.fremePrefix, RDFConstants.nifVersion2_0);
 
 		assertTrue(countStatements(model.listStatements()) == 6);
 
@@ -69,7 +60,7 @@ public class JenaRDFConverterTest {
 				endIndex, (RDFNode) null)) == 1);
 
 		model = ModelFactory.createDefaultModel();
-		Resource res = converter.plaintextToRDF(model, plaintext, null, prefix);
+		Resource res = converter.plaintextToRDF(model, plaintext, null, RDFConstants.fremePrefix, RDFConstants.nifVersion2_0);
 
 		assertTrue(countStatements(model.listStatements((Resource) null,
 				isString, (RDFNode) null)) == 1);
@@ -88,13 +79,13 @@ public class JenaRDFConverterTest {
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 		Model model = ModelFactory.createDefaultModel();
 
-		converter.plaintextToRDF(model, "test", "en", prefix);
+		converter.plaintextToRDF(model, "test", "en", RDFConstants.fremePrefix, RDFConstants.nifVersion2_0);
 		String str = converter.serializeRDF(model,
-				RDFConstants.RDFSerialization.TURTLE);
+				RDFConstants.TURTLE);
 		assertTrue(str.length() > 0);
 
 		str = converter.serializeRDF(model,
-				RDFConstants.RDFSerialization.JSON_LD);
+				RDFConstants.JSON_LD);
 		assertTrue(str.length() > 0);
 	}
 
@@ -124,13 +115,13 @@ public class JenaRDFConverterTest {
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 
 		String rdf = readFile("src/test/resources/rdftest/test.turtle");
-		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.TURTLE);
+		converter.unserializeRDF(rdf, RDFConstants.TURTLE);
 
 		rdf = readFile("src/test/resources/rdftest/test2.turtle");
-		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.TURTLE);
+		converter.unserializeRDF(rdf, RDFConstants.TURTLE);
 
 		rdf = readFile("src/test/resources/rdftest/test.jsonld");
-		converter.unserializeRDF(rdf, RDFConstants.RDFSerialization.JSON_LD);
+		converter.unserializeRDF(rdf, RDFConstants.JSON_LD);
 	}
 	
 	@Test
@@ -139,12 +130,12 @@ public class JenaRDFConverterTest {
 		JenaRDFConversionService converter = new JenaRDFConversionService();
 		
 		String rdf = readFile("src/test/resources/rdftest/test-plaintext.ttl");
-		Model model = converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
+		Model model = converter.unserializeRDF(rdf, RDFConstants.TURTLE);
 		Statement plaintext = converter.extractFirstPlaintext(model);
 		assertTrue(plaintext == null);
 		
 		rdf = readFile("src/test/resources/rdftest/test-plaintext-2.ttl");
-		model = converter.unserializeRDF(rdf, RDFSerialization.TURTLE);
+		model = converter.unserializeRDF(rdf, RDFConstants.TURTLE);
 		plaintext = converter.extractFirstPlaintext(model);
 		assertTrue(plaintext.getObject().asLiteral().getString().equals("hello world"));
 	}

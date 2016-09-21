@@ -17,18 +17,16 @@
  */
 package eu.freme.common.rest;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import eu.freme.common.conversion.SerializationFormatMapper;
+import eu.freme.common.conversion.rdf.RDFConstants;
+import eu.freme.common.exception.BadRequestException;
+import eu.freme.common.exception.UnsupportedRDFSerializationException;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import eu.freme.common.conversion.rdf.RDFConstants;
-import eu.freme.common.conversion.rdf.RDFConstants.RDFSerialization;
-import eu.freme.common.conversion.rdf.RDFSerializationFormats;
-import eu.freme.common.exception.BadRequestException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static eu.freme.common.conversion.rdf.RDFConstants.TURTLE;
 
@@ -40,11 +38,9 @@ import static eu.freme.common.conversion.rdf.RDFConstants.TURTLE;
 public class NIFParameterFactory {
 
 	@Autowired
-	RDFSerializationFormats rdfSerializationFormats;
-
-	@Autowired
 	SerializationFormatMapper serializationFormatMapper;
 
+	@Deprecated
 	String defaultPrefix = "http://freme-project.eu/";
 
 	public final Set<String> NIF_PARAMETERS = new HashSet<>(Arrays.asList(new String[]{
@@ -76,20 +72,25 @@ public class NIFParameterFactory {
 		if (informat == null && contentTypeHeader == null) {
 			thisInformat = TURTLE;
 		} else if (informat != null) {
-			if (!rdfSerializationFormats.containsKey(informat)) {
+			thisInformat = serializationFormatMapper.get(informat);
+			if (thisInformat==null) {
 				throw new BadRequestException(
 						"parameter informat has invalid value \"" + informat
 								+ "\"");
 			}
-			thisInformat = serializationFormatMapper.get(informat);
 		} else {
 			String[] contentTypeHeaderParts = contentTypeHeader.split(";");
-			if (!rdfSerializationFormats.containsKey(contentTypeHeaderParts[0])) {
+			thisInformat = serializationFormatMapper.get(contentTypeHeaderParts[0]);
+			if (thisInformat==null) {
 				throw new BadRequestException(
 						"Content-Type header has invalid value \""
 								+ contentTypeHeader + "\"");
 			}
-			thisInformat = serializationFormatMapper.get(contentTypeHeaderParts[0]);
+		}
+		if(!RDFConstants.SERIALIZATION_FORMATS.contains(thisInformat) && !thisInformat.equals(SerializationFormatMapper.PLAINTEXT)){
+			throw new UnsupportedRDFSerializationException(
+					"Parameter informat has invalid value \"" + thisInformat
+							+ "\"");
 		}
 
 		String thisOutformat;
@@ -99,37 +100,29 @@ public class NIFParameterFactory {
 		if (outformat == null && acceptHeader == null) {
 			thisOutformat = TURTLE;
 		} else if (outformat != null) {
-			if (!rdfSerializationFormats.containsKey(outformat)) {
-				throw new BadRequestException(
-						"Parameter outformat has invalid value \"" + outformat
-								+ "\"");
-			}
 			thisOutformat = serializationFormatMapper.get(outformat);
-			
-			if(thisOutformat.equals(SerializationFormatMapper.PLAINTEXT)){
+			if (thisOutformat==null) {
 				throw new BadRequestException(
 						"Parameter outformat has invalid value \"" + outformat
 								+ "\"");
 			}
 		} else {
-			if (!rdfSerializationFormats.containsKey(acceptHeader)) {
+			thisOutformat = serializationFormatMapper.get(acceptHeader.split(";")[0]);
+			if (thisOutformat==null) {
 				throw new BadRequestException(
-						"Parameter outformat has invalid value \""
-								+ acceptHeader + "\"");
+						"Accept header has invalid value \""
+								+ acceptHeader.split(";")[0] + "\"");
 			}
-			thisOutformat = serializationFormatMapper.get(acceptHeader);
-			
-
-			if(thisOutformat.equals(SerializationFormatMapper.PLAINTEXT)){
-				throw new BadRequestException(
-						"Parameter outformat has invalid value \"" + acceptHeader
-								+ "\"");
-			}
+		}
+		if(!RDFConstants.SERIALIZATION_FORMATS.contains(thisOutformat)){
+			throw new UnsupportedRDFSerializationException(
+					"Parameter outformat has invalid value \"" + thisOutformat
+							+ "\"");
 		}
 
 		String thisPrefix;
 		if (prefix == null) {
-			thisPrefix = defaultPrefix;
+			thisPrefix = RDFConstants.fremePrefix;
 		} else{
 			thisPrefix = prefix;
 		}
@@ -146,6 +139,10 @@ public class NIFParameterFactory {
 		return NIF_PARAMETERS.contains(parameter);
 	}
 
+	/*
+	 * @deprecated use RDFConstants.fremePrefix instead
+	 */
+	@Deprecated
 	public String getDefaultPrefix() {
 		return defaultPrefix;
 	}
