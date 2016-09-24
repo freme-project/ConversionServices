@@ -34,10 +34,6 @@ public class RestHelper {
 	@Autowired
 	NIFParameterFactory nifParameterFactory;
 
-	/*
-	 * @deprecated use {@link RDFConstants#fremePrefix} instead
-	 */
-	@Deprecated
 	public String getDefaultPrefix() {
 		return nifParameterFactory.getDefaultPrefix();
 	}
@@ -224,7 +220,7 @@ public class RestHelper {
 	public HttpResponse<String> sendNifRequest(NIFParameterSet parameters, String url) throws UnirestException {
 		String prefix = parameters.getPrefix();
 		if(prefix == null)
-			prefix = RDFConstants.fremePrefix;
+			prefix = nifParameterFactory.getDefaultPrefix();
 		return Unirest.post(url)
 				.header("Content-Type", parameters.getInformatString())
 				.header("Accept", parameters.getOutformatString())

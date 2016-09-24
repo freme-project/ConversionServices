@@ -44,12 +44,6 @@ public class NIFParameterFactory {
 	@Autowired
 	SerializationFormatMapper serializationFormatMapper;
 
-	/**
-	 * @deprecated use {@link RDFConstants#fremePrefix} instead
-	 */
-	@Deprecated
-	String defaultPrefix = "http://freme-project.eu/";
-
 	public final Set<String> NIF_PARAMETERS = new HashSet<>(Arrays.asList(new String[]{
 			"input", "i", "informat", "f", "outformat", "o", "prefix", "p"
 	}));
@@ -138,7 +132,7 @@ public class NIFParameterFactory {
 
 		String thisPrefix;
 		if (prefix == null) {
-			thisPrefix = RDFConstants.fremePrefix;
+			thisPrefix = getDefaultPrefix();
 		} else{
 			thisPrefix = prefix;
 		}
@@ -162,11 +156,7 @@ public class NIFParameterFactory {
 		return NIF_PARAMETERS.contains(parameter);
 	}
 
-	/*
-	 * @deprecated use {@link RDFConstants#fremePrefix} instead
-	 */
-	@Deprecated
 	public String getDefaultPrefix() {
-		return defaultPrefix;
+		return RDFConstants.fremePrefix;
 	}
 }
