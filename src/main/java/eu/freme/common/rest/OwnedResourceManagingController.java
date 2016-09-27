@@ -76,9 +76,7 @@ public abstract class OwnedResourceManagingController<Entity extends OwnedResour
      */
     protected abstract void updateEntity(Entity entity, String body, Map<String, String> parameters, Map<String, String> headers) throws BadRequestException;
 
-    protected void preDelete(Entity entity){
-        // empty
-    }
+    protected abstract preDelete(Entity entity);
 
     public OwnedResourceDAO<Entity> getEntityDAO() {
         return entityDAO;
