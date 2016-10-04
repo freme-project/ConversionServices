@@ -30,10 +30,8 @@ public class RDFConstants {
 	public static final String nifVersion2_0 = "2.0";
 	public static final String nifVersion2_1 = "2.1";
 
+	//There is only one prefix for nifVersion 2.0 and 2.1
 	public static final String nifPrefix = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#";
-	// These two prefixes should be used. NO, THERE IS JUST ONE NIF PREFIX!
-	//public static final String nifPrefix_2_0 = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/2.0#";
-	//public static final String nifPrefix_2_1 = "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/2.1#";
 
 	public static final String itsrdfPrefix = "http://www.w3.org/2005/11/its/rdf#";
 	public static final String xsdPrefix = "http://www.w3.org/2001/XMLSchema#";
