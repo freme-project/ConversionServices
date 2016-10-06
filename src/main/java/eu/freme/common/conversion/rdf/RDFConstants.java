@@ -56,6 +56,7 @@ public class RDFConstants {
 	public static final String REFERENCE_CONTEXT = "referenceContext";
 	public static final String WAS_CONVERTED_FROM = "wasConvertedFrom";
 	public static final String TARGET = "target";
+	public static final String TA_ANNOTATORS_REF = "taAnnotatorsRef";
 
 	public static final String NIF20_OFFSET = "#char=";
 	public static final String NIF21_OFFSET = "#offset_";
