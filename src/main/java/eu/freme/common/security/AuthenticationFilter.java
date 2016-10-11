@@ -76,11 +76,11 @@ public class AuthenticationFilter extends GenericFilterBean {
         String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
 
         try {
-            if (postToAuthenticate(httpRequest, resourcePath)) {
-                logger.debug("Trying to authenticate user {} by X-Auth-Username method", username);
-                processUsernamePasswordAuthentication(httpResponse, username, password);
-                return;
-            }
+//            if (postToAuthenticate(httpRequest, resourcePath)) {
+//                logger.debug("Trying to authenticate user {} by X-Auth-Username method", username);
+//                processUsernamePasswordAuthentication(httpResponse, username, password);
+//                return;
+//            }
 
             if (token.isPresent()) {
                 logger.debug("Trying to authenticate user by X-Auth-Token method. Token: {}", token);
@@ -166,3 +166,4 @@ public class AuthenticationFilter extends GenericFilterBean {
         return responseAuthentication;
     }
 }
+
