@@ -148,7 +148,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		if (language == null) {
 			resource.addProperty(
 					model.createProperty(nifPrefix + IS_STRING),
-					model.createLiteral(plaintext));
+					model.createTypedLiteral(plaintext, XSDDatatype.XSDstring));
 		} else {
 			resource.addProperty(
 					model.createProperty(nifPrefix + IS_STRING),
