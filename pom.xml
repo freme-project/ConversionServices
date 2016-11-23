@@ -30,20 +30,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>common</artifactId>
-	<version>0.12-SNAPSHOT</version>
+	<groupId>eu.freme-project</groupId>
+	<version>0.11</version>
 	<name>FREMECommon</name>
 	<inceptionYear>2015</inceptionYear>
+	<description>FREME is an open framework of e-services for multilingual and semantic enrichment of digital content.
+	FREMECommon holds code that is used across multiple FREME repositories.</description>
+	<url>https://github.com/freme-project</url>
 
 	<parent>
-		<groupId>eu.freme</groupId>
+		<groupId>com.github.freme-project</groupId>
 		<artifactId>freme-parent</artifactId>
-		<version>0.12-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
-
-	<properties>
-	    <maven.javadoc.skip>true</maven.javadoc.skip>
-	</properties>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.jena</groupId>
@@ -129,7 +129,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.2</version>
 			</plugin>
-<!-- 			<plugin>
+	 		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9</version>
@@ -144,43 +144,42 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin> 
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>freme-nexus</id>
-			<name>Internal Releases</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>freme-nexus</id>
-			<name>Internal Releases</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<repositories>
-		<repository>
-			<id>freme-release</id>
-			<name>freme-nexus</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/releases/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>freme-nexus</id>
-			<name>freme-nexus</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
+ 
 	<scm>
 		<connection>scm:git:git@github.com:freme-project/FREMECommon.git</connection>
 		<url>scm:git:git@github.com/freme-project:FREMECommon.git</url>
