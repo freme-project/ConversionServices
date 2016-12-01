@@ -27,7 +27,7 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<parent>
-		<groupId>eu.freme</groupId>
+		<groupId>eu.freme-project</groupId>
 		<artifactId>freme-parent</artifactId>
 		<version>0.13-SNAPSHOT</version>
 	</parent>
