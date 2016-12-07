@@ -186,6 +186,5 @@
 		<connection>scm:git:git@github.com:freme-project/FREMECommon.git</connection>
 		<url>scm:git:git@github.com/freme-project:FREMECommon.git</url>
 		<developerConnection>scm:git:git@github.com:freme-project/FREMECommon.git</developerConnection>
-		<tag>common-0.10</tag>
 	</scm>
 </project>
