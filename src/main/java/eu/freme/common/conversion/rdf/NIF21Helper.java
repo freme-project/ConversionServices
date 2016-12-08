@@ -27,7 +27,7 @@ public class NIF21Helper {
 	 * adds the property conformsTo to the NIF document when the nifVersion
 	 * is 2.1.
 	 */
-	public static void addConformsTo(Model nifModel, String nifVersion){
+	public static void addConformsTo(Model nifModel, String nifVersion, String prefix){
 		
 		if(nifVersion.equals("2.0")){
 			return;
@@ -45,13 +45,11 @@ public class NIF21Helper {
 	        StmtIterator iter = nifModel.listStatements(null, RDF.type,
 	        		nifModel.getResource(RDFConstants.nifPrefix +"Context"));
 	        
-	        //TODO  always just 1 context resource ?! 
+	        //Only the first Subject with the property nif:Context is taken into account
 	       Statement st = iter.nextStatement();
 	       Resource context = st.getSubject();
 	        
-	       
-	       //TODO always with freme-project.eu ? 
-	       Resource collectionResource = nifModel.createResource("http://freme-project.eu/#collection");
+	       Resource collectionResource = nifModel.createResource(prefix + "/#collection");
 	       Resource r  = nifModel.createResource(RDFConstants.nifPrefix + "ContextCollection");
 	       nifModel.add(collectionResource, RDF.type, r);
 	       
