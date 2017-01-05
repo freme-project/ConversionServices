@@ -27,7 +27,7 @@
 	<inceptionYear>2015</inceptionYear>
 
 	<parent>
-		<groupId>eu.freme</groupId>
+		<groupId>eu.freme-project</groupId>
 		<artifactId>freme-parent</artifactId>
 		<version>0.14-SNAPSHOT</version>
 	</parent>
@@ -150,42 +150,10 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>freme-nexus</id>
-			<name>Internal Releases</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>freme-nexus</id>
-			<name>Internal Releases</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<repositories>
-		<repository>
-			<id>freme-release</id>
-			<name>freme-nexus</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/releases/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>freme-nexus</id>
-			<name>freme-nexus</name>
-			<url>http://rv1443.1blu.de/nexus/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
 
 	<scm>
 		<connection>scm:git:git@github.com:freme-project/FREMECommon.git</connection>
 		<url>scm:git:git@github.com/freme-project:FREMECommon.git</url>
 		<developerConnection>scm:git:git@github.com:freme-project/FREMECommon.git</developerConnection>
-		<tag>common-0.10</tag>
 	</scm>
 </project>
