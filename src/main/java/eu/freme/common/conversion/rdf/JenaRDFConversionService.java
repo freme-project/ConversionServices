@@ -61,7 +61,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return result;
 	}
 
-	/**
+	/*
 	 * Convert plaintext to NIF 2.1
 	 * 
 	 * @param model
@@ -115,7 +115,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return resource;
 	}
 
-	/**
+	/*
 	 * Convert plaintext to NIF 2.0
 	 * 
 	 * @param model
@@ -170,7 +170,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return resource;
 	}
 
-	/**
+	/*
 	 * Convert plaintext to NIF 2.0. You should better use the other
 	 * implementation of this function that lets you specify the NIF version.
 	 * @deprecated use {@link #plaintextToRDF(Model model, String plaintext,
@@ -183,7 +183,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return plaintextToNIF2_0(model, plaintext, language, prefix);
 	}
 
-	/**
+	/*
 	 * Convert Jena Model to String
 	 */
 	@Override
@@ -200,7 +200,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return writer.toString();
 	}
 
-	/**
+	/*
 	 * @deprecated use {@link #serializeRDF(Model, String)} instead
      */
 	@Deprecated
@@ -210,7 +210,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return serializeRDF(model, format.contentType());
 	}
 
-	/**
+	/*
 	 * Convert String to Jena Model
 	 */
 	@Override
@@ -226,7 +226,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return model;
 	}
 
-	/**
+	/*
 	 * @deprecated use {@link #unserializeRDF(String rdf, String format)} instead
      */
 	@Deprecated
@@ -237,7 +237,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return unserializeRDF(rdf, format.contentType());
 	}
 
-	/**
+	/*
 	 * @deprecated use {@link #getJenaType(String type)} instead
 	 */
 	@Deprecated
@@ -249,7 +249,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return rdfTypeMapping.get(type);
 	}
 
-	/**
+	/*
 	 * Find one context in an RDF document with an isString property and return
 	 * this statement.
 	 */
@@ -270,7 +270,7 @@ public class JenaRDFConversionService implements RDFConversionService {
 		return null;
 	}
 
-	/**
+	/*
 	 * Convert plaintext to NIF, using one of the RDFConstants.nifVersion
 	 * variables.
 	 */

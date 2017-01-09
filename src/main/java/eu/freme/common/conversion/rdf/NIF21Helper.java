@@ -19,7 +19,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 @Component
 public class NIF21Helper {
 	
-	/**
+	/*
 	 * 
 	 * @param nifModel: response Model from an FREME e-service
 	 * @param nifVersion 

@@ -53,7 +53,7 @@ public class ExceptionHandlerService {
     	return this.handleError(req, e);
     }
 
-	/**
+	/*
 	 * Creates a nicely formated error message out of an exception and a
 	 * HttpServletRequest.
 	 * 
@@ -111,7 +111,7 @@ public class ExceptionHandlerService {
 				statusCode);
 	}
 
-	/**
+	/*
 	 * This method can be used to send an exception to the user that was not
 	 * thrown in the rest controller and is therefore not caught by the normal
 	 * exception handler. It is useful to throw exceptions from a filter.

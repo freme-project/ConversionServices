@@ -26,14 +26,14 @@ import com.hp.hpl.jena.rdf.model.Statement;
  */
 public interface RDFConversionService {
 
-	/**
+	/*
 	 * @deprecated use {@link #plaintextToRDF(Model, String, String, String, String)} instead
      */
 	@Deprecated
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language, String prefix);
 
-	/**
+	/*
 	 * Convert a plaintext string to JsonLd / NIF. The nif:isString literal will
 	 * be annotated with given language when language!=null is submitted.
 	 *
@@ -49,7 +49,7 @@ public interface RDFConversionService {
 	public Resource plaintextToRDF(Model model, String plaintext,
 			String language, String prefix, String nifVersion);
 
-	/**
+	/*
 	 * Serialize given model as NIF / Turtle
 	 *
 	 * @param model the jena rdf model to serialize
@@ -58,14 +58,14 @@ public interface RDFConversionService {
 	public String serializeRDF(Model model, String format)
 			throws Exception;
 
-	/**
+	/*
 	 * @deprecated use {@link #serializeRDF(Model model, String format)} instead
 	 */
 	@Deprecated
 	public String serializeRDF(Model model, RDFConstants.RDFSerialization format)
 			throws Exception;
 
-	/**
+	/*
 	 * Create model from rdf string in given format
 	 *
 	 * @param rdf
@@ -78,7 +78,7 @@ public interface RDFConversionService {
 	public Model unserializeRDF(String rdf, String format)
 			throws Exception;
 
-	/**
+	/*
 	 * @deprecated use {@link #unserializeRDF(String rdf, String format)} instead
 	 */
 	@Deprecated
@@ -87,7 +87,7 @@ public interface RDFConversionService {
 
 
 
-	/**
+	/*
 	 * Extracts plaintext for enrichment. It looks for a resource that is a
 	 * nif:Context and extracts returns of the nif:isString property. When there
 	 * is more then one of these literals then it returns an arbitrary literal.
