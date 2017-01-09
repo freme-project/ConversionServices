@@ -28,7 +28,7 @@
 	<parent>
 		<groupId>eu.freme-project</groupId>
 		<artifactId>freme-parent</artifactId>
-		<version>0.15</version>
+		<version>0.16</version>
 	</parent>
 
 	<properties>
