@@ -21,7 +21,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>common</artifactId>
-	<version>0.15-SNAPSHOT</version>
+	<version>0.14-SNAPSHOT</version>
 	<name>FREMECommon</name>
 	<inceptionYear>2015</inceptionYear>
 
@@ -30,10 +30,6 @@
 		<artifactId>freme-parent</artifactId>
 		<version>0.16</version>
 	</parent>
-
-	<properties>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
-	</properties>
 
 	<developers>
 		<developer>
