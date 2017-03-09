@@ -47,7 +47,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -97,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 	private boolean createAdminUser;
 	
 	@Autowired
-	List<AccessDecisionVoter> accessDecisionVoters;
+	List<AccessDecisionVoter<? extends Object>> accessDecisionVoters;
 
 	@PostConstruct
 	public void init() {
@@ -223,12 +223,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 		AffirmativeBased ab = new AffirmativeBased(accessDecisionVoters);
 		return ab;
 	}
-
-	@Bean
-	public AccessLevelHelper accessLevelHelper() {
-		return new AccessLevelHelper();
-	}
-
 
 	public String getAdminUsername(){
 		return adminUsername;
